@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TropicShop{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}
+{% block body %}
+
+    <div class="container" id="login">
+        <div class="align-self-center mt-5">
+            <form class="form-signin" action="{{ path('security_login') }}" method="post">
+                <div class="text-center mb-4">
+                    <h1 class="h1 mb-3 font-weight-normal">TropicShop connexion</h1>
+                </div>
+
+                <div class="form-label-group mb-3">
+                    <label for="inputEmail">Adresse mail</label>
+                    <input type="email" name="_username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                </div>
+
+                <div class="form-label-group mb-3">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+                </div>
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block mb-4" type="submit">Se connecter</button>
+                <div>
+                    <a href="{{ path("security_registration") }}">Créer vous un compte</a>
+                </div>
+                <p class="mt-5 mb-3 text-muted text-center">&copy; 2020-2022</p>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

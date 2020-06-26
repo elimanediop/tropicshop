@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="align-self-center mt-5">
+            <h1>{{ app_name }}Inscription</h1>
+            {{ form_start(form) }}
+
+            {{ form_row(form.cli_nom, { 'label': "Nom", 'attr': {
+            'placeholder':'nom', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_prenom, { 'label': "Prénom", 'attr': {
+            'placeholder':'Prénom', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_mail, { 'label': "Email", 'attr': {
+            'placeholder':'xx@xx.com', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_tel, { 'label': "Téléphone", 'attr': {
+            'placeholder':'00337xxxx', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_adresse.numero, { 'label': "Adresse", 'attr': {
+            'placeholder':'3', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_adresse.suffixe, { 'label': "", 'attr': {
+            'placeholder':'ter', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_adresse.rue, { 'label': "Adresse", 'attr': {
+            'placeholder':'rue du vieux macé', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_adresse.complement, { 'label': "Adresse", 'attr': {
+            'placeholder':'étage 8, porte gauche', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_adresse.code_postal, { 'label': "Adresse", 'attr': {
+            'placeholder':'75009', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_adresse.ville, { 'label': "Adresse", 'attr': {
+            'placeholder':'Paris', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_mdp, { 'label': "Mot de passe", 'attr': {
+            'placeholder':'***', 'class':'form-label-group' }}) }}
+
+            {{ form_row(form.cli_confirm_mdp, { 'label': "Confirmation", 'attr': {
+            'placeholder':'***', 'class':'form-label-group' }}) }}
+
+            <button type="button" class="btn btn-success">Anuler</button>
+            <button type="submit" class="btn btn-success">Valider</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
