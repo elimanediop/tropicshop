@@ -19,6 +19,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Client implements UserInterface
 {
+    public $USER_CLIENT = "ROLE_USER";
+    public $USER_STORE = "ROLE_MANAGER_STORE";
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -70,6 +72,11 @@ class Client implements UserInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $cli_adresse;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $role = "ROLE_USER";
 
     public function getId(): ?int
     {
@@ -162,7 +169,7 @@ class Client implements UserInterface
      */
     public function getRoles()
     {
-        return ["ROLE_USER"];
+        return [$this->role];
     }
 
     /**
@@ -195,5 +202,24 @@ class Client implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    public function isStore(){
+        if($this->role === $this->USER_STORE)
+            return true;
+        else
+            return false;
     }
 }
