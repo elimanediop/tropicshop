@@ -12,11 +12,13 @@ class StoreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('manager', RegistrationType::class);
+        $builder
             ->add('nom')
             ->add('mail')
-            ->add('tel')
-            ->add('manager')
-            ->add('adresse');
+            ->add('tel');
+        $builder
+            ->add('adresse', AddressType::class);
         $builder
             ->add('tva', TvaType::class);
     }

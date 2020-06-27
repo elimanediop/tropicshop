@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="align-self-center mt-5">
+            <h1>{{ app_name }} Inscription d'un store</h1>
+            {{ form_start(form) }}
+
+            {{ form_widget(form) }}
+
+            <button type="button" class="btn btn-success">Anuler</button>
+            <button type="submit" class="btn btn-success">Valider</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

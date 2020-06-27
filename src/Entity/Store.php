@@ -4,9 +4,16 @@ namespace App\Entity;
 
 use App\Repository\StoreRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=StoreRepository::class)
+ * @UniqueEntity(
+ *     fields={ "mail" },
+ *     message="Cet email est déjà utilisé !"
+ * )
+ *
  */
 class Store
 {
@@ -19,7 +26,7 @@ class Store
 
     /**
      * @ORM\OneToOne(targetEntity=Client::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $manager;
 
@@ -40,13 +47,13 @@ class Store
     private $mail;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $tel;
 
     /**
      * @ORM\OneToOne(targetEntity=Tva::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $tva;
 
