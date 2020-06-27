@@ -57,6 +57,7 @@ class Store
      */
     private $tva;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -133,4 +134,5 @@ class Store
 
         return $this;
     }
+
 }
