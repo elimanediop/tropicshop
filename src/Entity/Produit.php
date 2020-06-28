@@ -24,10 +24,6 @@ class Produit
      */
     private $nom;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Origine::class, cascade={"persist", "remove"})
-     */
-    private $origine;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -43,6 +39,11 @@ class Produit
      * @ORM\Column(type="float")
      */
     private $prix;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Origine::class, cascade={"persist", "remove"})
+     */
+    private $origine;
 
     public function __construct()
     {
@@ -66,17 +67,7 @@ class Produit
         return $this;
     }
 
-    public function getOrigine(): ?Origine
-    {
-        return $this->origine;
-    }
 
-    public function setOrigine(?Origine $origine): self
-    {
-        $this->origine = $origine;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {
@@ -129,6 +120,18 @@ class Produit
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getOrigine(): ?Origine
+    {
+        return $this->origine;
+    }
+
+    public function setOrigine(?Origine $origine): self
+    {
+        $this->origine = $origine;
 
         return $this;
     }
