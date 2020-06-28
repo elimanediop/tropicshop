@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    {% if(form is defined) %}
+        <h1> {{ h1 }}✅</h1>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.libelle) }}
+
+            <button type="button" class="btn btn-success">Anuler</button>
+            <button type="submit" class="btn btn-success">Valider</button>
+    {{ form_end(form) }}
+
+    {% endif %}
+</div>
+{% endblock %}
