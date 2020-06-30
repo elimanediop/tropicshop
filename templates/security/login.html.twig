@@ -1,41 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TropicShop{% endblock %}
-{% block stylesheets %}
+        {% block title %}{{ app_name }}{% endblock %}
 
-{% endblock %}
-{% block body %}
-
-    <div class="container" id="login">
-        <div class="align-self-center mt-5">
-            <form class="form-signin" action="{{ path('security_login') }}" method="post">
-                <div class="text-center mb-4">
-                    <h1 class="h1 mb-3 font-weight-normal">TropicShop connexion</h1>
+        {% block body %}
+        <!-- Page Content -->
+        <!-- ##### Breadcrumb Area Start ##### -->
+<section class="breadcrumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/slider2.jpg') }});">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>Login</h2>
                 </div>
-
-                <div class="form-label-group mb-3">
-                    <label for="inputEmail">Adresse mail</label>
-                    <input type="email" name="_username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                </div>
-
-                <div class="form-label-group mb-3">
-                    <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Password" required>
-
-                </div>
-
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block mb-4" type="submit">Se connecter</button>
-                <div>
-                    <a href="{{ path("security_registration") }}">Créer vous un compte</a>
-                </div>
-                <p class="mt-5 mb-3 text-muted text-center">&copy; 2020-2022</p>
-            </form>
+            </div>
         </div>
-
     </div>
+</section>
+        <!-- ##### Breadcrumb Area End ##### -->
+
+
+        <!-- ##### Login Area Start ##### -->
+<div class="mag-login-area py-5 h-100">
+<div class="container h-100">
+    <div class="row h-100 justify-content-center">
+        <div class="col-12 col-lg-6">
+            <div class="login-content bg-white p-30 box-shadow">
+                <!-- Section Title -->
+                <div class="section-heading">
+                    <h5>Content de vous revoir!</h5>
+                </div>
+
+                <form action="{{ path('security_login') }}" method="post">
+                    <div class="form-group">
+                        <input type="email" name="_username" id="inputEmail" class="form-control"
+                               placeholder="Mail">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="_password" id="inputPassword"
+                               placeholder="Mot de passe" data-toggle="password">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn mag-btn mt-30">Login</button>
+                        <a href="{{ path('security_registration') }}" class="post-title">
+                            <button type="button" class="btn mag-btn mt-30">Inscription</button>
+                        </a>
+                    </div>
+                    <a href="resetMotdepasse.html" class="post-title">
+                        <label>Mot de passe Oublié?</label>
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+        <!-- ##### Login Area End ##### -->
 {% endblock %}

@@ -31,7 +31,7 @@ class Produit
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Store::class, mappedBy="no")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="no")
      */
     private $store;
 
@@ -41,9 +41,14 @@ class Produit
     private $prix;
 
     /**
-     * @ORM\OneToOne(targetEntity=Origine::class, cascade={"persist", "remove"})
+     * @ORM\Column(type="string", nullable=true)
      */
     private $origine;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $images = [];
 
     public function __construct()
     {
@@ -132,6 +137,18 @@ class Produit
     public function setOrigine(?Origine $origine): self
     {
         $this->origine = $origine;
+
+        return $this;
+    }
+
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    public function setImages(?array $images): self
+    {
+        $this->images = $images;
 
         return $this;
     }

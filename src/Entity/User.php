@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,9 +10,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
  /**
- * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(
- *     fields={ "cli_mail" },
+ *     fields={ "mail" },
  *     message="Cet email est déjà utilisé !"
  * )
  *
@@ -20,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User implements UserInterface
 {
     public $USER_CLIENT = "ROLE_USER";
-    public $USER_STORE = "ROLE_MANAGER_STORE";
+    public $USER_STORE = "ROLE_STORE";
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -31,26 +31,26 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $cli_nom;
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $cli_prenom;
+    private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email(message="L'adresse mail '{{ value }}' n'est pas valide.")
      */
-    private $cli_mail;
+    private $mail;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Regex(pattern="/^([0-9]{13})$/s",
+     * @Assert\Regex(pattern="/([0-9]{10})/s",
      *     match=true,
-     *     message="Votre numéro doit être au format 00336xxx.")
+     *     message="Votre numéro doit être au format 06xxx.")
      */
-    private $cli_tel;
+    private $tel;
 
 
      /**
@@ -59,19 +59,18 @@ class User implements UserInterface
      *     match=true,
      *     message="Votre mot de passe doit comporter au moins 8 caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole.")
      */
-    private $cli_mdp;
+    private $password;
 
     /**
-     * @var
-     * @Assert\EqualTo(propertyPath="cli_mdp", message="Votre mot de passe saisi n'est pas identique")
+     * @var string $confirm_password
+     * @Assert\EqualTo(propertyPath="password", message="Votre mot de passe saisi n'est pas identique")
      */
-    private $cli_confirm_mdp;
+    private $confirm_password;
 
     /**
-     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     *@ORM\Column(type="string", nullable=true)
      */
-    private $cli_adresse;
+    private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -79,98 +78,102 @@ class User implements UserInterface
     private $role = "ROLE_USER";
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private $lat;
+    private $codepostal;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="string", length=255)
      */
-    private $lon;
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nommagasin;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tva;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $siret;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCliNom(): ?string
+    public function getNom(): ?string
     {
-        return $this->cli_nom;
+        return $this->nom;
     }
 
-    public function setCliNom(string $cli_nom): self
+    public function setNom(string $cli_nom): self
     {
-        $this->cli_nom = $cli_nom;
+        $this->nom = $cli_nom;
 
         return $this;
     }
 
-    public function getCliPrenom(): ?string
+    public function getMail(): ?string
     {
-        return $this->cli_prenom;
+        return $this->mail;
     }
 
-    public function setCliPrenom(string $cli_prenom): self
+    public function setMail(string $mail): self
     {
-        $this->cli_prenom = $cli_prenom;
+        $this->mail = $mail;
 
         return $this;
     }
 
-    public function getCliMail(): ?string
+    public function getTel(): ?string
     {
-        return $this->cli_mail;
+        return $this->tel;
     }
 
-    public function setCliMail(string $cli_mail): self
+    public function setTel(?string $cli_tel): self
     {
-        $this->cli_mail = $cli_mail;
+        $this->tel = $cli_tel;
 
         return $this;
     }
 
-    public function getCliTel(): ?string
+    public function getPassword(): ?string
     {
-        return $this->cli_tel;
+        return $this->password;
     }
 
-    public function setCliTel(?string $cli_tel): self
+    public function setPassword(string $cli_mdp): self
     {
-        $this->cli_tel = $cli_tel;
+        $this->password = $cli_mdp;
 
         return $this;
     }
 
-    public function getCliMdp(): ?string
+    public function getAdresse(): ?string
     {
-        return $this->cli_mdp;
+        return $this->adresse;
     }
 
-    public function setCliMdp(string $cli_mdp): self
+    public function setAdresse(string $cli_adresse): self
     {
-        $this->cli_mdp = $cli_mdp;
+        $this->adresse = $cli_adresse;
 
         return $this;
     }
 
-    public function getCliAdresse(): ?Address
-    {
-        return $this->cli_adresse;
+    public function getConfirmPassword(): ?string{
+      return $this->confirm_password;
     }
 
-    public function setCliAdresse(Address $cli_adresse): self
-    {
-        $this->cli_adresse = $cli_adresse;
-
-        return $this;
-    }
-
-    public function getCliConfirmMdp(): ?string{
-      return $this->cli_confirm_mdp;
-    }
-
-    public function setCliConfirmMdp(string $cli_confirm_mdp): self{
-      $this->cli_confirm_mdp = $cli_confirm_mdp;
+    public function setConfirmPassword(string $cli_confirm_mdp): self{
+      $this->confirm_password = $cli_confirm_mdp;
       return $this;
     }
 
@@ -182,13 +185,6 @@ class User implements UserInterface
         return [$this->role];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getPassword()
-    {
-        return $this->getCliMdp();
-    }
 
     /**
      * @inheritDoc
@@ -203,7 +199,7 @@ class User implements UserInterface
      */
     public function getUsername()
     {
-        return $this->getCliMail();
+        return $this->getMail();
     }
 
     /**
@@ -233,27 +229,76 @@ class User implements UserInterface
             return false;
     }
 
-    public function getLat(): ?float
+    public function getCodepostal(): ?int
     {
-        return $this->lat;
+        return $this->codepostal;
     }
 
-    public function setLat(float $lat): self
+    public function setCodepostal(int $codepostal): self
     {
-        $this->lat = $lat;
+        $this->codepostal = $codepostal;
 
         return $this;
     }
 
-    public function getLon(): ?float
+    public function getVille(): ?string
     {
-        return $this->lon;
+        return $this->ville;
     }
 
-    public function setLon(float $lon): self
+    public function setVille(string $ville): self
     {
-        $this->lon = $lon;
+        $this->ville = $ville;
 
         return $this;
     }
+
+    public function getNommagasin(): ?string
+    {
+        return $this->nommagasin;
+    }
+
+    public function setNommagasin(?string $nommagasin): self
+    {
+        $this->nommagasin = $nommagasin;
+
+        return $this;
+    }
+
+    public function getTva(): ?string
+    {
+        return $this->tva;
+    }
+
+    public function setTva(?string $tva): self
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
+    public function getSiret(): ?string
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(?string $siret): self
+    {
+        $this->siret = $siret;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
 }
