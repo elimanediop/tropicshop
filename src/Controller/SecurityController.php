@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends AbstractController
 {
     /**
-   * @Route("/registration/{role}", name="security_registration", defaults={"role":"user"})
+   * @Route("/registration", name="security_registration")
    */
   public function registration(Request $request, UserPasswordEncoderInterface $userPasswordEncoder,ObjectManager $manager)
   {
@@ -24,7 +24,7 @@ class SecurityController extends AbstractController
       $form = $this->createForm(RegistrationType::class, $client);
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid()){
+      if($client->getRole() && $form->isSubmitted() && $form->isValid()){
           $hash = $userPasswordEncoder->encodePassword($client, $client->getPassword());
           $client->setPassword($hash);
           $manager->persist($client);

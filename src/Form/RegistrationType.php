@@ -20,7 +20,7 @@ class RegistrationType extends AbstractType
         $builder
             ->add('role', ChoiceType::class, [
                 'choices' => [
-                        'Client ou Vendeur' => 'client_seller',
+                        'Client ou Vendeur' => '',
                         'Client' => 'ROLE_CLIENT',
                         'Vendeur' => 'ROLE_STORE'
                     ]]);
