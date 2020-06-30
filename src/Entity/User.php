@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  *
  */
-class Client implements UserInterface
+class User implements UserInterface
 {
     public $USER_CLIENT = "ROLE_USER";
     public $USER_STORE = "ROLE_MANAGER_STORE";
@@ -77,6 +77,16 @@ class Client implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $role = "ROLE_USER";
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $lon;
 
     public function getId(): ?int
     {
@@ -221,5 +231,29 @@ class Client implements UserInterface
             return true;
         else
             return false;
+    }
+
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    public function setLat(float $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLon(): ?float
+    {
+        return $this->lon;
+    }
+
+    public function setLon(float $lon): self
+    {
+        $this->lon = $lon;
+
+        return $this;
     }
 }

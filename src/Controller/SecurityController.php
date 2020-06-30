@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Client;
+use App\Entity\User;
 use App\Form\RegistrationType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
    */
   public function registration(Request $request, string $role, UserPasswordEncoderInterface $userPasswordEncoder,ObjectManager $manager)
   {
-      $client = new Client();
+      $client = new User();
       if($role == "store"){
         $store = new Store();
         $form = $this->createForm(StoreType::class, $store);
@@ -67,7 +67,7 @@ class SecurityController extends AbstractController
   }
 
   /**
-   * @Route("/login", name="security_login", defaults={"role"="user"})
+   * @Route("/login", name="security_login")
    */
   public function login(){
       return $this->render("security/login.html.twig");

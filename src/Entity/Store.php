@@ -63,12 +63,12 @@ class Store
         return $this->id;
     }
 
-    public function getManager(): ?Client
+    public function getManager(): ?User
     {
         return $this->manager;
     }
 
-    public function setManager(Client $manager): self
+    public function setManager(User $manager): self
     {
         $this->manager = $manager;
 
