@@ -2,72 +2,45 @@
 
 namespace App\Controller;
 
-use App\Entity\Store;
-use App\Form\StoreType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Client;
+use App\Entity\User;
 use App\Form\RegistrationType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
     /**
-   * @Route("/registration/{role}", name="security_registration", defaults={"role"="user"})
+   * @Route("/registration", name="security_registration")
    */
-  public function registration(Request $request, string $role, UserPasswordEncoderInterface $userPasswordEncoder,ObjectManager $manager)
+  public function registration(Request $request, UserPasswordEncoderInterface $userPasswordEncoder,ObjectManager $manager)
   {
-      $client = new Client();
-      if($role == "store"){
-        $store = new Store();
-        $form = $this->createForm(StoreType::class, $store);
-      }
+      $role = '';
+      $client = new User();
 
-      if($role === "user"){
-          $form = $this->createForm(RegistrationType::class, $client);
-      }
-
+      $form = $this->createForm(RegistrationType::class, $client);
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid()){
-          if($role == "store") {
-              $client = $store->getManager();
-              $hash = $userPasswordEncoder->encodePassword($client, $client->getCliMdp());
-              $client->setCliMdp($hash);
-              $client->setRole("ROLE_MANAGER_STORE");
-              $manager->persist($store);
-              $manager->flush();
-          }
-
-          if($role === "user"){
-              $hash = $userPasswordEncoder->encodePassword($client, $client->getCliMdp());
-              $client->setCliMdp($hash);
-              $manager->persist($client);
-              $manager->flush();
-          }
+      if($client->getRole() && $form->isSubmitted() && $form->isValid()){
+          $hash = $userPasswordEncoder->encodePassword($client, $client->getPassword());
+          $client->setPassword($hash);
+          $manager->persist($client);
+          $manager->flush();
 
           return $this->redirectToRoute("security_login");
       }
 
-      if($role == "store"){
-          return $this->render('security/registration_store.html.twig', [
-              'form' => $form->createView()
-          ]);
-      }
-
-      if($role === "user"){
-          return $this->render('security/registration.html.twig', [
-              'form' => $form->createView()
-          ]);
-      }
+      return $this->render('security/registration.html.twig', [
+          'form' => $form->createView()
+      ]);
 
   }
 
   /**
-   * @Route("/login", name="security_login", defaults={"role"="user"})
+   * @Route("/login", name="security_login")
    */
   public function login(){
       return $this->render("security/login.html.twig");

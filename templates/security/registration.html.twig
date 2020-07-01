@@ -26,70 +26,95 @@
                 <div class="section-heading">
                     <h5>Renseignez-le formulaire!</h5>
                 </div>
-
-                <form action="index.php" method="post">
+                {{ form_errors(form) }}
+                {{ form_start(form) }}
                     <div class="form-row">
 
                         <div class="form-group col-md-6">
-                            <select class="form-control" id="type_utilisateur" required>
-                                <option>Client ou Vendeur</option>
-                                <option value="1">Client</option>
-                                <option value="2">Vendeur</option>
-                            </select>
+                            {{ form_widget(form.role, {'attr': {'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="nom" placeholder="Nom" required>
+                            {{ form_widget(form.nom, {'attr': {
+                                'placeholder':'nom',
+                                'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="prenom" placeholder="Prenom" required>
+                            {{ form_widget(form.prenom, {'attr': {
+                                'placeholder':'prénom',
+                                'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="mail" placeholder="Mail" required>
+                            {{ form_widget(form.mail, {'attr': {
+                                'placeholder':'Mail',
+                                'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="numTelephone" placeholder="Numéro Telephone" required>
+                            {{ form_widget(form.tel, {'attr': {
+                                'placeholder':'070000',
+                                'class':'form-control',
+                                'pattern':"[0-9]{10}"}}) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="adresse" placeholder="Adresse" required>
+                        {{ form_widget(form.adresse, {'attr': {
+                            'placeholder':'Adresse',
+                            'class':'form-control'}}) }}
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="codePosal" placeholder="Code Postal" required>
+                            {{ form_widget(form.codepostal, {'attr': {
+                                'placeholder':'Code Postal',
+                                'class':'form-control',
+                                'pattern':"[0-9]{5}"}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="ville" placeholder="Ville" required>
+                            {{ form_widget(form.ville, {'attr': {
+                                'placeholder':'Ville',
+                                'class':'form-control'}}) }}
                         </div>
                     </div>
                     <div class="form-row" id="idDetailMag">
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="nommagasin" placeholder="Nom Magasin">
+                            {{ form_widget(form.nommagasin, {'attr': {
+                                'placeholder':'Nom Magasin',
+                                'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="numTva" placeholder="Numéros TVA">
+                            {{ form_widget(form.tva, {'attr': {
+                                'placeholder':'Numéros TVA',
+                                'class':'form-control',
+                                'pattern':"[a-zA-Z0-9]+"}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="numSiret" placeholder="Numéros siret">
+                            {{ form_widget(form.siret, {'attr': {
+                                'placeholder':'Numéros siret',
+                                'class':'form-control',
+                                'pattern':"[0-9]{14}"}}) }}
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="motDePasse" placeholder="Mot de Passe" required>
+                            {{ form_widget(form.password, {'attr': {
+                                'placeholder':'Mot de Passe',
+                                'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="motDePasseConfirm" placeholder="Confirmer Mot de Passe" required>
+                            {{ form_widget(form.confirm_password, {'attr': {
+                                'placeholder':'Confirmer Mot de Passe',
+                                'class':'form-control'}}) }}
                         </div>
                     </div>
 
                     <button type="submit" class="btn mag-btn mt-30">Valider</button>
-                    <a href="index.php" class="post-title">
+                    <a href="{{ path('home') }}" class="post-title">
                         <button type="button" class="btn mag-btn mt-30">Retour</button>
                     </a>
-                </form>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
 </div>
+
 </div>
         <!-- ##### Login Area End ##### -->
 {% endblock %}
