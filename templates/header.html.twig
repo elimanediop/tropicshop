@@ -27,12 +27,12 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li class="active"><a href="index.php">Home</a></li>
-                                <li><a href="promo.php">Promotion du moment</a></li>
+                                <li class="active"><a href="{{ path('home') }}">Home</a></li>
+                                <li><a href="{{ path('home') }}">Promotion du moment</a></li>
                             </ul>
                             <!-- Top Search Area -->
                             <div class="top-search-area">
-                                <form id="formSearch" action="index.php" method="post">
+                                <form id="formSearch" action="{{ path('home') }}" method="post">
                                     <input type="search" name="top-search" id="topSearch"
                                            placeholder="Rechercher un produit...">
                                     <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i>
@@ -40,7 +40,7 @@
                                 </form>
                             </div>
                             <div class="top-search-area">
-                                <form id="formMap" action="magasins.php" method="post">
+                                <form id="formMap" action="{{ path('home') }}" method="post">
                                     <input type="text" name="top-map"  id="topMap"
                                            placeholder="Où voulez-vous être livré?">
                                     <button type="submit" class="btn"><i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -50,14 +50,14 @@
                         </div>
                         <!-- Nav End -->
                     </div>
-
+s
                     <div class="top-meta-data d-flex align-items-center">
                         <!-- Login -->
-                        <a href="login.html" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a href="{{ path('security_login') }}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
                     </div>
                     <div class="top-meta-data d-flex align-items-center">
                         <!-- Login -->
-                        <a href="panier.php" class="login-btn"><i class="fa fa-shopping-cart"
+                        <a href="{{ path('home') }}" class="login-btn"><i class="fa fa-shopping-cart"
                                                                   aria-hidden="true"></i></a>
                     </div>
                 </div>
