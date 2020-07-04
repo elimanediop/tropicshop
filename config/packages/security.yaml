@@ -18,6 +18,8 @@ security:
             lazy: true
             provider: in_database
             form_login:
+                default_target_path: account
+                always_use_default_target_path: true
                 login_path: security_login
                 check_path: security_login
             logout:
@@ -34,4 +36,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/store , roles: ROLE_MANAGER_STORE }
+        - { path: ^/store , roles: ROLE_STORE }

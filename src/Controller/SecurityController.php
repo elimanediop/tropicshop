@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -38,6 +39,21 @@ class SecurityController extends AbstractController
       ]);
 
   }
+    /**
+     * @Route("/account", name="account")
+     */
+    public function account(Request $request)
+    {
+        if($this->getUser()->getRoles()[0] == "ROLE_CLIENT"){
+            return $this->redirectToRoute("home");
+
+        }
+        if($this->getUser()->getRoles()[0] == "ROLE_STORE"){
+            return $this->redirectToRoute("store_profil");
+        }
+
+        return $this->render("security/login.html.twig");
+    }
 
   /**
    * @Route("/login", name="security_login")

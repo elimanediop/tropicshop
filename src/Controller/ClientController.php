@@ -17,7 +17,7 @@ class ClientController extends AbstractController
     {
         $id = 8;//TODO get client by id from request
         $client = $clientRepository->find($id);
-        return $this->render('client/index.html.twig', [
+        return $this->render('client/profil_home.html.twig', [
             'user' => $client,
         ]);
     }

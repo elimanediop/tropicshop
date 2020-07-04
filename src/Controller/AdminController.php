@@ -18,7 +18,7 @@ class AdminController extends AbstractController
      */
     public function index()
     {
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/profil_home.html.twig', [
             "title" => $this->title
         ]);
     }
@@ -42,7 +42,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute("admin");
         }
 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/profil_home.html.twig', [
             'form' => $form->createView(), "title" => $this->title, "h1" => "Creation d'un type de produit"
         ]);
     }

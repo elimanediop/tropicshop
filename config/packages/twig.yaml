@@ -2,3 +2,5 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
       app_name: 'Tropic shop - Commande de produits africains'
+      user_type_store: 'ROLE_STORE'
+      user_type_client: 'ROLE_USER'

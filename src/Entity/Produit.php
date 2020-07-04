@@ -50,6 +50,28 @@ class Produit
      */
     private $images = [];
 
+    /**
+     * @var $imagesproduit string
+     */
+    private $imagesproduit;
+
+    /**
+     * @return string
+     */
+    public function getImagesproduit(): ?string
+    {
+        return $this->imagesproduit;
+    }
+
+    /**
+     * @param string $imagesproduit
+     */
+    public function setImagesproduit(?string $imagesproduit): self
+    {
+        $this->imagesproduit = $imagesproduit;
+        return $this;
+    }
+
     public function __construct()
     {
         $this->store = new ArrayCollection();
@@ -146,9 +168,9 @@ class Produit
         return $this->images;
     }
 
-    public function setImages(?array $images): self
+    public function setImages(string $imageid): self
     {
-        $this->images = $images;
+        $this->images[] = $imageid;
 
         return $this;
     }
