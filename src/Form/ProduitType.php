@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Origine;
 use App\Entity\Produit;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,9 +16,9 @@ class ProduitType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('description')
             ->add('prix')
-            ->add('origine');
+            ->add('origine', EntityType::class, ["class" => Origine::class, 'choice_label' => 'country'])
+            ->add('description');
         $builder
             ->add('imagesproduit', FileType::class);
     }

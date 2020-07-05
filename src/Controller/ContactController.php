@@ -38,7 +38,7 @@ class ContactController extends AbstractController
 
             $this->addFlash('success', 'Votre message a été transmis, nous vous répondrons dans les meilleurs délais.'); // Permet un message flash de renvoi
         }
-        return $this->render('contact/profil_home.html.twig',['form' => $form->createView()]);
+        return $this->render('contact/index.html.twig',['form' => $form->createView()]);
     }
 
 }

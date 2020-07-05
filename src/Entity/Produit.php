@@ -41,7 +41,7 @@ class Produit
     private $prix;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Origine::class, cascade={"persist", "remove"})
      */
     private $origine;
 

@@ -33,7 +33,7 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/ajouter_produit", name="store_profil_add_product")
      */
-    public function addProduct(Request $request, ObjectManager $manager,  SluggerInterface $slugger)
+    public function addProduct(Request $request, ObjectManager $manager, SluggerInterface $slugger)
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
@@ -44,11 +44,9 @@ class StoreController extends AbstractController
 
             if ($brochureFile) {
                 $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
 
-                // Move the file to the directory where brochures are stored
                 try {
                     $brochureFile->move(
                         $this->getParameter('images_product_directory'),
@@ -58,8 +56,6 @@ class StoreController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
 
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
                 $produit->setImagesproduit($newFilename);
                 $produit->setImages($produit->getImagesproduit());
             }
@@ -72,7 +68,7 @@ class StoreController extends AbstractController
         }
 
         return $this->render('store/profil_home.html.twig', [
-        'title' => "Espace de gestion magasin - ajouter un produit",
+        'title' => $this->title_add_produit,
             'form' => $form->createView()
         ]);
     }
@@ -80,10 +76,52 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/modifier_produit", name="store_profil_edit_product")
      */
-    public function editProduct()
+    public function editProduct(Request $request, ObjectManager $manager, ProduitRepository $produitRepository, SluggerInterface $slugger)
     {
+        $id = $request->query->get('id');
+        if(is_null($id)){
+            return $this->redirectToRoute("store_profil", [
+                'title' => $this->title_home
+            ]);
+        }
+        $produit = $produitRepository->find($id);
+
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $brochureFile = $form->get('imagesproduit')->getData();
+
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('images_product_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $produit->setImagesproduit($newFilename);
+                $produit->setImages($produit->getImagesproduit());
+            }
+
+            $manager->persist($produit);
+            $manager->flush();
+            return $this->redirectToRoute("store_profil", [
+                'title' => $this->title_home
+            ]);
+        }
+
+
+
         return $this->render('store/profil_home.html.twig', [
-            'title' => $this->title_edit_produit
+            'title' => $this->title_edit_produit,
+            'form' => $form->createView()
         ]);
     }
 
