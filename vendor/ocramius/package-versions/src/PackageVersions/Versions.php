@@ -123,14 +123,14 @@ final class Versions
   'symfony/profiler-pack' => 'v1.0.4@99c4370632c2a59bb0444852f92140074ef02209',
   'symfony/test-pack' => 'v1.0.6@ff87e800a67d06c423389f77b8209bc9dc469def',
   'symfony/web-profiler-bundle' => 'v5.1.2@25d892ab4927e7df32b0e8dce23cc7a1d4a3bd1c',
-  'paragonie/random_compat' => '2.*@7738e31f95660bed20cadfc8f868a1c58fa0259d',
-  'symfony/polyfill-ctype' => '*@7738e31f95660bed20cadfc8f868a1c58fa0259d',
-  'symfony/polyfill-iconv' => '*@7738e31f95660bed20cadfc8f868a1c58fa0259d',
-  'symfony/polyfill-php72' => '*@7738e31f95660bed20cadfc8f868a1c58fa0259d',
-  'symfony/polyfill-php71' => '*@7738e31f95660bed20cadfc8f868a1c58fa0259d',
-  'symfony/polyfill-php70' => '*@7738e31f95660bed20cadfc8f868a1c58fa0259d',
-  'symfony/polyfill-php56' => '*@7738e31f95660bed20cadfc8f868a1c58fa0259d',
-  '__root__' => 'dev-tropicshop-ihm@7738e31f95660bed20cadfc8f868a1c58fa0259d',
+  'paragonie/random_compat' => '2.*@f2a304199ef8374c824b04f7c4dc912c135ac581',
+  'symfony/polyfill-ctype' => '*@f2a304199ef8374c824b04f7c4dc912c135ac581',
+  'symfony/polyfill-iconv' => '*@f2a304199ef8374c824b04f7c4dc912c135ac581',
+  'symfony/polyfill-php72' => '*@f2a304199ef8374c824b04f7c4dc912c135ac581',
+  'symfony/polyfill-php71' => '*@f2a304199ef8374c824b04f7c4dc912c135ac581',
+  'symfony/polyfill-php70' => '*@f2a304199ef8374c824b04f7c4dc912c135ac581',
+  'symfony/polyfill-php56' => '*@f2a304199ef8374c824b04f7c4dc912c135ac581',
+  '__root__' => 'dev-release@f2a304199ef8374c824b04f7c4dc912c135ac581',
 );
 
     private function __construct()
