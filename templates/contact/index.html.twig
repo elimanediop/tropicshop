@@ -2,260 +2,163 @@
 
         {% block title %}{{ app_name }}{% endblock %}
         {% block body %}
-        <!-- Page Content -->
-<div class="container">
-
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="section-heading my-4">
-                <h5>Categories</h5>
+        <!-- ##### Breadcrumb Area Start ##### -->
+<section class="breadcrumb-area bg-img bg-overlay" style="background-image: url(asset{('img/bg-img/slider3.jpg')});">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>Contact Nous</h2>
+                </div>
             </div>
-            <div class="list-group">
-                <a href="fruits.php" class="list-group-item">Fruits</a>
-                <a href="legumes.php" class="list-group-item">Légumes</a>
-                <a href="epices.php" class="list-group-item">Condiments et Epices</a>
-                <a href="cosmetiques.php" class="list-group-item">Cosmétiques</a>
-                <a href="autres.php" class="list-group-item">Autres</a>
-            </div>
-            <div class="single-sidebar-widget my-4">
-                <video src="img/bg-img/video1.mp4" class="add-img" controls poster="img/bg-img/recette.png">
-                    Cette vidéo ne peut être affichée sur votre navigateur Internet.<br>
-                    Une version est disponible en téléchargement sous <a href="URL">adresse du lien </a> .
-                </video>
-            </div>
-            <div class="post-meta">
-                <a href="https://instagram.com/saveurs_afrique?=nametag" class="post-title" target="_blank">Plus de détails...</a>
-            </div>
-            <!-- Sidebar Widget -->
-            <div class="single-sidebar-widget  my-4">
-                <a href="#" class="add-img" target="_blank"><img src="img/bg-img/51.jpg" alt=""></a>
-            </div>
-            <!-- Sidebar Widget -->
-            <div class="single-sidebar-widget  my-4">
-                <a href="#" class="add-img" target="_blank"><img src="img/bg-img/72.jpg" alt=""></a>
-            </div>
-            <!-- Sidebar Widget -->
-            <div class="single-sidebar-widget  my-4">
-                <a href="#" class="add-img" target="_blank"><img src="img/bg-img/71.jpg" alt=""></a>
-            </div>
-            <div class="section-heading my-4">
-                <h5>Espace Clientèle</h5>
-            </div>
-            <div class="list-group">
-                <a href="fruits.php" class="list-group-item">Nos engagements</a>
-                <a href="legumes.php" class="list-group-item">Avis Consommateur</a>
-                <a href="epices.php" class="list-group-item">Nos partenaires</a>
-                <a href="cosmetiques.php" class="list-group-item">Qui sommes-nous</a>
-                <a href="{{ path('contacterNous') }}" class="list-group-item">Contact</a>
-            </div>
-
         </div>
-        <!-- /.col-lg-3 -->
-
-
-        <div class="col-lg-9">
-
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="img/bg-img/slider1.jpg" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider2.jpg" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider3.jpg" alt="Third slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider4.jpg" alt="Third slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider5.jpg" alt="Third slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-
-            <div class="row">
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/1.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Patate douce violette</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">Cette patate douce est parfumée et un peu plus sucrée que la patate douce orange.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/2.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Banane</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">Fruit riche en fer, en manganèse, en vitamine B et en potassium, la banane est également transformée pour obtenir des chips qui peuvent servir d’amuse-gueules pour vos apéros</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/3.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Piment</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">Le piment est un ingrédient très utilisé dans la cuisine africaine et antillaise. Il est riche en vitamines C, E, B6 et en fer manganèse, cuivre.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/4.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Patate douce</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">La patate douce est un tubercule qui renferme de l’amidon, ainsi que des nutriments tels que le manganèse, le cuivre, les vitamines B6, B2, C et A.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/5.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Mangue</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">La mangue est un fruit parfumé aux saveurs délicieuses et à la chaire juteuse. Elle est riche en vitamine C.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/6.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Arôme Maggi</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">L’arôme Maggi est utilisé pour l’assaisonnement des plats.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/7.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Huile de palme</a>
-                            </h4>
-                            <h5 style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">Issue de la transformation, l’huile de palme s’utilise dans la préparation de sauces comme la sauce gombo ou la sauce de corètes potagères.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/48.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Gingembre</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">Loin d'être un simple stimulant sexuel, le gingembre est aussi d'un brûle graisse naturel. Cet épice aide à la digestion et très utilisé dans la cuisine africaine, asiatique et indienne.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/9.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Pâte d’arachide</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">: La pâte d’arachide est utilisée pour la préparation de la sauce d’arachide.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/10.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Gombo</a>
-                            </h4>
-                            <h5  style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">Utilisé comme légume ou condiment, le gombo est consommé dans la quasi-totalité de l'Afrique tout au long de l'année. La sauce de gombo est la plus prisée.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/11.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Papaye</a>
-                            </h4>
-                            <h5 style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">La papaye est un fruit gorgé de vitamines, excellent pour le tonus.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="img/bg-img/12.jpg" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">Bissap</a>
-                            </h4>
-                            <h5 style="color:#f5bd4c;">$24.99</h5>
-                            <p class="card-text">Feuilles d’hibiscus séchées. On obtient le jus de bissap par ébuilition de feuilles séchées. </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /.row -->
-
-        </div>
-        <!-- /.col-lg-9 -->
-
     </div>
-    <!-- /.row -->
+</section>
+        <!-- ##### Breadcrumb Area End ##### -->
 
+        <!-- ##### Breadcrumb Area Start ##### -->
+<div class="mag-breadcrumb py-5">
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact Nous</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 </div>
-        <!-- /.container -->a
+</div>
+        <!-- ##### Breadcrumb Area End ##### -->
 
+        <!-- ##### Contact Area Start ##### -->
+<section class="contact-area">
+<div class="container">
+<div class="row justify-content-center">
+    <div class="col-12 col-xl-8">
+        <div class="contact-content-area bg-white mb-30 p-30 box-shadow">
+            <!-- Google Maps -->
+            <div class="map-area mb-30">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2623.740842513333!2d2.2341157156752294!3d48.882216779289934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6651e5d1ed11f%3A0xae9085c9bd72076c!2s12%20Rue%20Lucien%20Voilin%2C%2092800%20Puteaux!5e0!3m2!1sfr!2sfr!4v1592512962314!5m2!1sfr!2sfr"  allowfullscreen></iframe>
+            </div>
+
+            <!-- Section Title -->
+            <div class="section-heading">
+                <h5>Contact Info</h5>
+            </div>
+
+            <div class="contact-information mb-30">
+
+                <!-- Single Contact Info -->
+                <div class="single-contact-info d-flex align-items-center">
+                    <div class="icon mr-15">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                    <div class="text">
+                        <p>Notre adresse:</p>
+                        <h6 style="color: #000000;">12 Rue Lucien Voilin, 92800 Puteaux</h6>
+                    </div>
+                </div>
+
+                <!-- Single Contact Info -->
+                <div class="single-contact-info d-flex align-items-center">
+                    <div class="icon mr-15">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </div>
+                    <div class="text">
+                        <p>Email:</p>
+                        <h6 style="color: #000000;">contact@tropicishop.fr</h6>
+                    </div>
+                </div>
+
+                <!-- Single Contact Info -->
+                <div class="single-contact-info d-flex align-items-center">
+                    <div class="icon mr-15">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <div class="text">
+                        <p>Telephone:</p>
+                        <h6 style="color: #000000;">(+33) 763749921</h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Title -->
+            <div class="section-heading">
+                <h5>Gardons Contact</h5>
+            </div>
+
+            <!-- Contact Form Area -->
+            <div class="contact-form-area">
+                <form action="{{ path('contact') }}" method="post">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="nom" id="name" placeholder="Nom">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="E-mail">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn mag-btn mt-30" type="submit">Envoyer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-5 col-xl-4">
+        <div class="sidebar-area bg-white mb-30 box-shadow">
+            <!-- Sidebar Widget -->
+            <div class="single-sidebar-widget p-30">
+                <!-- Section Title -->
+                <div class="section-heading">
+                    <h6>Videos</h6>
+                </div>
+                <!-- Sidebar Widget -->
+                <div class="single-sidebar-widget">
+                    <video src="img/bg-img/video1.mp4" class="add-img" controls poster="img/bg-img/recette.png">
+                        Cette vidéo ne peut être affichée sur votre navigateur Internet.<br>
+                        Une version est disponible en téléchargement sous <a href="URL">adresse du lien </a> .
+                    </video>
+                </div>
+                <div class="post-meta">
+                    <a href="https://instagram.com/saveurs_afrique?=nametag" class="post-title" target="_blank">Plus de détails...</a>
+                </div>
+            </div>
+            <!-- Sidebar Widget -->
+            <div class="single-sidebar-widget p-30">
+                <!-- Section Title -->
+                <div class="section-heading">
+                    <h5>Galeries</h5>
+                </div>
+                <!-- Sidebar Widget -->
+                <div class="single-sidebar-widget">
+                    <a href="#" class="add-img"><img src="img/bg-img/72.jpg" alt=""></a>
+                </div>
+            </div>
+
+            <!-- Sidebar Widget -->
+            <div class="single-sidebar-widget p-30">
+                <div class="single-sidebar-widget">
+                    <a href="#" class="add-img"><img src="img/bg-img/71.jpg" alt=""></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</section>
+        <!-- ##### Contact Area End ##### -->
         {% endblock %}
