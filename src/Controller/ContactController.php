@@ -28,12 +28,7 @@ class ContactController extends AbstractController
                 // On attribue le destinataire
                 ->setTo("contact@tropicshop.fr" )
                 // On crée le texte avec la vue
-                ->setBody(
-                  $this->renderView(
-                      'emails/contact.html.twig', compact('contact')
-                  ),
-                  'text/html'
-                );
+                ->setBody($contact['message']);
             $mailer->send($message);
 
             $this->addFlash('success', 'Votre message a été transmis, nous vous répondrons dans les meilleurs délais.'); // Permet un message flash de renvoi
