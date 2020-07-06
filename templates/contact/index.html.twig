@@ -1,74 +1,164 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
-    <!-- ##### Breadcrumb Area Start ##### -->
-    <section class="breadcrumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/slider5.jpg') }});">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12">
-                    <div class="breadcrumb-content">
-                        <h2></h2>
-                    </div>
+        {% block title %}{{ app_name }}{% endblock %}
+        {% block body %}
+        <!-- ##### Breadcrumb Area Start ##### -->
+<section class="breadcrumb-area bg-img bg-overlay" style="background-image: url(asset{('img/bg-img/slider3.jpg')});">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>Contact Nous</h2>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- ##### Breadcrumb Area End ##### -->
-
-    <!-- ##### Login Area Start ##### -->
-    <div class="mag-login-area py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-6">
-
-                    <div class="login-content bg-white p-30 box-shadow">
-                        <!-- Section Title -->
-                        <div class="section-heading">
-                            <h5>Renseignez-le formulaire!</h5>
-                        </div>
-                        {% for message in app.flashes('success') %}
-                            <div class="alert alert-success">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                        {{ form_errors(form) }}
-                        {{ form_start(form) }}
-                        <div class="form-row">
-
-                            <div class="form-group col-md-6">
-                                {{ form_widget(form.nom, {'attr': {
-                                    'placeholder':'nom',
-                                    'class':'form-control'}}) }}
-                            </div>
-                        </div>
-                        <div class="form-row">
-
-                            <div class="form-group col-md-12">
-                                {{ form_widget(form.email, {'attr': {
-                                    'placeholder':'Mail',
-                                    'class':'form-control'}}) }}
-                            </div>
-                        </div>
-                        <div class="form-row">
-
-                            <div class="form-group col-md-12">
-                                {{ form_widget(form.message, {'attr': {
-                                    'placeholder':'Mail',
-                                    'class':'form-control'}}) }}
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn mag-btn mt-30">Valider</button>
-                        <a href="{{ path('home') }}" class="post-title">
-                            <button type="button" class="btn mag-btn mt-30">Retour</button>
-                        </a>
-                        {{ form_end(form) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <!-- ##### Login Area End ##### -->
-{% endblock %}
+</section>
+        <!-- ##### Breadcrumb Area End ##### -->
+
+        <!-- ##### Breadcrumb Area Start ##### -->
+<div class="mag-breadcrumb py-5">
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact Nous</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+</div>
+        <!-- ##### Breadcrumb Area End ##### -->
+
+        <!-- ##### Contact Area Start ##### -->
+<section class="contact-area">
+<div class="container">
+<div class="row justify-content-center">
+    <div class="col-12 col-xl-8">
+        <div class="contact-content-area bg-white mb-30 p-30 box-shadow">
+            <!-- Google Maps -->
+            <div class="map-area mb-30">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2623.740842513333!2d2.2341157156752294!3d48.882216779289934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6651e5d1ed11f%3A0xae9085c9bd72076c!2s12%20Rue%20Lucien%20Voilin%2C%2092800%20Puteaux!5e0!3m2!1sfr!2sfr!4v1592512962314!5m2!1sfr!2sfr"  allowfullscreen></iframe>
+            </div>
+
+            <!-- Section Title -->
+            <div class="section-heading">
+                <h5>Contact Info</h5>
+            </div>
+
+            <div class="contact-information mb-30">
+
+                <!-- Single Contact Info -->
+                <div class="single-contact-info d-flex align-items-center">
+                    <div class="icon mr-15">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                    <div class="text">
+                        <p>Notre adresse:</p>
+                        <h6 style="color: #000000;">12 Rue Lucien Voilin, 92800 Puteaux</h6>
+                    </div>
+                </div>
+
+                <!-- Single Contact Info -->
+                <div class="single-contact-info d-flex align-items-center">
+                    <div class="icon mr-15">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </div>
+                    <div class="text">
+                        <p>Email:</p>
+                        <h6 style="color: #000000;">contact@tropicishop.fr</h6>
+                    </div>
+                </div>
+
+                <!-- Single Contact Info -->
+                <div class="single-contact-info d-flex align-items-center">
+                    <div class="icon mr-15">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <div class="text">
+                        <p>Telephone:</p>
+                        <h6 style="color: #000000;">(+33) 763749921</h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Title -->
+            <div class="section-heading">
+                <h5>Gardons Contact</h5>
+            </div>
+
+            <!-- Contact Form Area -->
+            <div class="contact-form-area">
+                <form action="{{ path('contact') }}" method="post">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="nom" id="name" placeholder="Nom">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="E-mail">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn mag-btn mt-30" type="submit">Envoyer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-5 col-xl-4">
+        <div class="sidebar-area bg-white mb-30 box-shadow">
+            <!-- Sidebar Widget -->
+            <div class="single-sidebar-widget p-30">
+                <!-- Section Title -->
+                <div class="section-heading">
+                    <h6>Videos</h6>
+                </div>
+                <!-- Sidebar Widget -->
+                <div class="single-sidebar-widget">
+                    <video src="img/bg-img/video1.mp4" class="add-img" controls poster="img/bg-img/recette.png">
+                        Cette vidéo ne peut être affichée sur votre navigateur Internet.<br>
+                        Une version est disponible en téléchargement sous <a href="URL">adresse du lien </a> .
+                    </video>
+                </div>
+                <div class="post-meta">
+                    <a href="https://instagram.com/saveurs_afrique?=nametag" class="post-title" target="_blank">Plus de détails...</a>
+                </div>
+            </div>
+            <!-- Sidebar Widget -->
+            <div class="single-sidebar-widget p-30">
+                <!-- Section Title -->
+                <div class="section-heading">
+                    <h5>Galeries</h5>
+                </div>
+                <!-- Sidebar Widget -->
+                <div class="single-sidebar-widget">
+                    <a href="#" class="add-img"><img src="img/bg-img/72.jpg" alt=""></a>
+                </div>
+            </div>
+
+            <!-- Sidebar Widget -->
+            <div class="single-sidebar-widget p-30">
+                <div class="single-sidebar-widget">
+                    <a href="#" class="add-img"><img src="img/bg-img/71.jpg" alt=""></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</section>
+        <!-- ##### Contact Area End ##### -->
+        {% endblock %}
