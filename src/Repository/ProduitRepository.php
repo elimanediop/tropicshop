@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\User;
 
@@ -56,7 +57,7 @@ class ProduitRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
-            ->innerJoin("App\Entity\User", 'u', "u.id = p.store_id")
+            ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
             ->andWhere("p.nom like :val")
             ->setParameter('val', "%$term%")
             ->orderBy('p.id', 'ASC')

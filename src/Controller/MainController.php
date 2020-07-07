@@ -25,7 +25,11 @@ class MainController extends AbstractController
     {
         $this->products = $produitRepository->findAll();
         return $this->render('main/home.html.twig', [
-            'products' =>$this->products
+            'products' =>$this->products,
+            'location' => "",
+            'searchTerm' => "",
+            "storeProducts" => []
+
         ]);
     }
 
@@ -39,7 +43,10 @@ class MainController extends AbstractController
 
         $this->products = $produitRepository->findByTypeproduit($id_category);
         return $this->render('main/home.html.twig', [
-            'products' =>$this->products
+            'products' =>$this->products,
+            'location' => "",
+            'searchTerm' => "",
+            "storeProducts" => []
         ]);
     }
 
@@ -54,12 +61,10 @@ class MainController extends AbstractController
 
         if(strlen($term) && strlen($location)){
             $storeProducts = $produitRepository->findByTerm($term);
-            exit();
         }elseif (strlen($location)){
             //$this->products = $produitRepository->findByTerm($term);
         }elseif (strlen($term)){
             $storeProducts = $produitRepository->findByTerm($term);
-
         }else{
             $this->products = $produitRepository->findAll();
         }

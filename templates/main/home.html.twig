@@ -142,7 +142,11 @@
                 </div>
             {% elseif(storeProducts|length == 0) %}
                 <div class="row">
-                    <h3 class="bg-warning p-1">Aucun resultat trouvé pour {{ searchTerm }}</h3>
+                    <h3 class="bg-warning p-1">Aucun resultat trouvé
+                    {% if(searchTerm|length) %}
+                        pour  {{ searchTerm }}
+                    {% endif %}.
+                    </h3>
                 </div>
             {% endif %}
 

@@ -30,10 +30,7 @@
                                 <li class="active"><a href="{{ path('home') }}">Home</a></li>
                                 <li><a href="{{ path('home') }}">Promotion du moment</a></li>
                             </ul>
-                            {% if(searchTerm is not defined) and location is not defined %}
-                                {% set searchTerm = "" %}
-                                {% set location = "" %}
-                            {% endif %}
+
                             <!-- Top Search Area -->
                             <div class="top-search-area">
                                 <form id="formSearch" action="{{ path('search') }}" method="post">
