@@ -11,11 +11,11 @@
                 <h5>Categories</h5>
             </div>
             <div class="list-group">
-                <a href="fruits.php" class="list-group-item">Fruits</a>
-                <a href="legumes.php" class="list-group-item">Légumes</a>
-                <a href="epices.php" class="list-group-item">Condiments et Epices</a>
-                <a href="cosmetiques.php" class="list-group-item">Cosmétiques</a>
-                <a href="autres.php" class="list-group-item">Autres</a>
+                <a href="{{ path('filter_category', {'category': 'fruits'}) }}" class="list-group-item">Fruits</a>
+                <a href="{{ path('filter_category', {'category': 'legumes'}) }}" class="list-group-item">Légumes</a>
+                <a href="{{ path('filter_category', {'category': 'condiments-epices'}) }}" class="list-group-item">Condiments et Epices</a>
+                <a href="{{ path('filter_category', {'category': 'comestiques'}) }}" class="list-group-item">Cosmétiques</a>
+                <a href="{{ path('filter_category', {'category': 'autre'}) }}" class="list-group-item">Autres</a>
             </div>
             <div class="single-sidebar-widget my-4">
                 <video src="img/bg-img/video1.mp4" class="add-img" controls poster="img/bg-img/recette.png">
