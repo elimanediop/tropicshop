@@ -1,5 +1,7 @@
-{
+{	
     "type": "project",
+    "name": "vendor/app",
+    "description": "Tropicshop project",
     "license": "proprietary",
     "require": {
         "php": "^7.2.5",

@@ -23,7 +23,7 @@ class StoreController extends AbstractController
      */
     public function index(Request $request, ProduitRepository $produitRepository)
     {
-        $this->products = $produitRepository->findAll();
+        $this->products = $produitRepository->findByUserId($this->getUser()->getId());
         return $this->render('store/profil_home.html.twig', [
             'title' => $this->title_home,
             'products' => $this->products
@@ -41,6 +41,7 @@ class StoreController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $brochureFile = $form->get('imagesproduit')->getData();
+            $produit->setStore($this->getUser());
 
             if ($brochureFile) {
                 $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);

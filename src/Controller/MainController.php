@@ -2,21 +2,48 @@
 
 namespace App\Controller;
 
+use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
+    private $products;
+    private $types_produits = [
+        "fruits" => 1,
+        "comestiques" => 2,
+        "legumes" => 3,
+        "condiments-epices" => 4,
+        "autre" => 5
+
+    ];
     /**
      * @Route("/", name="home")
      */
-    public function index(Request $request)
+    public function index(Request $request, ProduitRepository $produitRepository)
     {
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+        $this->products = $produitRepository->findAll();
+        return $this->render('main/home.html.twig', [
+            'products' =>$this->products
         ]);
     }
+
+    /**
+     * @Route("/filter_category/{category}", name="filter_category")
+     */
+    public function filter(Request $request, string $category,ProduitRepository $produitRepository){
+
+        $id_category = $this->types_produits[$category];
+
+        $this->products = $produitRepository->findByTypeproduit($id_category);
+        return $this->render('main/home.html.twig', [
+            'products' =>$this->products
+        ]);
+    }
+
+
+
 
     /**
      * @Route("/mentionsLegales", name="mentionsLegales")

@@ -8,7 +8,7 @@
             <nav class="classy-navbar justify-content-between" id="magNav">
 
                 <!-- Nav brand -->
-                <a href="index.php" class="nav-brand"><img src="{{ asset('img/core-img/logo.png') }}" alt=""></a>
+                <a href="{{ path('home') }}" class="nav-brand"><img src="{{ asset('img/core-img/logo.png') }}" alt=""></a>
 
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
@@ -42,7 +42,7 @@
                             <div class="top-search-area">
                                 <form id="formMap" action="{{ path('home') }}" method="post">
                                     <input type="text" name="top-map"  id="topMap"
-                                           placeholder="Où voulez-vous être livré?">
+                                           placeholder="Où voulez-vous être livré?" data-location="location">
                                     <button type="submit" class="btn"><i class="fa fa-map-marker" aria-hidden="true"></i>
                                     </button>
                                 </form>
@@ -65,4 +65,6 @@
         </div>
     </div>
 </header>
+<!-- Include Google Maps JS API -->
+<!-- Autocomplete Google Place -->
         <!-- ##### Header Area End ##### -->
