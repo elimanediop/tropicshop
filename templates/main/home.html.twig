@@ -46,7 +46,7 @@
                 <a href="legumes.php" class="list-group-item">Avis Consommateur</a>
                 <a href="epices.php" class="list-group-item">Nos partenaires</a>
                 <a href="cosmetiques.php" class="list-group-item">Qui sommes-nous</a>
-                <a href="{{ path('contact') }}" class="list-group-item">Contact</a>
+                    <a href="{{ path('contact') }}" class="list-group-item">Contact</a>
             </div>
 
         </div>
@@ -88,7 +88,7 @@
                 </a>
             </div>
 
-            {% if(products is defined and products|length) %}
+            {% if(products is defined and products|length and not storeProducts|length) %}
                 <div class="row">
                     {% for product in products %}
                         <div class="col-lg-4 col-md-6 mb-4">
@@ -114,6 +114,38 @@
                     {% endfor %}
                 </div>
             {% endif %}
+
+            {% if(storeProducts is defined and storeProducts|length) %}
+                <div class="row">
+                    {% for storeProduct in storeProducts %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+
+                            <div class="card h-100">
+                                <a href="{{ path('store_profil_edit_product', {'id' : storeProduct.id}) }}">
+                                    {% set img = 'product-icon-security-cloud.png' %}
+                                    {% if storeProduct.images is defined %}
+                                        {% set img = storeProduct.images.0 %}
+                                    {% endif %}
+                                    <img class="card-img-top" src="{{ asset('img/'~img) }}" alt="">
+                                </a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{ path('store_profil_edit_product', {'id' : storeProduct.id}) }}">{{ storeProduct.nommagasin }}</a>
+                                    </h4>
+                                    <h5  style="color:#f5bd4c;">{{ storeProduct.adresse }}</h5>
+                                    <p class="card-text">{{ storeProduct.codepostal }} {{ storeProduct.ville }}</p>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% elseif(storeProducts|length == 0) %}
+                <div class="row">
+                    <h3 class="bg-warning p-1">Aucun resultat trouvé pour {{ searchTerm }}</h3>
+                </div>
+            {% endif %}
+
             <!-- /.row -->
 
         </div>

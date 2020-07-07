@@ -30,20 +30,19 @@
                                 <li class="active"><a href="{{ path('home') }}">Home</a></li>
                                 <li><a href="{{ path('home') }}">Promotion du moment</a></li>
                             </ul>
+                            {% if(searchTerm is not defined) and location is not defined %}
+                                {% set searchTerm = "" %}
+                                {% set location = "" %}
+                            {% endif %}
                             <!-- Top Search Area -->
                             <div class="top-search-area">
-                                <form id="formSearch" action="{{ path('home') }}" method="post">
-                                    <input type="search" name="top-search" id="topSearch"
+                                <form id="formSearch" action="{{ path('search') }}" method="post">
+                                    <input type="search" name="top-search" value="{{ searchTerm }}" id="topSearch"
                                            placeholder="Rechercher un produit...">
-                                    <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="top-search-area">
-                                <form id="formMap" action="{{ path('home') }}" method="post">
-                                    <input type="text" name="top-map"  id="topMap"
+                                    <input type="text" name="top-map"  id="topMap" value="{{ location }}"
                                            placeholder="Où voulez-vous être livré?" data-location="location">
-                                    <button type="submit" class="btn"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    <button type="submit" class="btn">
+                                        <i class="fa fa-search fa-2x" aria-hidden="true"></i>
                                     </button>
                                 </form>
                             </div>
