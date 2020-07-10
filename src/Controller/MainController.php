@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProduitRepository;
+use App\Services\Panier\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,10 +36,7 @@ class MainController extends AbstractController
     {
         $this->products = $this->produitRepository->findAll();
         return $this->render('main/home.html.twig', [
-            'products' =>$this->products,
-            'location' => "",
-            "storeProducts" => []
-
+            'products' =>$this->products
         ]);
     }
 
@@ -46,15 +44,12 @@ class MainController extends AbstractController
      * @Route("/filter_category/{category}", name="filter_category")
      */
     public function filter(string $category){
-        $location = $this->request->get('top-map');
-        $term = $this->request->get('top-search');
         $id_category = $this->types_produits[$category];
 
         $this->products = $this->produitRepository->findByTypeproduit($id_category);
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
-            'location' => "",
-            "storeProducts" => []
+
         ]);
     }
 
@@ -89,13 +84,38 @@ class MainController extends AbstractController
     /**
      * @Route("/les_produits_du_magasin/{store_id}|{product_id}", name="showProductStoreSearch")
      */
-    public function afficherProduitMagasin(int $store_id, int $product_id){
+    public function afficherProduitMagasin(int $store_id, int $product_id, PanierService $panierService){
         $this->products = $this->produitRepository->findOneByUserId($product_id, $store_id);
+        $cart = $panierService->getProduit();
+
 
         return $this->render('main/home.html.twig', [
             'products' => $this->products
         ]);
     }
+
+    /**
+     * @Route("/ajout_panier/{store_id}|{product_id}", name="addProductCart")
+     */
+    public function ajouterProduitPanier(int $product_id, int $store_id,PanierService $panierService){
+        $panierService->addProduct($product_id);
+
+        return $this->redirectToRoute('showProductStoreSearch', ['store_id' => $store_id, 'product_id' => $product_id]);
+    }
+
+    /**
+     * @Route("/panier", name="showProductCart")
+     */
+    public function afficherProduitPanier(PanierService $panierService){
+        $cart = $panierService->getProduit();
+        //TODO redirect to cart page 
+        return $this->redirectToRoute('home', ['cart' => $cart]);
+    }
+
+
+
+
+
 
 
 

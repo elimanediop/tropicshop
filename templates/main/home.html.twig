@@ -108,6 +108,9 @@
                                     <h5  style="color:#f5bd4c;">{{ product.prix }} €</h5>
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
+                                <a href="{{ path('addProductCart', {'store_id': product.store.id,'product_id': product.id  }) }}" type="submit" class="btn">
+                                    <i class="fa fa-cart-plus fa-2x"></i>
+                                </a>
                             </div>
                             </a>
                         </div>
