@@ -115,8 +115,9 @@
                 </div>
             {% endif %}
 
-            {% if(storeProducts is defined and storeProducts|length) %}
-                <div class="row">
+            {% if(storeProducts is defined) %}
+                {% if (storeProducts|length > 0) %}
+                    <div class="row">
                     {% for storeProduct in storeProducts %}
                         <div class="col-lg-4 col-md-6 mb-4">
 
@@ -139,16 +140,19 @@
                             </a>
                         </div>
                     {% endfor %}
-                </div>
-            {% elseif(storeProducts|length == 0) %}
-                <div class="row">
-                    <h3 class="bg-warning p-1">Aucun resultat trouvé
-                    {% if(searchTerm|length) %}
-                        pour  {{ searchTerm }}
-                    {% endif %}.
-                    </h3>
-                </div>
+                    </div>
+                {% elseif (not products|length)%}
+                    <div class="row">
+                        <h3 class="bg-warning p-1">Aucun resultat trouvé
+                            {% if(searchTerm|length) %}
+                            pour  {{ searchTerm }}
+                            {% endif %}.
+                        </h3>
+                    </div>
+                {% endif %}
             {% endif %}
+
+
 
             <!-- /.row -->
 
