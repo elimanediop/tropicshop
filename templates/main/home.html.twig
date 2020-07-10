@@ -88,7 +88,7 @@
                 </a>
             </div>
 
-            {% if(products is defined and products|length and not storeProducts|length) %}
+            {% if(products is defined and products|length and storeProducts is not defined) %}
                 <div class="row">
                     {% for product in products %}
                         <div class="col-lg-4 col-md-6 mb-4">
@@ -122,7 +122,7 @@
                         <div class="col-lg-4 col-md-6 mb-4">
 
                             <div class="card h-100">
-                                <a href="{{ path('store_profil_edit_product', {'id' : storeProduct.id}) }}">
+                                <a href="{{ path('showProductStoreSearch', {'store_id' : storeProduct.id, 'product_id': storeProduct.produit_id}) }}">
                                     {% set img = 'product-icon-security-cloud.png' %}
                                     {% if storeProduct.images is defined %}
                                         {% set img = storeProduct.images.0 %}
@@ -131,7 +131,7 @@
                                 </a>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="{{ path('store_profil_edit_product', {'id' : storeProduct.id}) }}">{{ storeProduct.nommagasin }}</a>
+                                        <a href="{{ path('showProductStoreSearch', {'store_id' : storeProduct.id, 'product_id': storeProduct.produit_id}) }}">{{ storeProduct.nommagasin }}</a>
                                     </h4>
                                     <h5  style="color:#f5bd4c;">{{ storeProduct.adresse }}</h5>
                                     <p class="card-text">{{ storeProduct.codepostal }} {{ storeProduct.ville }}</p>
@@ -144,9 +144,9 @@
                 {% elseif (not products|length)%}
                     <div class="row">
                         <h3 class="bg-warning p-1">Aucun resultat trouvé
-                            {% if(searchTerm|length) %}
+                            {% if(searchTerm is defined and searchTerm|length) %}
                             pour  {{ searchTerm }}
-                            {% endif %}.
+                            {% endif %}.and searchTerm|length
                         </h3>
                     </div>
                 {% endif %}

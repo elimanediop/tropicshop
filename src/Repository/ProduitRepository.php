@@ -49,6 +49,21 @@ class ProduitRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Produit[] Returns an array of Produit objects
+     */
+    public function findOneByUserId(int $id, int $store_id)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.id = :id')
+            ->andWhere('p.store = :store')
+            ->setParameter('id', $id)
+            ->setParameter('store', $store_id)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
     /**
      * @return Produit[] Returns an array of Produit objects

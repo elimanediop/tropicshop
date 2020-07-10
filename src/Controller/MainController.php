@@ -10,6 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     private $products;
+
+    protected $request;
+    protected $produitRepository;
+    protected $session;
     private $types_produits = [
         "fruits" => 1,
         "comestiques" => 2,
@@ -18,16 +22,21 @@ class MainController extends AbstractController
         "autre" => 5
 
     ];
+
+    public function __construct(ProduitRepository $produitRepository)
+    {
+        $this->produitRepository = $produitRepository;
+    }
+
     /**
      * @Route("/", name="home")
      */
-    public function index(Request $request, ProduitRepository $produitRepository)
+    public function index()
     {
-        $this->products = $produitRepository->findAll();
+        $this->products = $this->produitRepository->findAll();
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
             'location' => "",
-            'searchTerm' => "",
             "storeProducts" => []
 
         ]);
@@ -36,16 +45,15 @@ class MainController extends AbstractController
     /**
      * @Route("/filter_category/{category}", name="filter_category")
      */
-    public function filter(Request $request, string $category,ProduitRepository $produitRepository){
-        $location = $request->get('top-map');
-        $term = $request->get('top-search');
+    public function filter(string $category){
+        $location = $this->request->get('top-map');
+        $term = $this->request->get('top-search');
         $id_category = $this->types_produits[$category];
 
-        $this->products = $produitRepository->findByTypeproduit($id_category);
+        $this->products = $this->produitRepository->findByTypeproduit($id_category);
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
             'location' => "",
-            'searchTerm' => "",
             "storeProducts" => []
         ]);
     }
@@ -53,20 +61,20 @@ class MainController extends AbstractController
     /**
      * @Route("/recherche", name="search")
      */
-    public function search(Request $request, ProduitRepository $produitRepository){
+    public function search(){
 
-        $location = $request->get('top-map');
-        $term = $request->get('top-search');
+        $location = $this->request->get('top-map');
+        $term = $this->request->get('top-search');
         $storeProducts=[];
 
         if(strlen($term) && strlen($location)){
-            $storeProducts = $produitRepository->findByTerm($term);
+            $storeProducts = $this->produitRepository->findByTerm($term);
         }elseif (strlen($location)){
-            //$this->products = $produitRepository->findByTerm($term);
+            //$this->products = $this->produitRepository->findByTerm($term);
         }elseif (strlen($term)){
-            $storeProducts = $produitRepository->findByTerm($term);
+            $storeProducts = $this->produitRepository->findByTerm($term);
         }else{
-            $this->products = $produitRepository->findAll();
+            $this->products = $this->produitRepository->findAll();
         }
 
         return $this->render('main/home.html.twig', [
@@ -77,6 +85,17 @@ class MainController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/les_produits_du_magasin/{store_id}|{product_id}", name="showProductStoreSearch")
+     */
+    public function afficherProduitMagasin(int $store_id, int $product_id){
+        $this->products = $this->produitRepository->findOneByUserId($product_id, $store_id);
+
+        return $this->render('main/home.html.twig', [
+            'products' => $this->products
+        ]);
+    }
 
 
 

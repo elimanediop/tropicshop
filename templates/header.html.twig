@@ -34,9 +34,10 @@
                             <!-- Top Search Area -->
                             <div class="top-search-area">
                                 <form id="formSearch" action="{{ path('search') }}" method="post">
-                                    <input type="search" name="top-search" value="{{ searchTerm }}" id="topSearch"
-                                           placeholder="Rechercher un produit...">
-                                    <input type="text" name="top-map"  id="topMap" value="{{ location }}"
+                                    <input type="search" name="top-search" value="{% if(searchTerm is defined) %}
+                                        {{ searchTerm }}{% endif %}" id="topSearch" placeholder="Rechercher un produit...">
+                                    <input type="text" name="top-map"  id="topMap" value="{% if(location is defined) %}
+                                        {{ location }}{% endif %}"
                                            placeholder="Où voulez-vous être livré?" data-location="location">
                                     <button type="submit" class="btn">
                                         <i class="fa fa-search fa-2x" aria-hidden="true"></i>
