@@ -38,7 +38,7 @@
                                         {{ searchTerm }}{% endif %}" id="topSearch" placeholder="Rechercher un produit...">
                                     <input type="text" name="top-map"  id="topMap" value="{% if(location is defined) %}
                                         {{ location }}{% endif %}"
-                                           placeholder="Où voulez-vous être livré?" data-location="location">
+                                           placeholder="Où voulez-vous être livré?" data-location="location" onclick="autocomp(this)">
                                     <button type="submit" class="btn">
                                         <i class="fa fa-search fa-2x" aria-hidden="true"></i>
                                     </button>
@@ -62,6 +62,7 @@
         </div>
     </div>
 </header>
+
 <!-- Include Google Maps JS API -->
 <!-- Autocomplete Google Place -->
         <!-- ##### Header Area End ##### -->
