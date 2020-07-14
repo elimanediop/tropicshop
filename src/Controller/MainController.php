@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProduitRepository;
+use App\Repository\UserRepository;
 use App\Services\Panier\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,9 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     private $products;
-
-    protected $request;
     protected $produitRepository;
+    protected $userRepository;
     protected $session;
     private $types_produits = [
         "fruits" => 1,
@@ -24,9 +24,11 @@ class MainController extends AbstractController
 
     ];
 
-    public function __construct(ProduitRepository $produitRepository)
+    public function __construct(ProduitRepository $produitRepository, UserRepository $userRepository)
     {
         $this->produitRepository = $produitRepository;
+        $this->userRepository = $userRepository;
+
     }
 
     /**
@@ -111,12 +113,38 @@ class MainController extends AbstractController
      */
     public function afficherProduitPanier(PanierService $panierService){
         $cart = $panierService->getProduit();
-        //TODO redirect to cart page 
-        return $this->redirectToRoute('home', ['cart' => $cart]);
+        //TODO redirect to cart page
+        return $this->render('panier/show.html.twig', ['cart' => $cart]);
     }
 
+    /**
+     * @Route("/panier/supprimer/{produit_id}", name="deleteProductCart")
+     */
 
+    public function supprimerProduitPanier(int $produit_id, PanierService $panierService){
+        $cart = $panierService->deleteProduct($produit_id, $panierService->DELETEONE);
+        //TODO redirect to cart page
+        return $this->render('panier/show.html.twig', ['cart' => $cart]);
+    }
 
+    /**
+     * @Route("/panier/supprimer_tout/{produit_id}", name="deleteAllProductCart")
+     */
+
+    public function supprimerTousProduitPanier(int $produit_id, PanierService $panierService){
+        $cart = $panierService->deleteProduct($produit_id, $panierService->DELETEALL);
+        //TODO redirect to cart page
+        return $this->render('panier/show.html.twig', ['cart' => $cart]);
+    }
+
+    /**
+     * @Route("/panier/supprimer_tout", name="deleteAllCart")
+     */
+    public function supprimerPanier(PanierService $panierService){
+        $cart = $panierService->deleteProduct(null, $panierService->DELETECART);
+        //TODO redirect to cart page
+        return $this->render('panier/show.html.twig', ['cart' => $cart]);
+    }
 
 
 
