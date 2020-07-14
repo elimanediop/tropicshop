@@ -64,12 +64,17 @@
 
                     <div class="top-meta-data d-flex align-items-center">
                         <!-- Login -->
-                        <a href="{{ path('security_login') }}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a href="{% if(not app.user) %}
+                                {{ path('security_login') }}
+                                 {% else %}
+                                   {{ path('profil_user') }}
+                                {% endif %}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        {% if(app.user) %}
+                            <a href="{{ path('security_logout') }}" class="login-btn"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                        {% endif %}
                     </div>
                     <div class="top-meta-data d-flex align-items-center">
-                        <!-- Login -->
-                        <a href="{{ path('showProductCart') }}" class="login-btn"><i class="fa fa-shopping-cart"
-                                                                  aria-hidden="true"></i></a>
+                        <a href="{{ path('showProductCart') }}" class="login-btn"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </nav>
