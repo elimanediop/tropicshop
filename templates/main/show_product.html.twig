@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app_name }}{% endblock %}
+{% block body %}
+<!-- Page Content -->
+    <div class="container">
+
+    <div class="col">
+        <div class="col-5">
+            {% set img = '8.jpg' %}
+            {% if product.images|length %}
+                {% set img = product.images.0 %}
+            {% endif %}
+            <img class="card-img-top" src="{{ asset('img/'~img) }}" alt="">
+        </div>
+        <div class="">
+            <h5  style="color:#f5bd4c;">{{ product.prix }} €</h5>
+            <a href="{{ path('addProductCart', {'store_id': product.store.id,'product_id': product.id  }) }}"
+               type="button" class="btn alert-primary">
+                <i class="fa fa-cart-plus"></i>
+            </a>
+            <span class="">
+                <p class="card-text">{{ product.description }}</p>
+            </span>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

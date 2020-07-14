@@ -12,24 +12,50 @@
                         <th scope="col">#</th>
                         <th scope="col">Nom</th>
                         <th scope="col">Quantité</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Prix</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <!-- TODO loop on cart to display product's cart -->
+                    {% set i = 0 %}
+                    {% set totalPrice = 0 %}
+                    {% for productCart in cart %}
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        {% set i = i + 1 %}
+                        <th scope="row">{{ i }}</th>
+                        <td>{{ productCart.product.nom }}</td>
+                        <td class="row">{{ productCart.quantity }}
+                            <span>
+                                <a href="{{ path('addProductCart', {'store_id': productCart.product.store.id,'product_id': productCart.product.id  }) }}" class="d-block">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a href="{{ path('deleteProductCart', {'product_id': productCart.product.id  }) }}">
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                            </span>
+                        </td>
+                        {% set totalPrice = productCart.total_price + totalPrice %}
+                        <td>{{ productCart.total_price }} €</td>
                         <td>
-                            <a href="{{ path('deleteAllCart') }}" type="submit" class="btn alert-primary">
+                            <a href="{{ path('deleteAllProductCart', {'product_id': productCart.product.id  }) }}" type="submit" class="btn alert-primary">
                                 <i class="fa fa-trash-o"></i>
                             </a>
                         </td>
                     </tr>
+                    {% endfor %}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                            <td>Total:</td>
+                            <td>{{ totalPrice }} €</td>
+                            <td>
+                                <a type="button" class="bg-warning p-2" href="{{ path('deleteAllCart') }}">Vider le panier</a>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             {% else %}
                 <p class="alert-warning">Votre panier est vide !</p>

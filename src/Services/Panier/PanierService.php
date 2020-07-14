@@ -25,11 +25,15 @@ class PanierService
         $cart = $this->session->get('cart', []);
         if(!empty($cart[$id])){
             $quantity = $cart[$id]['quantity'];
+            $total_price = $cart[$id]['total_price'];
             $cart[$id]['quantity'] = $quantity + 1;
+            $cart[$id]['total_price'] = ($total_price/$quantity) * $cart[$id]['quantity'];
         }else{
+            $product = $this->produitRepository->find($id);
             $cart[$id] = [
-                "product" => $this->produitRepository->find($id),
-                'quantity' => 1
+                "product" => $product,
+                'quantity' => 1,
+                'total_price' => $product->getPrix()
             ];
         }
         $this->session->set('cart', $cart);
@@ -43,25 +47,28 @@ class PanierService
 
     public function deleteProduct($id, $typeDeleting){
         $cart = $this->session->get('cart', []);
-
-        if(!empty($cart[$id])){
+        if(!empty($cart[$id]) || $this->DELETECART == $typeDeleting){
             switch ($typeDeleting){
                 case $this->DELETEONE:
-                    $this->delete($cart, $id);break;
+                    $cart = $this->delete($cart, $id);break;
                 case $this->DELETEALL:
                     unset($cart[$id]);break;
                 case $this->DELETECART:
                     $cart= [];break;
             }
         }
+
         $this->session->set('cart', $cart);
+        return $cart;
     }
 
     private function delete($cart, $id): array {
         if(!empty($cart[$id])){
             $quantity = $cart[$id]['quantity'];
             if($quantity > 1){
+                $total_price = $cart[$id]['total_price'];
                 $cart[$id]['quantity'] = $quantity - 1;
+                $cart[$id]['total_price'] = ($total_price/$quantity) * $cart[$id]['quantity'];
             }else{
                 unset($cart[$id]);
             }

@@ -87,14 +87,21 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+            {% if(not app.user) %}
+                <div class="row">
+                    <div class="m-2">
+                        <p><a href="{{ path('security_login') }}">Connecter-vous</a> pour plus de détail ou <a href="{{ path('security_registration') }}">Créer-vous un compte.</a></p>
+                    </div>
 
+                </div>
+            {% endif %}
             {% if(products is defined and products|length and storeProducts is not defined) %}
                 <div class="row">
                     {% for product in products %}
                         <div class="col-lg-4 col-md-6 mb-4">
 
                             <div class="card h-100">
-                                <a href="{{ path('store_profil_edit_product', {'id' : product.id}) }}">
+                                <a href="{{ path('showProduct', {'id' : product.id}) }}">
                                     {% set img = '8.jpg' %}
                                     {% if product.images|length %}
                                         {% set img = product.images.0 %}
@@ -103,12 +110,19 @@
                                 </a>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="{{ path('store_profil_edit_product', {'id' : product.id}) }}">{{ product.nom }}</a>
+                                        <a href="{{ path('showProduct', {'id' : product.id}) }}">{{ product.nom }}</a>
                                     </h4>
-                                    <h5  style="color:#f5bd4c;">{{ product.prix }} €</h5>
+                                    <h5  style="color:#f5bd4c;">
+                                    {% if(app.user) %}
+                                       {{ product.prix }}
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                        €</h5>
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
-                                <a href="{{ path('addProductCart', {'store_id': product.store.id,'product_id': product.id  }) }}" type="submit" class="btn alert-primary">
+                                <a href="{{ path('addProductCart', {'store_id': product.store.id,'product_id': product.id  }) }}"
+                                   type="button" class="btn alert-primary {% if(not app.user) %} disabled {% endif %}">
                                     <i class="fa fa-cart-plus fa-2x"></i>
                                 </a>
                             </div>

@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Services\Panier\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
@@ -43,16 +44,32 @@ class MainController extends AbstractController
     }
 
     /**
+     * @Route("/produit/{id}", name="showProduct")
+     */
+    public function afficherProduitDetail(int $id)
+    {
+        $product = $this->produitRepository->find($id);
+        return $this->render('main/show_product.html.twig', [
+            'product' =>$product
+        ]);
+    }
+
+    /**
      * @Route("/filter_category/{category}", name="filter_category")
      */
     public function filter(string $category){
-        $id_category = $this->types_produits[$category];
+        $error = "";
+        $id_category = isset($this->types_produits[$category])? $this->types_produits[$category] : null;
+        if($id_category){
+            $this->products = $this->produitRepository->findByTypeproduit($id_category);
+            return $this->render('main/home.html.twig', [
+                'products' =>$this->products,
 
-        $this->products = $this->produitRepository->findByTypeproduit($id_category);
-        return $this->render('main/home.html.twig', [
-            'products' =>$this->products,
+            ]);
+        }
 
-        ]);
+        return $this->redirectToRoute('home');
+
     }
 
     /**
@@ -114,27 +131,29 @@ class MainController extends AbstractController
     public function afficherProduitPanier(PanierService $panierService){
         $cart = $panierService->getProduit();
         //TODO redirect to cart page
-        return $this->render('panier/show.html.twig', ['cart' => $cart]);
+        return $this->render('panier/show.html.twig',
+            ['cart' => $cart]);
     }
 
     /**
-     * @Route("/panier/supprimer/{produit_id}", name="deleteProductCart")
+     * @Route("/panier/supprimer/{product_id}", name="deleteProductCart")
      */
 
-    public function supprimerProduitPanier(int $produit_id, PanierService $panierService){
-        $cart = $panierService->deleteProduct($produit_id, $panierService->DELETEONE);
+    public function supprimerProduitPanier(int $product_id, PanierService $panierService){
+        $panierService->deleteProduct($product_id, $panierService->DELETEONE);
+        $cart = $panierService->getProduit();
         //TODO redirect to cart page
-        return $this->render('panier/show.html.twig', ['cart' => $cart]);
+        return $this->redirectToRoute('showProductCart');
     }
 
     /**
-     * @Route("/panier/supprimer_tout/{produit_id}", name="deleteAllProductCart")
+     * @Route("/panier/supprimer_tout/{product_id}", name="deleteAllProductCart")
      */
 
-    public function supprimerTousProduitPanier(int $produit_id, PanierService $panierService){
-        $cart = $panierService->deleteProduct($produit_id, $panierService->DELETEALL);
+    public function supprimerTousProduitPanier(int $product_id, PanierService $panierService){
+        $cart = $panierService->deleteProduct($product_id, $panierService->DELETEALL);
         //TODO redirect to cart page
-        return $this->render('panier/show.html.twig', ['cart' => $cart]);
+        return $this->redirectToRoute('showProductCart');
     }
 
     /**
@@ -143,7 +162,7 @@ class MainController extends AbstractController
     public function supprimerPanier(PanierService $panierService){
         $cart = $panierService->deleteProduct(null, $panierService->DELETECART);
         //TODO redirect to cart page
-        return $this->render('panier/show.html.twig', ['cart' => $cart]);
+        return $this->redirectToRoute('showProductCart');
     }
 
 

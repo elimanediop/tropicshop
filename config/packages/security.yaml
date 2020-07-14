@@ -37,3 +37,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/store , roles: ROLE_STORE }
+        - { path: ^/panier , roles: [ROLE_USER, ROLE_STORE] }
+        #- { path: ^/les_produits_du_magasin , roles: ROLE_USER }
+        #- { path: ^/store , roles: ROLE_STORE }
+        #- { path: ^/store , roles: ROLE_STORE }
