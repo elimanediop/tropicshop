@@ -81,6 +81,57 @@ class ProduitRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Produit[] Returns an array of Produit objects
+     */
+    public function findByTermAndLocation($term, $lat, $lon, $ray = 5)
+    {
+        $sqlDistance = '(6378 * acos(cos(radians(' . $lat
+            . ')) * cos(radians(u.lat)) * cos(radians(u.lon) - radians(' . $lon .
+            ')) + sin(radians(' . $lat . ')) * sin(radians(u.lat))))';
+        return $this->createQueryBuilder('p')
+            ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
+            ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
+            ->andWhere("p.nom like :val")
+            ->andWhere(':where < :ray')
+            ->setParameter('where', $sqlDistance)
+            ->setParameter('ray', $ray)
+            ->setParameter('val', "%$term%")
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Produit[] Returns an array of Produit objects
+     */
+    public function findByLocation($lat, $lon, $ray = 5)
+    {
+        $sqlDistance = '(6378 * acos(cos(radians(' . $lat
+            . ')) * cos(radians(u.lat)) * cos(radians(u.lon) - radians(' . $lon .
+            ')) + sin(radians(' . $lat . ')) * sin(radians(u.lat))))';
+        $results = $this->createQueryBuilder('p')
+            ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
+            ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
+            ->andWhere(':where < :ray')
+            ->setParameter('where', $sqlDistance)
+            ->setParameter('ray', $ray)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+        return $this->cleanByStoreId($results);
+    }
+
+    public function cleanByStoreId($results){
+        $productsByStoreId = [];
+        foreach ($results as $result){
+            $productsByStoreId[$result['id']] = $result;
+        }
+        return $productsByStoreId;
+    }
+
 
 
 

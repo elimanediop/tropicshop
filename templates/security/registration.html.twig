@@ -58,7 +58,12 @@
                     <div class="form-group">
                         {{ form_widget(form.adresse, {'attr': {
                             'placeholder':'Adresse',
-                            'class':'form-control'}}) }}
+                            'class':'form-control',
+                            'data-location-user':'location',
+                            'onclick':'autocomp(this)'}}) }}
+                        {{ form_widget(form.lat) }}
+                        {{ form_widget(form.lon) }}
+
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">

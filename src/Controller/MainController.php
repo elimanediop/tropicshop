@@ -56,27 +56,30 @@ class MainController extends AbstractController
     /**
      * @Route("/recherche", name="search")
      */
-    public function search(){
+    public function search(Request $request){
 
-        $location = $this->request->get('top-map');
-        $term = $this->request->get('top-search');
+        $location = $request->get('top-map');
+        $term = $request->get('top-search');
+        $lat = $request->get('lat');
+        $lon = $request->get('lon');
         $storeProducts=[];
 
         if(strlen($term) && strlen($location)){
-            $storeProducts = $this->produitRepository->findByTerm($term);
+            $storeProducts = $this->produitRepository->findByTermAndLocation($term, $lat, $lon);
         }elseif (strlen($location)){
-            //$this->products = $this->produitRepository->findByTerm($term);
+            $storeProducts = $this->produitRepository->findByLocation($lat,$lon);
         }elseif (strlen($term)){
             $storeProducts = $this->produitRepository->findByTerm($term);
         }else{
             $this->products = $this->produitRepository->findAll();
         }
-
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
             'storeProducts' => $storeProducts,
             'searchTerm' => $term,
-            'location' => $location
+            'location' => $location,
+            'lon' => $lon,
+            'lat' => $lat
         ]);
     }
 

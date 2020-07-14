@@ -34,13 +34,27 @@
                             <!-- Top Search Area -->
                             <div class="top-search-area">
                                 <form id="formSearch" action="{{ path('search') }}" method="post">
-                                    <input type="search" name="top-search" value="{% if(searchTerm is defined) %}
-                                        {{ searchTerm }}{% endif %}" id="topSearch" placeholder="Rechercher un produit...">
-                                    <input type="text" name="top-map"  id="topMap" value="{% if(location is defined) %}
-                                        {{ location }}{% endif %}"
+                                    <span>
+                                        <input type="search" name="top-search" {% if(searchTerm is defined) %}
+                                            value="{{ searchTerm }}" {% endif %} id="topSearch" placeholder="Rechercher un produit...">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
+                                    <span>
+                                        <input type="text" name="top-map"  id="topMap" {% if(location is defined) %}
+                                            value="{{ location }}"{% endif %}
                                            placeholder="Où voulez-vous être livré?" data-location="location" onclick="autocomp(this)">
-                                    <button type="submit" class="btn">
-                                        <i class="fa fa-search fa-2x" aria-hidden="true"></i>
+                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        <input type="hidden"  name="lat"
+                                               {% if(lat is defined) %}
+                                            value="{{ lat }}"{% endif %}
+                                               data-lat="lat">
+                                        <input type="hidden"
+                                               {% if(lon is defined) %}
+                                            value="{{ lon }}"{% endif %}
+                                               name="lon" data-lon="lon">
+                                    </span>
+
+                                    <button type="submit" class="">
                                     </button>
                                 </form>
                             </div>
