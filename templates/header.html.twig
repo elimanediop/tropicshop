@@ -8,7 +8,7 @@
             <nav class="classy-navbar justify-content-between" id="magNav">
 
                 <!-- Nav brand -->
-                <a href="index.php" class="nav-brand"><img src="{{ asset('img/core-img/logo.png') }}" alt=""></a>
+                <a href="{{ path('home') }}" class="nav-brand"><img src="{{ asset('img/core-img/logo.png') }}" alt=""></a>
 
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
@@ -30,20 +30,31 @@
                                 <li class="active"><a href="{{ path('home') }}">Home</a></li>
                                 <li><a href="{{ path('home') }}">Promotion du moment</a></li>
                             </ul>
+
                             <!-- Top Search Area -->
                             <div class="top-search-area">
-                                <form id="formSearch" action="{{ path('home') }}" method="post">
-                                    <input type="search" name="top-search" id="topSearch"
-                                           placeholder="Rechercher un produit...">
-                                    <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="top-search-area">
-                                <form id="formMap" action="{{ path('home') }}" method="post">
-                                    <input type="text" name="top-map"  id="topMap"
-                                           placeholder="Où voulez-vous être livré?">
-                                    <button type="submit" class="btn"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <form id="formSearch" action="{{ path('search') }}" method="post">
+                                    <span>
+                                        <input type="search" name="top-search" {% if(searchTerm is defined) %}
+                                            value="{{ searchTerm }}" {% endif %} id="topSearch" placeholder="Rechercher un produit...">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
+                                    <span>
+                                        <input type="text" name="top-map"  id="topMap" {% if(location is defined) %}
+                                            value="{{ location }}"{% endif %}
+                                           placeholder="Où voulez-vous être livré?" data-location="location" onclick="autocomp(this)">
+                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        <input type="hidden"  name="lat"
+                                               {% if(lat is defined) %}
+                                            value="{{ lat }}"{% endif %}
+                                               data-lat="lat">
+                                        <input type="hidden"
+                                               {% if(lon is defined) %}
+                                            value="{{ lon }}"{% endif %}
+                                               name="lon" data-lon="lon">
+                                    </span>
+
+                                    <button type="submit" class="">
                                     </button>
                                 </form>
                             </div>
@@ -53,16 +64,24 @@
 
                     <div class="top-meta-data d-flex align-items-center">
                         <!-- Login -->
-                        <a href="{{ path('security_login') }}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a href="{% if(not app.user) %}
+                                {{ path('security_login') }}
+                                 {% else %}
+                                   {{ path('profil_user') }}
+                                {% endif %}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        {% if(app.user) %}
+                            <a href="{{ path('security_logout') }}" class="login-btn"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                        {% endif %}
                     </div>
                     <div class="top-meta-data d-flex align-items-center">
-                        <!-- Login -->
-                        <a href="{{ path('home') }}" class="login-btn"><i class="fa fa-shopping-cart"
-                                                                  aria-hidden="true"></i></a>
+                        <a href="{{ path('showProductCart') }}" class="login-btn"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
 </header>
+
+<!-- Include Google Maps JS API -->
+<!-- Autocomplete Google Place -->
         <!-- ##### Header Area End ##### -->

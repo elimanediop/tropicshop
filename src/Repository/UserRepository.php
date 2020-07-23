@@ -36,15 +36,30 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?User
+
+    public function findAllStoresByLatLon($lat, $lon, $ray = 5)
+    {
+        $sqlDistance = '(6378 * acos(cos(radians(' . $lat
+            . ')) * cos(radians(c.lat)) * cos(radians(c.lon) - radians(' . $lon .
+            ')) + sin(radians(' . $lat . ')) * sin(radians(c.lat))))';
+
+        return $this->createQueryBuilder('c')
+            ->andWhere(':where < :ray')
+            ->setParameter('where', $sqlDistance)
+            ->setParameter('ray', $ray)
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    public function findOneByEmail(string $email)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->Where("c.mail = '$email'")
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
+
+
+
 }

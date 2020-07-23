@@ -31,17 +31,12 @@ class Produit
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="no")
-     */
-    private $store;
-
-    /**
      * @ORM\Column(type="float")
      */
     private $prix;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Origine::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Origine::class)
      */
     private $origine;
 
@@ -54,6 +49,17 @@ class Produit
      * @var $imagesproduit string
      */
     private $imagesproduit;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TypeProduit::class)
+     */
+    private $typeproduit;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="produits")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $store;
 
     /**
      * @return string
@@ -107,37 +113,7 @@ class Produit
 
         return $this;
     }
-
-    /**
-     * @return Collection|Store[]
-     */
-    public function getStore(): Collection
-    {
-        return $this->store;
-    }
-
-    public function addStore(Store $store): self
-    {
-        if (!$this->store->contains($store)) {
-            $this->store[] = $store;
-            $store->setNo($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStore(Store $store): self
-    {
-        if ($this->store->contains($store)) {
-            $this->store->removeElement($store);
-            // set the owning side to null (unless already changed)
-            if ($store->getNo() === $this) {
-                $store->setNo(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     public function getPrix(): ?float
     {
@@ -171,6 +147,30 @@ class Produit
     public function setImages(string $imageid): self
     {
         $this->images[] = $imageid;
+
+        return $this;
+    }
+
+    public function getTypeproduit(): ?TypeProduit
+    {
+        return $this->typeproduit;
+    }
+
+    public function setTypeproduit(?TypeProduit $typeproduit): self
+    {
+        $this->typeproduit = $typeproduit;
+
+        return $this;
+    }
+
+    public function getStore(): ?User
+    {
+        return $this->store;
+    }
+
+    public function setStore(?User $store): self
+    {
+        $this->store = $store;
 
         return $this;
     }

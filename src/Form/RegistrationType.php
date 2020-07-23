@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,7 +37,9 @@ class RegistrationType extends AbstractType
             ->add('tva', TextType::class)
             ->add('ville', TextType::class)
             ->add('password', PasswordType::class)
-            ->add('confirm_password', PasswordType::class);
+            ->add('confirm_password', PasswordType::class)
+            ->add('lat', HiddenType::class, ['attr' => ["data-lat" =>"lat"]])
+            ->add('lon',HiddenType::class, ['attr' => ["data-lon" =>"lon"]]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

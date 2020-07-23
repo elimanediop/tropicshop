@@ -12,25 +12,23 @@
         {% include "header.html.twig" %}
         {% block body %}{% endblock %}
         {% include "footer.html.twig" %}
-         {% block javascripts %}
-        <!-- jQuery-2.2.4 js -->
-        <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
-        <!-- Popper js -->
-        <script src="{{ asset('js/bootstrap/popper.min.js') }}"></script>
-        <!-- Bootstrap js -->
-        <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
-        <!-- All Plugins js -->
-        <script src="{{ asset('js/plugins/plugins.js') }}"></script>
-        <!-- Active js -->
-        <script src="{{ asset('js/active.js') }}"></script>
-        <!-- Cookies js -->
-        <script src="{{ asset('js/load.js') }}"></script>
-        <!-- Show/Hide Password -->
-        <script src="{{ asset('js/bootstrap-show-password.js') }}"></script>
-        <!-- Autocomplete Google Place -->
-        <script src="{{ asset('js/auto-complete.js') }}"></script>
-        <!-- Include Google Maps JS API -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=PAIzaSyArPbmDvdkesPQh_f_acMOsusxmnKD7Edk&libraries=places&callback=initMap"  async defer></script>
+        {% block javascripts %}
+            <!-- jQuery-2.2.4 js -->
+            <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
+            <!-- Popper js -->
+            <script src="{{ asset('js/bootstrap/popper.min.js') }}"></script>
+            <!-- Bootstrap js -->
+            <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
+            <!-- All Plugins js -->
+            <script src="{{ asset('js/plugins/plugins.js') }}"></script>
+            <!-- Active js -->
+            <script src="{{ asset('js/active.js') }}"></script>
+            <!-- Cookies js -->
+            <script src="{{ asset('js/load.js') }}"></script>
+            <!-- Show/Hide Password -->
+            <script src="{{ asset('js/bootstrap-show-password.js') }}"></script>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ api_google_key }}&libraries=places"></script>
+            <script src="{{ asset('js/auto-complete.js') }}"></script>
         {% endblock %}
     </body>
 </html>

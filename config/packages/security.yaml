@@ -17,6 +17,7 @@ security:
             anonymous: true
             lazy: true
             provider: in_database
+            user_checker: App\Services\Security\SecurityService
             form_login:
                 default_target_path: account
                 always_use_default_target_path: true
@@ -37,3 +38,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/store , roles: ROLE_STORE }
+        - { path: ^/panier , roles: [ROLE_USER, ROLE_STORE] }
+        #- { path: ^/les_produits_du_magasin , roles: ROLE_USER }
+        #- { path: ^/store , roles: ROLE_STORE }
+        #- { path: ^/store , roles: ROLE_STORE }

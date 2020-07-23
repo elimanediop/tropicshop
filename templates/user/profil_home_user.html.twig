@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <div class="col-md-5">
+                    <p>Votre compte client</p>
+                </div>
+            </div>
+            <div class="col">
+                <a href="{{ path('security_logout') }}" class="login-btn"><i class="fa fa-sign-out" aria-hidden="true"></i>Déconnexion</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

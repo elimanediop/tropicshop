@@ -41,12 +41,4 @@ class ContactController extends AbstractController
         return $this->render('contact/index.html.twig',['form' => $form->createView()]);
     }
 
-    /**
-    * @Route("/contacterNous", name="contacterNous")
-    */
-    public function callContact()
-    {
-        return $this->render('emails/contact.html.twig');
-    }
-
 }
