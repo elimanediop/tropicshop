@@ -7,11 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Controller\\AdminController' => $baseDir . '/src/Controller/AdminController.php',
-    'App\\Controller\\ClientController' => $baseDir . '/src/Controller/ClientController.php',
     'App\\Controller\\ContactController' => $baseDir . '/src/Controller/ContactController.php',
     'App\\Controller\\MainController' => $baseDir . '/src/Controller/MainController.php',
     'App\\Controller\\SecurityController' => $baseDir . '/src/Controller/SecurityController.php',
     'App\\Controller\\StoreController' => $baseDir . '/src/Controller/StoreController.php',
+    'App\\Controller\\UserController' => $baseDir . '/src/Controller/UserController.php',
     'App\\Entity\\Origine' => $baseDir . '/src/Entity/Origine.php',
     'App\\Entity\\Produit' => $baseDir . '/src/Entity/Produit.php',
     'App\\Entity\\TypeProduit' => $baseDir . '/src/Entity/TypeProduit.php',
@@ -25,6 +25,7 @@ return array(
     'App\\Repository\\ProduitRepository' => $baseDir . '/src/Repository/ProduitRepository.php',
     'App\\Repository\\TypeProduitRepository' => $baseDir . '/src/Repository/TypeProduitRepository.php',
     'App\\Repository\\UserRepository' => $baseDir . '/src/Repository/UserRepository.php',
+    'App\\Services\\Panier\\PanierService' => $baseDir . '/src/Services/Panier/PanierService.php',
     'Collator' => $vendorDir . '/symfony/intl/Resources/stubs/Collator.php',
     'Doctrine\\Bundle\\DoctrineBundle\\Command\\CreateDatabaseDoctrineCommand' => $vendorDir . '/doctrine/doctrine-bundle/Command/CreateDatabaseDoctrineCommand.php',
     'Doctrine\\Bundle\\DoctrineBundle\\Command\\DoctrineCommand' => $vendorDir . '/doctrine/doctrine-bundle/Command/DoctrineCommand.php',

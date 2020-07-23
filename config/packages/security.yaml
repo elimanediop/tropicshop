@@ -17,6 +17,7 @@ security:
             anonymous: true
             lazy: true
             provider: in_database
+            user_checker: App\Services\Security\SecurityService
             form_login:
                 default_target_path: account
                 always_use_default_target_path: true

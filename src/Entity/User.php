@@ -119,6 +119,16 @@ class User implements UserInterface
      */
     private $lon;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $activated;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -374,6 +384,30 @@ class User implements UserInterface
     public function setLon(?float $lon): self
     {
         $this->lon = $lon;
+
+        return $this;
+    }
+
+    public function getActivated(): ?bool
+    {
+        return $this->activated;
+    }
+
+    public function setActivated(bool $activated): self
+    {
+        $this->activated = $activated;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }

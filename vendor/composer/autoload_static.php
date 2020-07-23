@@ -570,11 +570,11 @@ class ComposerStaticInit2144a14ca9f9afff4329c6f0c7e1143e
 
     public static $classMap = array (
         'App\\Controller\\AdminController' => __DIR__ . '/../..' . '/src/Controller/AdminController.php',
-        'App\\Controller\\ClientController' => __DIR__ . '/../..' . '/src/Controller/ClientController.php',
         'App\\Controller\\ContactController' => __DIR__ . '/../..' . '/src/Controller/ContactController.php',
         'App\\Controller\\MainController' => __DIR__ . '/../..' . '/src/Controller/MainController.php',
         'App\\Controller\\SecurityController' => __DIR__ . '/../..' . '/src/Controller/SecurityController.php',
         'App\\Controller\\StoreController' => __DIR__ . '/../..' . '/src/Controller/StoreController.php',
+        'App\\Controller\\UserController' => __DIR__ . '/../..' . '/src/Controller/UserController.php',
         'App\\Entity\\Origine' => __DIR__ . '/../..' . '/src/Entity/Origine.php',
         'App\\Entity\\Produit' => __DIR__ . '/../..' . '/src/Entity/Produit.php',
         'App\\Entity\\TypeProduit' => __DIR__ . '/../..' . '/src/Entity/TypeProduit.php',
@@ -588,6 +588,7 @@ class ComposerStaticInit2144a14ca9f9afff4329c6f0c7e1143e
         'App\\Repository\\ProduitRepository' => __DIR__ . '/../..' . '/src/Repository/ProduitRepository.php',
         'App\\Repository\\TypeProduitRepository' => __DIR__ . '/../..' . '/src/Repository/TypeProduitRepository.php',
         'App\\Repository\\UserRepository' => __DIR__ . '/../..' . '/src/Repository/UserRepository.php',
+        'App\\Services\\Panier\\PanierService' => __DIR__ . '/../..' . '/src/Services/Panier/PanierService.php',
         'Collator' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/Collator.php',
         'Doctrine\\Bundle\\DoctrineBundle\\Command\\CreateDatabaseDoctrineCommand' => __DIR__ . '/..' . '/doctrine/doctrine-bundle/Command/CreateDatabaseDoctrineCommand.php',
         'Doctrine\\Bundle\\DoctrineBundle\\Command\\DoctrineCommand' => __DIR__ . '/..' . '/doctrine/doctrine-bundle/Command/DoctrineCommand.php',
