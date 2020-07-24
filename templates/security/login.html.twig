@@ -29,6 +29,13 @@
                 <div class="section-heading">
                     <h5>Content de vous revoir!</h5>
                 </div>
+                {% if(error) %}
+                <div class="">
+                    <p class="text-danger">
+                        {{ "Votre email ou mot de passe est invalide." }}
+                    </p>
+                </div>
+                {% endif %}
 
                 <form action="{{ path('security_login') }}" method="post">
                     <div class="form-group">
