@@ -24,12 +24,22 @@
             <div class="login-content bg-white p-30 box-shadow">
                 <!-- Section Title -->
                 <div class="section-heading">
-                    <h5>Renseignez-le formulaire!</h5>
+                    <h5>Renseignez le formulaire!</h5>
                 </div>
-                {{ form_errors(form) }}
+                <div class="">
+                    <ul class="text-danger">
+                        <li>{{ form_errors(form.mail) }}</li>
+                        <li>{{ form_errors(form.tel) }}</li>
+                        <li>{{ form_errors(form.codepostal) }}</li>
+                        <li>{{ form_errors(form.ville) }}</li>
+                        <li>{{ form_errors(form.tva) }}</li>
+                        <li>{{ form_errors(form.siret) }}</li>
+                        <li>{{ form_errors(form.password) }}</li>
+                        <li>{{ form_errors(form.confirm_password) }}</li>
+                    </ul>
+                </div>
                 {{ form_start(form) }}
                     <div class="form-row">
-
                         <div class="form-group col-md-6">
                             {{ form_widget(form.role, {'attr': {'class':'form-control'}}) }}
                         </div>
@@ -121,5 +131,22 @@
 </div>
 
 </div>
+    <script>
+        document.getElementById("registration_role").addEventListener('change', showOrHidden);
+        function showOrHidden(event){
+            var tva = document.getElementById("registration_tva");
+            var siret = document.getElementById("registration_siret");
+            var nommagasin = document.getElementById("registration_nommagasin");
+            if(event.target.value === "ROLE_CLIENT"){
+                tva.style.visibility = "hidden";
+                siret.style.visibility = "hidden";
+                nommagasin.style.visibility = "hidden";
+            }else{
+                tva.style.visibility = "visible";
+                siret.style.visibility = "visible";
+                nommagasin.style.visibility = "visible";
+            }
+        }
+    </script>
         <!-- ##### Login Area End ##### -->
 {% endblock %}
