@@ -1,0 +1,18 @@
+num_image,nom_produit,description,origine,vente,type_produit
+1,Patate douce violette,Cette patate douce est parfumée et un peu plus sucrée que la patate douce orange.,Espagne,au poids,Légume
+2,Banane,"Fruit riche en fer, en manganèse, en vitamine B et en potassium, la banane
+est également transformée pour obtenir des chips qui peuvent servir d’amuse-gueules
+pour vos apéros",Côte d’ivoire,au poids,Fruit
+3,Piment rouge,"Le piment est un ingrédient très utilisé dans la cuisine africaine et
+antillaise. Il est riche en vitamines C, E, B6 et en fer manganèse, cuivre.",Antilles,au poids,
+4,Patate douce,"La patate douce est un tubercule qui renferme de l’amidon, ainsi que des
+nutriments tels que le manganèse, le cuivre, les vitamines B6, B2, C et A.",Togo,au poids,
+5,Mangue,"La mangue est un fruit parfumé aux saveurs délicieuses et à la chaire
+juteuse. Elle est riche en vitamine C.",Togo,au poids,
+6,Arôme Maggi,L’arôme Maggi est utilisé pour l’assaisonnement des plats.,Suisse,à l'unité,
+7,Huile de palme,"Issue de la transformation, l’huile de palme s’utilise dans la préparation de
+sauces comme la sauce gombo ou la sauce de corètes potagères.",Bénin,à l'unité,
+8,Igname,"L'igname possède des propriétés d'élimination diurétique. En Afrique, il se mange pilé (foufou) ou en morceaux bouillies.",Togo,au poids,
+9,Pâte d’arachide,La pâte d’arachide est utilisée pour la préparation de la sauce d’arachide.,Angleterre,à l'unité,
+10,Gombo,"Utilisé comme légume ou condiment, le gombo est consommé dans la
+quasi-totalité de l'Afrique tout au long de l'année. La sauce de gombo est la plus prisée",République Démocratique du Congo,au poids,
