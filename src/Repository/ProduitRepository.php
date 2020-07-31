@@ -24,9 +24,11 @@ class ProduitRepository extends ServiceEntityRepository
     /**
     * @return Produit[] Returns an array of Produit objects
     */
-    public function findByTypeproduit($value)
+    public function findByTypeproduit($value, bool $isdefault)
     {
         return $this->createQueryBuilder('p')
+            ->where('isdefualt = :default')
+            ->setParameter('default', $isdefault)
             ->andWhere('p.typeproduit = :val')
             ->setParameter('val', $value)
             ->orderBy('p.id', 'ASC')
@@ -52,12 +54,14 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findOneByUserId(int $id, int $store_id)
+    public function findOneByUserId(int $id, int $store_id, bool $isdefault=tue)
     {
         return $this->createQueryBuilder('p')
             ->where('p.id = :id')
+            ->where('isdefualt = :default')
             ->andWhere('p.store = :store')
             ->setParameter('id', $id)
+            ->setParameter('default', $isdefault)
             ->setParameter('store', $store_id)
             ->orderBy('p.id', 'ASC')
             ->getQuery()
@@ -68,12 +72,14 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findByTerm($term)
+    public function findByTerm($term, bool $isdefault)
     {
         return $this->createQueryBuilder('p')
             ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
             ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
             ->andWhere("p.nom like :val")
+            ->where('isdefualt = :default')
+            ->setParameter('default', $isdefault)
             ->setParameter('val', "%$term%")
             ->orderBy('p.id', 'ASC')
             ->getQuery()
@@ -84,7 +90,7 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findByTermAndLocation($term, $lat, $lon, $ray = 5)
+    public function findByTermAndLocation($term, $lat, $lon, $ray = 5, bool $isdefault)
     {
         $sqlDistance = '(6378 * acos(cos(radians(' . $lat
             . ')) * cos(radians(u.lat)) * cos(radians(u.lon) - radians(' . $lon .
@@ -94,6 +100,8 @@ class ProduitRepository extends ServiceEntityRepository
             ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
             ->andWhere("p.nom like :val")
             ->andWhere(':where < :ray')
+            ->where('isdefualt = :default')
+            ->setParameter('default', $isdefault)
             ->setParameter('where', $sqlDistance)
             ->setParameter('ray', $ray)
             ->setParameter('val', "%$term%")
@@ -106,7 +114,7 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findByLocation($lat, $lon, $ray = 5)
+    public function findByLocation($lat, $lon, $ray = 5, bool $isdefault)
     {
         $sqlDistance = '(6378 * acos(cos(radians(' . $lat
             . ')) * cos(radians(u.lat)) * cos(radians(u.lon) - radians(' . $lon .
@@ -115,6 +123,8 @@ class ProduitRepository extends ServiceEntityRepository
             ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
             ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
             ->andWhere(':where < :ray')
+            ->where('isdefualt = :default')
+            ->setParameter('default', $isdefault)
             ->setParameter('where', $sqlDistance)
             ->setParameter('ray', $ray)
             ->orderBy('p.id', 'ASC')

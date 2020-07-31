@@ -62,6 +62,11 @@ class Produit
     private $store;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isdefault = false;
+
+    /**
      * @return string
      */
     public function getImagesproduit(): ?string
@@ -171,6 +176,18 @@ class Produit
     public function setStore(?User $store): self
     {
         $this->store = $store;
+
+        return $this;
+    }
+
+    public function getIsdefault(): ?bool
+    {
+        return $this->isdefault;
+    }
+
+    public function setIsdefault(bool $isdefault): self
+    {
+        $this->isdefault = $isdefault;
 
         return $this;
     }

@@ -16,13 +16,14 @@ class ProduitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
             ->add('prix')
-            ->add('typeproduit', EntityType::class, ["class" => TypeProduit::class, 'choice_label' => 'libelle'])
             ->add('origine', EntityType::class, ["class" => Origine::class, 'choice_label' => 'country'])
-            ->add('description');
-        $builder
-            ->add('imagesproduit', FileType::class, ['required'=>false]);
+            ;
+        //$builder
+          //  ->add('imagesproduit', FileType::class, ['required'=>false])
+        //->add('nom')
+        //->add('description')
+        //->add('typeproduit', EntityType::class, ["class" => TypeProduit::class, 'choice_label' => 'libelle']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

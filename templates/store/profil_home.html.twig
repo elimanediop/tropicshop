@@ -87,29 +87,16 @@
                                 <div class="section-heading">
                                     <h5>Ajout d'un produit</h5>
                                 </div>
-                                {{ form_errors(form) }}
-                                {{ form_start(form) }}
-                                <div class="form-row">
+                                {% if (error ) %}
+                                    <div class="p-1 border border-danger">
+                                        <i class="fa fa-info-circle fa-2x"></i>
+                                        <p class="text-danger d-inline-block">{{ error }}</p>
+                                    </div>
+                                {% endif %}
 
-                                    <div class="form-group col-md-6">
-                                        {{ form_widget(form.nom, {'attr': {'placeholder':'nom du produit','class':'form-control'}}) }}
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        {{ form_widget(form.prix, {'attr': {'placeholder':'prix','class':'form-control'}}) }}
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        {{ form_widget(form.typeproduit, {'attr': {'class':'form-control'}}) }}
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        {{ form_widget(form.origine, {'attr': {'class':'form-control'}}) }}
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        {{ form_widget(form.description, {'attr': {'placeholder':'Description du produit','class':'form-control'}}) }}
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        {{ form_widget(form.imagesproduit, {'attr': {'class':'form-control'}}) }}
-                                    </div>
-                                </div>
+                                {{ form_start(form) }}
+                                {{ form_errors(form) }}
+                                {{ form_widget(form) }}
                                  <button type="submit" class="btn mag-btn mt-30">Valider</button>
                                     <a href="{{ path('store_profil') }}" class="post-title">
                                         <button type="button" class="btn mag-btn mt-30">Retour</button>

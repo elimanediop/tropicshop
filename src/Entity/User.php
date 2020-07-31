@@ -23,6 +23,7 @@ class User implements UserInterface
 {
     public $USER_CLIENT = "ROLE_USER";
     public $USER_STORE = "ROLE_STORE";
+    public $USER_ADMIN = "ROLE_ADMIN";
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -233,7 +234,6 @@ class User implements UserInterface
     {
         return $this->getMail();
     }
-
     /**
      * @inheritDoc
      */

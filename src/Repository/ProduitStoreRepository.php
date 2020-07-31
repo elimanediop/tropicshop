@@ -19,6 +19,20 @@ class ProduitStoreRepository extends ServiceEntityRepository
         parent::__construct($registry, ProduitStore::class);
     }
 
+    /**
+     * @return ProduitStore[] Returns an array of Produit objects
+     */
+    public function findByUserId(int $store_id)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.produit.store = :store')
+            ->setParameter('store', $store_id)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return ProduitStore[] Returns an array of ProduitStore objects
     //  */
