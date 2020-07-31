@@ -67,7 +67,7 @@
                         <a href="{% if(not app.user) %}
                                 {{ path('security_login') }}
                                  {% else %}
-                                   {{ path('profil_user') }}
+                                   {{ path('store_profil') }}
                                 {% endif %}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
                         {% if(app.user) %}
                             <a href="{{ path('security_logout') }}" class="login-btn"><i class="fa fa-sign-out" aria-hidden="true"></i></a>

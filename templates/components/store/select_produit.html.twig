@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <div class="section">
+        <div class="col-md-5">
+            <h1>Votre compte client</h1>
+        </div>
+    </div>
+    {% if(products is defined and products|length and storeProducts is not defined) %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card h-100">
+                        <a href="{{ path('showProduct', {'id' : product.id}) }}">
+                            {% set img = '8.jpg' %}
+                            {% if product.images|length %}
+                                {% set img = product.images.0 %}
+                            {% endif %}
+                            <img class="card-img-top" src="{{ asset('img/'~img) }}" alt="">
+                        </a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="{{ path('showProduct', {'id' : product.id}) }}">{{ product.nom }}</a>
+                            </h4>
+                            <h5  style="color:#f5bd4c;">
+                                {% if(app.user) %}
+                                    {{ product.prix }}
+                                {% else %}
+                                    --
+                                {% endif %}
+                                €</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                        <a href="{{ path('addProductToStore', {'product_id': product.id  }) }}"
+                           type="button" class="btn alert-primary">
+                            <i class="fa fa-plus fa-2x"></i>
+                        </a>
+                    </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

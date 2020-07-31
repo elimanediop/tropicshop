@@ -37,7 +37,7 @@ class MainController extends AbstractController
      */
     public function index()
     {
-        $this->products = $this->produitRepository->findAll();
+        $this->products = $this->produitRepository->findBy(["isdefault" => true]);
         return $this->render('main/home.html.twig', [
             'products' =>$this->products
         ]);
@@ -90,7 +90,7 @@ class MainController extends AbstractController
         }elseif (strlen($term)){
             $storeProducts = $this->produitRepository->findByTerm($term);
         }else{
-            $this->products = $this->produitRepository->findAll();
+            $this->products = $this->produitRepository->findBy(["isdefault" => true]);
         }
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
