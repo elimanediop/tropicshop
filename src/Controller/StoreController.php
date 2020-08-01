@@ -23,14 +23,12 @@ class StoreController extends AbstractController
     private $title_delete_produit = "Espace de gestion magasin - supprimer un produit";
     private $manager;
     private $produitRepository;
-    private $produitStoreRepository;
     private $previewProduct;
 
-    public function __construct(ObjectManager $manager, ProduitStoreRepository $produitStoreRepository,ProduitRepository $produitRepository)
+    public function __construct(ObjectManager $manager, ProduitRepository $produitRepository)
     {
         $this->manager = $manager;
         $this->produitRepository = $produitRepository;
-        $this->produitStoreRepository = $produitStoreRepository;
     }
     /**
      * @Route("/store", name="store_profil")
