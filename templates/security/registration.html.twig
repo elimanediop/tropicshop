@@ -28,14 +28,7 @@
                 </div>
                 <div class="">
                     <ul class="text-danger">
-                        <li>{{ form_errors(form.mail) }}</li>
-                        <li>{{ form_errors(form.tel) }}</li>
-                        <li>{{ form_errors(form.codepostal) }}</li>
-                        <li>{{ form_errors(form.ville) }}</li>
-                        <li>{{ form_errors(form.tva) }}</li>
-                        <li>{{ form_errors(form.siret) }}</li>
-                        <li>{{ form_errors(form.password) }}</li>
-                        <li>{{ form_errors(form.confirm_password) }}</li>
+                        <li>{{ form_errors(form) }}</li>
                     </ul>
                 </div>
                 {{ form_start(form) }}
@@ -62,7 +55,8 @@
                             {{ form_widget(form.tel, {'attr': {
                                 'placeholder':'070000',
                                 'class':'form-control',
-                                'pattern':"[0-9]{10}"}}) }}
+                                'pattern':"[0-9]{10}",
+                                'errors': "error de saisie"}}) }}
                         </div>
                     </div>
                     <div class="form-group">
@@ -79,8 +73,7 @@
                         <div class="form-group col-md-6">
                             {{ form_widget(form.codepostal, {'attr': {
                                 'placeholder':'Code Postal',
-                                'class':'form-control',
-                                'pattern':"[0-9]{5}"}}) }}
+                                'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {{ form_widget(form.ville, {'attr': {
@@ -97,14 +90,12 @@
                         <div class="form-group col-md-6">
                             {{ form_widget(form.tva, {'attr': {
                                 'placeholder':'Numéros TVA',
-                                'class':'form-control',
-                                'pattern':"[a-zA-Z0-9]+"}}) }}
+                                'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {{ form_widget(form.siret, {'attr': {
                                 'placeholder':'Numéros siret',
-                                'class':'form-control',
-                                'pattern':"[0-9]{14}"}}) }}
+                                'class':'form-control'}}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -120,7 +111,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn mag-btn mt-30">Valider</button>
+                    <button type="submit" class="btn mag-btn mt-30" id="btn-valid-registration">Valider</button>
                     <a href="{{ path('home') }}" class="post-title">
                         <button type="button" class="btn mag-btn mt-30">Retour</button>
                     </a>
@@ -132,20 +123,43 @@
 
 </div>
     <script>
+
         document.getElementById("registration_role").addEventListener('change', showOrHidden);
+
         function showOrHidden(event){
             var tva = document.getElementById("registration_tva");
             var siret = document.getElementById("registration_siret");
             var nommagasin = document.getElementById("registration_nommagasin");
-            if(event.target.value === "ROLE_CLIENT"){
-                tva.style.visibility = "hidden";
-                siret.style.visibility = "hidden";
-                nommagasin.style.visibility = "hidden";
+            if(document.getElementById("registration_role").value !== "ROLE_CLIENT"){
+              tva.style.visibility = "visible";
+              tva.setAttribute("type", "text");
+              tva.setAttribute("required", "true");
+              siret.style.visibility = "visible";
+              siret.setAttribute("type", "text");
+              siret.setAttribute("required", "true");
+              nommagasin.style.visibility = "visible";
+              nommagasin.setAttribute("type", "text");
+              nommagasin.setAttribute("required", "true");
+
             }else{
-                tva.style.visibility = "visible";
-                siret.style.visibility = "visible";
-                nommagasin.style.visibility = "visible";
+              tva.setAttribute("type", "hidden");
+              tva.setAttribute("value", " ");
+              siret.setAttribute("type", "hidden");
+              siret.setAttribute("value", " ");
+              nommagasin.setAttribute("type", "hidden");
+              nommagasin.setAttribute("value", " ");
             }
+        }
+
+        showOrHidden();
+
+        document.getElementById("btn-valid-registration").addEventListener('click', checkPartForm);
+        function checkPartForm(event){
+          var lat = document.getElementById("registration_lat");
+          var lon = document.getElementById("registration_lon");
+          if(!lat.value)
+            alert("Veuillez saisir votre adresse et la selectionner dans la liste suggérée sous le champs de saise.")
+             //event.preventDefault();
         }
     </script>
         <!-- ##### Login Area End ##### -->

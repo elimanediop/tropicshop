@@ -27,7 +27,7 @@ class ProduitRepository extends ServiceEntityRepository
     public function findByTypeproduit($value, bool $isdefault)
     {
         return $this->createQueryBuilder('p')
-            ->where('isdefualt = :default')
+            ->where('p.isdefault = :default')
             ->setParameter('default', $isdefault)
             ->andWhere('p.typeproduit = :val')
             ->setParameter('val', $value)

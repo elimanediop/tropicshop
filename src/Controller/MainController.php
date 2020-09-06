@@ -61,7 +61,7 @@ class MainController extends AbstractController
         $error = "";
         $id_category = isset($this->types_produits[$category])? $this->types_produits[$category] : null;
         if($id_category){
-            $this->products = $this->produitRepository->findByTypeproduit($id_category);
+            $this->products = $this->produitRepository->findByTypeproduit($id_category, true);
             return $this->render('main/home.html.twig', [
                 'products' =>$this->products,
 

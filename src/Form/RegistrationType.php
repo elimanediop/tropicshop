@@ -26,19 +26,19 @@ class RegistrationType extends AbstractType
                         'Vendeur' => 'ROLE_STORE'
                     ]]);
         $builder
-            ->add('nom')
-            ->add('prenom')
-            ->add('mail', EmailType::class)
-            ->add('tel', TextType::class)
+            ->add('nom', TextType::class,['error_bubbling' => true])
+            ->add('prenom', TextType::class,['error_bubbling' => true])
+            ->add('mail', EmailType::class, ['error_bubbling' => true])
+            ->add('tel', TextType::class, ['error_bubbling' => true])
             ->add('adresse', TextType::class)
             ->add('codepostal', IntegerType::class)
-            ->add('nommagasin')
-            ->add('siret')
-            ->add('tva')
+            ->add('nommagasin', TextType::class,['error_bubbling' => true])
+            ->add('siret', TextType::class,['error_bubbling' => true])
+            ->add('tva', TextType::class,['error_bubbling' => true])
             ->add('ville', TextType::class)
-            ->add('password', PasswordType::class)
-            ->add('confirm_password', PasswordType::class)
-            ->add('lat', HiddenType::class, ['attr' => ["data-lat" =>"lat"]])
+            ->add('password', PasswordType::class, ['error_bubbling' => true])
+            ->add('confirm_password', PasswordType::class, ['error_bubbling' => true])
+            ->add('lat', HiddenType::class, ['attr' => ["data-lat" =>"lat"], 'error_bubbling' => true])
             ->add('lon',HiddenType::class, ['attr' => ["data-lon" =>"lon"]]);
     }
 

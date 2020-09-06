@@ -49,7 +49,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Regex(pattern="/([0-9]{10})/s",
+     * @Assert\Regex(pattern="/(^[0-9]{10}$)/s",
      *     match=true,
      *     message="Votre numéro doit être au format 06xxx.")
      */
@@ -111,12 +111,13 @@ class User implements UserInterface
     private $produits;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float", nullable=false)
+     * @Assert\Length(min=1, minMessage="Veuillez saisir votre adresse et la selectionner dans la liste suggérée")
      */
     private $lat;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float", nullable=false)
      */
     private $lon;
 
