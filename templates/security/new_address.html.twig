@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+        {% block title %}{{ app_name }}{% endblock %}
+
+        {% block body %}
+        <!-- Page Content -->
+        <!-- ##### Breadcrumb Area Start ##### -->
+<section class="breadcrumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/slider2.jpg') }});">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>Login</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        <!-- ##### Breadcrumb Area End ##### -->
+
+
+        <!-- ##### Login Area Start ##### -->
+<div class="mag-login-area py-5 h-100">
+  <div class="container h-100">
+      <div class="row h-100 justify-content-center">
+          <div class="col-12 col-lg-6">
+              <div class="login-content bg-white p-30 box-shadow">
+                  <!-- Section Title -->
+                  <div class="section-heading">
+                      <h5>Changer votre adresse</h5>
+                  </div>
+                  {% if(error is defined) %}
+                  <div class="">
+                      <p class="text-danger">
+                          {{ error}}
+                      </p>
+                  </div>
+                  {% endif %}
+                  <div class="">
+                      <ul class="text-danger">
+                          <li>{{ form_errors(form) }}</li>
+                      </ul>
+                  </div>
+
+                  {{ form_start(form) }}
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                        {{ form_widget(form.adresse, {'attr': {
+                            'placeholder':'Adresse',
+                            'class':'form-control',
+                            'data-location-user':'location',
+                            'onclick':'autocomp(this)'}}) }}
+                            {{ form_widget(form.adresse_complete) }}
+                        {{ form_widget(form.lat) }}
+                        {{ form_widget(form.lon) }}
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        {{ form_widget(form.codepostal, {'attr': {
+                            'placeholder':'Code Postal',
+                            'class':'form-control'}}) }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form_widget(form.ville, {'attr': {
+                            'placeholder':'Ville',
+                            'class':'form-control'}}) }}
+                    </div>
+                  </div class="form-group col-md-12">
+                      <button type="submit" class="btn mag-btn mt-30" id="btn-valid-registration">Changer adresse</button>
+                      <a href="{{ path('store_profil') }}" class="post-title">
+                          <button type="button" class="btn mag-btn mt-30">Retour</button>
+                      </a>
+                  {{ form_end(form) }}
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+        <!-- ##### Login Area End ##### -->
+{% endblock %}

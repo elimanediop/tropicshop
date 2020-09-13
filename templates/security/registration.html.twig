@@ -47,17 +47,22 @@
                                 'class':'form-control'}}) }}
                         </div>
                         <div class="form-group col-md-6">
-                            {{ form_widget(form.mail, {'attr': {
-                                'placeholder':'Mail',
-                                'class':'form-control'}}) }}
-                        </div>
-                        <div class="form-group col-md-6">
                             {{ form_widget(form.tel, {'attr': {
                                 'placeholder':'070000',
                                 'class':'form-control',
                                 'pattern':"[0-9]{10}",
                                 'errors': "error de saisie"}}) }}
-                        </div>
+                        </div>                      
+                    </div>
+                    <div class="form-group">
+                    {{ form_widget(form.mail, {'attr': {
+                        'placeholder':'Mail',
+                        'class':'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                    {{ form_widget(form.confirm_mail, {'attr': {
+                        'placeholder':'confirmer mail',
+                        'class':'form-control'}}) }}
                     </div>
                     <div class="form-group">
                         {{ form_widget(form.adresse, {'attr': {

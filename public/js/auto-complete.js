@@ -2,7 +2,9 @@ var inputLocation;
 function autocomp(input) {
     inputLocation = input;
     var inputLat = inputLocation.parentNode.querySelectorAll("[data-lat]")[0];
-    var inputLon = inputLocation.parentNode.querySelectorAll("[data-lon]")[0]
+    var inputLon = inputLocation.parentNode.querySelectorAll("[data-lon]")[0];
+    // var codepostal = document.querySelector("#new_address_codepostal");
+    // var city = document.querySelector("#new_address_codepostal");
     var defaultBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(48.8566667, 2.3509871));
 
@@ -18,6 +20,9 @@ function autocomp(input) {
             window.alert("No details available for input: '" + place.name + "'");
             return;
         }else{
+            var complete_address = document.querySelector("[data-complete-address]");
+            var address = autocomplete.getPlace().formatted_address;
+            complete_address.setAttribute("value", address);
             inputLat.setAttribute("value", autocomplete.getPlace().geometry.location.lat());
             inputLon.setAttribute("value", autocomplete.getPlace().geometry.location.lng());
         }

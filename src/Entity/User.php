@@ -48,6 +48,12 @@ class User implements UserInterface
     private $mail;
 
     /**
+     * @var string $confirm_mail
+     * @Assert\EqualTo(propertyPath="mail", message="Votre adresse mail saisie n'est pas identique.")
+     */
+    private $confirm_mail;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Regex(pattern="/(^[0-9]{10}$)/s",
      *     match=true,
@@ -66,7 +72,7 @@ class User implements UserInterface
 
     /**
      * @var string $confirm_password
-     * @Assert\EqualTo(propertyPath="password", message="Votre mot de passe saisi n'est pas identique")
+     * @Assert\EqualTo(propertyPath="password", message="Votre mot de passe saisi n'est pas identique.")
      */
     private $confirm_password;
 
@@ -112,7 +118,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="float", nullable=false)
-     * @Assert\Length(min=1, minMessage="Veuillez saisir votre adresse et la selectionner dans la liste suggérée")
+     * @Assert\Length(min=1, minMessage="Veuillez saisir votre adresse et la selectionner dans la liste suggérée.")
      */
     private $lat;
 
@@ -130,6 +136,12 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $link;
+
+    /**
+     * @var string $adresse_complete
+     */
+    private $adresse_complete;
+
 
     public function __construct()
     {
@@ -409,6 +421,30 @@ class User implements UserInterface
     public function setLink(?string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getConfirmMail(): ?string
+    {
+        return $this->confirm_mail;
+    }
+
+    public function setConfirmMail(?string $confirm_mail): self
+    {
+        $this->confirm_mail = $confirm_mail;
+
+        return $this;
+    }
+
+    public function getAdresseComplete(): ?string
+    {
+        return $this->adresse_complete;
+    }
+
+    public function setAdresseComplete(string $adresse_complete): self
+    {
+        $this->adresse_complete = $adresse_complete;
 
         return $this;
     }

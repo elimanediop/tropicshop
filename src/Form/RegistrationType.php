@@ -29,6 +29,7 @@ class RegistrationType extends AbstractType
             ->add('nom', TextType::class,['error_bubbling' => true])
             ->add('prenom', TextType::class,['error_bubbling' => true])
             ->add('mail', EmailType::class, ['error_bubbling' => true])
+            ->add('confirm_mail', EmailType::class, ['error_bubbling' => true])
             ->add('tel', TextType::class, ['error_bubbling' => true])
             ->add('adresse', TextType::class)
             ->add('codepostal', IntegerType::class)

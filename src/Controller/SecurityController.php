@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Form\NewPasswordType;
+use App\Form\NewMailType;
+use App\Form\NewAddressType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -19,6 +21,7 @@ class SecurityController extends AbstractController
     private $userPasswordEncoder;
     private $manager;
     private $mailer;
+    private $userRepository;
 
     /**
      * SecurityController constructor.
@@ -26,11 +29,12 @@ class SecurityController extends AbstractController
      * @param \Swift_Mailer $mailer
      * @param ObjectManager $manager
      */
-    public function __construct(UserPasswordEncoderInterface $userPasswordEncoder,  \Swift_Mailer $mailer, ObjectManager $manager)
+    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder,  \Swift_Mailer $mailer, ObjectManager $manager)
     {
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->manager = $manager;
         $this->mailer = $mailer;
+        $this->userRepository = $userRepository;
     }
     /**
    * @Route("/registration", name="security_registration")
@@ -71,8 +75,8 @@ class SecurityController extends AbstractController
 
     private function confimationMail(User $client, string $baseUrl){
         $url = "http://".$baseUrl."/confimationAccount/";
-        $message = (new \Swift_Message('Confirmation| activation compte'))
-            ->setFrom('contact@tropicshop.fr')
+        $message = (new \Swift_Message('Confirmation| activation compte Tropicshop'))
+            ->setFrom('do-not-reply@tropicshop.fr')
             ->setTo($client->getMail())
             ->setBody("Bonjour, Pour activer votre compte cliquez ici: $url".$client->getLink());
         $this->mailer->send($message);
@@ -95,19 +99,19 @@ class SecurityController extends AbstractController
         return $this->render("security/login.html.twig");
     }
 
-    public function checkLink(string $encryptlink, UserRepository $userRepository){
+    public function checkLink(string $encryptlink){
       $decodLink = base64_decode($encryptlink);
       $linkData = explode("|", $decodLink);
 
-      return $userRepository->findOneByEmail($linkData[0]);
+      return $this->userRepository->findOneByEmail($linkData[0]);
     }
 
     /**
      * @Route("/confimationAccount/{encryptlink}", name="security_confimationAccount")
      */
-    public function confirmationAccount(string $encryptlink, UserRepository $userRepository){
+    public function confirmationAccount(string $encryptlink){
 
-        $client = $this->checkLink($encryptlink, $userRepository);
+        $client = $this->checkLink($encryptlink);
         $client->setActivated(true);
         $this->save($client);
 
@@ -121,11 +125,11 @@ class SecurityController extends AbstractController
     /**
      * @Route("/passwordForgotten", name="security_passwordForgotten")
      */
-   public function passwordForgotten(Request $request, UserRepository $userRepository){
+   public function passwordForgotten(Request $request){
      if ($request->isMethod('POST')) {
        $baseUrl = (explode("/",$request->server->get('HTTP_REFERER')))[2];
        $email = ($request->request->get('_username'));
-       $user = $userRepository->findOneByEmail($email);
+       $user = $this->userRepository->findOneByEmail($email);
 
        if(!$user){
         return  $this->render('security/password_forgotten.html.twig', [
@@ -149,8 +153,8 @@ class SecurityController extends AbstractController
 
    private function passwordForgottenMail(User $client, string $baseUrl){
        $url = "http://".$baseUrl."/newPassword/";
-       $message = (new \Swift_Message('Mot de passe oublié'))
-           ->setFrom('contact@tropicshop.fr')
+       $message = (new \Swift_Message('Mot de passe oublié | Comtpe Tropicshop'))
+           ->setFrom('do-not-reply@tropicshop.fr')
            ->setTo($client->getMail())
            ->setBody("Bonjour, Pour changer le mot de passe de votre compte Tropicshop, cliquez ici: $url".$client->getLink());
        $this->mailer->send($message);
@@ -161,23 +165,94 @@ class SecurityController extends AbstractController
    /**
     * @Route("/newPassword/{encryptlink}", name="security_newPassword")
     */
-  public function newPassword(string $encryptlink, Request $request, UserRepository $userRepository){
-    $client = $this->checkLink($encryptlink, $userRepository);
-    $password = new \stdCLass;
-    $password->password = null;
-    $password->confirm_password = null;
-    $form = $this->createForm(NewPasswordType::class, $password);
+  public function newPassword(string $encryptlink, Request $request){
+    $client = $this->checkLink($encryptlink, $this->userRepository);
+    $form = $this->createForm(NewPasswordType::class, $client);
     $form->handleRequest($request);
     if ($request->isMethod('POST')) {
       if($form->isSubmitted() && $form->isValid()){
-        dd($password);
+        $hash = $this->userPasswordEncoder->encodePassword($client, $client->getPassword());
+        $client->setPassword($hash);
+        $this->save($client);
+        return $this->redirectToRoute("security_login");
       }
 
     }
     return $this->render('security/new_password.html.twig', [
+      'form' => $form->createView(),
+    ]);
+  }
+
+  /**
+   * @Route("/changeMail", name="security_changeMail")
+   */
+  public function changeMail(Request $request){
+    $client = $this->userRepository->findOneByEmail($this->getUser()->getMail());
+    $email = $this->getUser()->getMail();
+    $form = $this->createForm(NewMailType::class, $client);
+    $form->handleRequest($request);
+    if($form->isSubmitted() && $form->isValid()){
+      $this->save($client);
+      //TODO make function clear
+      $message = (new \Swift_Message('Confirmation| Mail compte Tropicshop'))
+          ->setFrom('do-not-reply@tropicshop.fr')
+          ->setTo($client->getMail())
+          ->setBody("Bonjour, le changement de votre mail a été bien pris en compte. Votre nouveau mail est ".$client->getMail()." et l'ancien est $email");
+      $this->mailer->send($message);
+
+      return $this->redirectToRoute("store_profil");
+    }
+    return $this->render('security/new_mail.html.twig', [
+      'form' => $form->createView(),
+    ]);
+  }
+
+  /**
+  * @Route("/changeAddress", name="security_changeAddress")
+  */
+  public function changeAddress(Request $request){
+    $client = $this->userRepository->findOneByEmail($this->getUser()->getMail());
+    $adresse = $this->getUser()->getAdresse();
+    $user = new User();
+    $form = $this->createForm(NewAddressType::class, $user);
+    $form->handleRequest($request);
+    if($form->isSubmitted() && $form->isValid()){
+      if(!$user->getLat() || !$user->getLon() || ($user->getLat() === $client->getLat() && $user->getLon() === $client->getLon())){
+        $error = "Veuillez saisir votre adresse et la selectionner dans la liste suggérée sous le champs d'adresse.";
+        return $this->render('security/new_address.html.twig', [
+          'form' => $form->createView(),
+          'error' => $error
+        ]);
+      }
+      //TODO save address, city and zipcode
+      $city_zip = explode(" ", explode("," ,$user->getAdresseComplete())[1]);
+      $client->setLat($user->getLat())
+              ->setLon($user->getLon())
+              ->setAdresse($user->getAdresseComplete())
+              ->setCodepostal($city_zip[1])
+              ->setVille($city_zip[2]);
+      $this->save($client);
+      //TODO make function clear
+      $message = (new \Swift_Message('Confirmation| Adresse compte Tropicshop'))
+          ->setFrom('do-not-reply@tropicshop.fr')
+          ->setTo($client->getMail())
+          ->setBody("Bonjour, le changement de votre adresse a été bien prise en compte. Votre nouvelle adresse est ".$client->getAdresse());
+      $this->mailer->send($message);
+
+      return $this->redirectToRoute("store_profil");
+    }
+    return $this->render('security/new_address.html.twig', [
       'form' => $form->createView()
     ]);
   }
+
+  /**
+  * @Route("/deleteAccount", name="security_deleteAccount")
+  */
+  public function deleteAccount(){
+
+  }
+
 
   /**
    * @Route("/login", name="security_login")
