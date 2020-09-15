@@ -121,6 +121,7 @@
                                         --
                                     {% endif %}
                                         €</h5>
+                                        <h6 style="color:#f5bd4c;">{{ product.typevente }}</h6>
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
                                 <a href="{{ path('addProductCart', {'store_id': product.store.id,'product_id': product.id  }) }}"
