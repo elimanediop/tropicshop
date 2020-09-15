@@ -67,6 +67,11 @@ class Produit
     private $isdefault = false;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $typevente;
+
+    /**
      * @return string
      */
     public function getImagesproduit(): ?string
@@ -188,6 +193,18 @@ class Produit
     public function setIsdefault(bool $isdefault): self
     {
         $this->isdefault = $isdefault;
+
+        return $this;
+    }
+
+    public function getTypevente(): ?string
+    {
+        return $this->typevente;
+    }
+
+    public function setTypevente(?string $typevente): self
+    {
+        $this->typevente = $typevente;
 
         return $this;
     }

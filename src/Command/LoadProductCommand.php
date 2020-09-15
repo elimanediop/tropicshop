@@ -56,7 +56,7 @@ class LoadProductCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $current_dir = __DIR__;
-        $file_path = $current_dir."/../../Data/product/fiche_produit_template.csv";
+        $file_path = $current_dir."/../../Data/product/liste1-100.csv";
         $csv_data = $this->utils->getCSVContent($file_path);
 
         foreach ($csv_data as $data){
@@ -72,14 +72,16 @@ class LoadProductCommand extends Command
 
     private function addProduct($data){
         $produit = new Produit();
+        //dd($data);
         $produit->setImages($data["num_image"].'.jpg')
             ->setNom($data["nom_produit"])
             ->setDescription($data["description"])
-            ->setTypeproduit($this->typeProduitRepository->findOneBy(["libelle" => "Fruit"]))
+            ->setTypeproduit($this->typeProduitRepository->findOneBy(["libelle" => $data["type_produit"]]))
             ->setOrigine($this->origineRepository->findOneBy(["country" => $data["origine"]]))
+            ->setTypevente($data["vente"])
             ->setPrix(0)
             ->setIsdefault(true)
-            ->setStore($this->userRepository->find(11)) //TODO add admin user
+            ->setStore($this->userRepository->find(1)) //TODO add admin user
         ;
         $this->manager->persist($produit);
         $this->manager->flush();

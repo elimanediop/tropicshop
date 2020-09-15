@@ -13,12 +13,14 @@
             <div class="list-group">
                 <a href="{{ path('filter_category', {'category': 'fruits'}) }}" class="list-group-item">Fruits</a>
                 <a href="{{ path('filter_category', {'category': 'legumes'}) }}" class="list-group-item">Légumes</a>
+                <a href="{{ path('filter_category', {'category': 'Boisson'}) }}" class="list-group-item">Boissons</a>
+                <a href="{{ path('filter_category', {'category': 'Tubercule'}) }}" class="list-group-item">Tubercules</a>
                 <a href="{{ path('filter_category', {'category': 'condiments-epices'}) }}" class="list-group-item">Condiments et Epices</a>
                 <a href="{{ path('filter_category', {'category': 'comestiques'}) }}" class="list-group-item">Cosmétiques</a>
                 <a href="{{ path('filter_category', {'category': 'autre'}) }}" class="list-group-item">Autres</a>
             </div>
             <div class="single-sidebar-widget my-4">
-                <video src="img/bg-img/video1.mp4" class="add-img" controls poster="img/bg-img/recette.png">
+                <video src="{{ asset('img/bg-img/video1.mp4') }}" class="add-img" controls poster="{{ asset('img/bg-img/recette.png') }}">
                     Cette vidéo ne peut être affichée sur votre navigateur Internet.<br>
                     Une version est disponible en téléchargement sous <a href="URL">adresse du lien </a> .
                 </video>
@@ -28,15 +30,15 @@
             </div>
             <!-- Sidebar Widget -->
             <div class="single-sidebar-widget  my-4">
-                <a href="#" class="add-img" target="_blank"><img src="img/bg-img/51.jpg" alt=""></a>
+                <a href="#" class="add-img" target="_blank"><img src="{{ asset('img/bg-img/51.jpg') }}" alt=""></a>
             </div>
             <!-- Sidebar Widget -->
             <div class="single-sidebar-widget  my-4">
-                <a href="#" class="add-img" target="_blank"><img src="img/bg-img/72.jpg" alt=""></a>
+                <a href="#" class="add-img" target="_blank"><img src="{{ asset('img/bg-img/72.jpg') }}" alt=""></a>
             </div>
             <!-- Sidebar Widget -->
             <div class="single-sidebar-widget  my-4">
-                <a href="#" class="add-img" target="_blank"><img src="img/bg-img/71.jpg" alt=""></a>
+                <a href="#" class="add-img" target="_blank"><img src="{{ asset('img/bg-img/71.jpg') }}" alt=""></a>
             </div>
             <div class="section-heading my-4">
                 <h5>Espace Clientèle</h5>
@@ -63,19 +65,19 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="img/bg-img/slider1.jpg" alt="First slide">
+                        <img class="d-block img-fluid" src="{{ asset('img/bg-img/slider1.jpg') }}" alt="First slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider2.jpg" alt="Second slide">
+                        <img class="d-block img-fluid" src="{{ asset('img/bg-img/slider2.jpg') }}" alt="Second slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider3.jpg" alt="Third slide">
+                        <img class="d-block img-fluid"  src="{{ asset('img/bg-img/slider3.jpg') }}" alt="Third slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider4.jpg" alt="Third slide">
+                        <img class="d-block img-fluid" src="{{ asset('img/bg-img/slider4.jpg') }}" alt="Third slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="img/bg-img/slider5.jpg" alt="Third slide">
+                        <img class="d-block img-fluid" src="{{ asset('img/bg-img/slider5.jpg') }}" alt="Third slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -182,4 +184,3 @@
 
 </div>
 {% endblock %}
-

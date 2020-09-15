@@ -21,7 +21,9 @@ class MainController extends AbstractController
         "comestiques" => 2,
         "legumes" => 3,
         "condiments-epices" => 4,
-        "autre" => 5
+        "autre" => 5,
+        "Boisson" => 6,
+        "Tubercule" => 7
 
     ];
 
