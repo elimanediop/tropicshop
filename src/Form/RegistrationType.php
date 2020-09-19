@@ -32,6 +32,7 @@ class RegistrationType extends AbstractType
             ->add('confirm_mail', EmailType::class, ['error_bubbling' => true])
             ->add('tel', TextType::class, ['error_bubbling' => true])
             ->add('adresse', TextType::class)
+            ->add('adresse_complete', HiddenType::class, ['attr' => ["data-complete-address" =>"address"]])
             ->add('codepostal', IntegerType::class)
             ->add('nommagasin', TextType::class,['error_bubbling' => true])
             ->add('siret', TextType::class,['error_bubbling' => true])

@@ -50,6 +50,7 @@ class SecurityController extends AbstractController
       if($client->getRole() && $form->isSubmitted() && $form->isValid()){
           $baseUrl = (explode("/",$request->server->get('HTTP_REFERER')))[2];
           $hash = $this->userPasswordEncoder->encodePassword($client, $client->getPassword());
+          //dd($client);
           $client->setPassword($hash);
           $client->setActivated(false);
           $client->setLink($this->linkConfirmation($client));

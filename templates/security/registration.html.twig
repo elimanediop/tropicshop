@@ -52,7 +52,7 @@
                                 'class':'form-control',
                                 'pattern':"[0-9]{10}",
                                 'errors': "error de saisie"}}) }}
-                        </div>                      
+                        </div>
                     </div>
                     <div class="form-group">
                     {{ form_widget(form.mail, {'attr': {
@@ -70,6 +70,7 @@
                             'class':'form-control',
                             'data-location-user':'location',
                             'onclick':'autocomp(this)'}}) }}
+                        {{ form_widget(form.adresse_complete) }}
                         {{ form_widget(form.lat) }}
                         {{ form_widget(form.lon) }}
 
@@ -163,7 +164,7 @@
           var lat = document.getElementById("registration_lat");
           var lon = document.getElementById("registration_lon");
           if(!lat.value)
-            alert("Veuillez saisir votre adresse et la selectionner dans la liste suggérée sous le champs de saise.")
+            alert("Veuillez saisir votre adresse et la selectionner dans la liste suggérée sous le champs de saisie.")
              //event.preventDefault();
         }
     </script>
