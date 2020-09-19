@@ -140,20 +140,24 @@
               tva.style.visibility = "visible";
               tva.setAttribute("type", "text");
               tva.setAttribute("required", "true");
+              tva.setAttribute("placeholder", "Numéro TVA");
               siret.style.visibility = "visible";
               siret.setAttribute("type", "text");
               siret.setAttribute("required", "true");
+              siret.setAttribute("placeholder", "Numéro siret");
+              nommagasin.setAttribute("placeholder", "Nom magasin");
               nommagasin.style.visibility = "visible";
               nommagasin.setAttribute("type", "text");
               nommagasin.setAttribute("required", "true");
 
+
             }else{
               tva.setAttribute("type", "hidden");
-              tva.setAttribute("value", " ");
+              tva.setAttribute("value", "");
               siret.setAttribute("type", "hidden");
-              siret.setAttribute("value", " ");
+              siret.setAttribute("value", "");
               nommagasin.setAttribute("type", "hidden");
-              nommagasin.setAttribute("value", " ");
+              nommagasin.setAttribute("value", "");
             }
         }
 
@@ -163,7 +167,7 @@
         function checkPartForm(event){
           var lat = document.getElementById("registration_lat");
           var lon = document.getElementById("registration_lon");
-          if(!lat.value)
+          //if(!lat.value)
             //alert("Veuillez saisir votre adresse et la selectionner dans la liste suggérée sous le champs de saisie.")
              //event.preventDefault();
         }
