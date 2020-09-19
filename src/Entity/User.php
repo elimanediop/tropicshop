@@ -118,12 +118,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="float", nullable=false)
-     * @Assert\Length(min=1, minMessage="Veuillez saisir votre adresse et la selectionner dans la liste suggérée.")
+     * @Assert\NotNull (message="Veuillez saisir votre adresse postale et la selectionner dans la liste suggérée sous le champs.")
+     * @Assert\Length(min=2, minMessage="Veuillez saisir votre adresse et la selectionner dans la liste suggérée.")
      */
     private $lat;
 
     /**
      * @ORM\Column(type="float", nullable=false)
+     * @Assert\Length(min=2, minMessage="Veuillez saisir votre adresse et la selectionner dans la liste suggérée.")
      */
     private $lon;
 
