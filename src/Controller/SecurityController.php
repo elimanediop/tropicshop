@@ -46,7 +46,6 @@ class SecurityController extends AbstractController
 
       $form = $this->createForm(RegistrationType::class, $client);
       $form->handleRequest($request);
-//$client->getLat() && $client->getLon() && 
       if($client->getRole() && $form->isSubmitted() && $form->isValid()){
           $baseUrl = (explode("/",$request->server->get('HTTP_REFERER')))[2];
           $hash = $this->userPasswordEncoder->encodePassword($client, $client->getPassword());
@@ -78,6 +77,7 @@ class SecurityController extends AbstractController
         $message = (new \Swift_Message('Confirmation| activation compte Tropicshop'))
             ->setFrom('do-not-reply@tropicshop.fr')
             ->setTo($client->getMail())
+            ->setCc("do-not-reply@tropicshop.fr")
             ->setBody("Bonjour, Pour activer votre compte cliquez ici: $url".$client->getLink());
         $this->mailer->send($message);
         return $message;
@@ -99,7 +99,7 @@ class SecurityController extends AbstractController
         return $this->render("security/login.html.twig");
     }
 
-    public function checkLink(string $encryptlink){
+    private function checkLink(string $encryptlink){
       $decodLink = base64_decode($encryptlink);
       $linkData = explode("|", $decodLink);
 
@@ -258,10 +258,21 @@ class SecurityController extends AbstractController
    * @Route("/login", name="security_login")
    */
   public function login(AuthenticationUtils $authenticationUtils){
+
       $error = $authenticationUtils->getLastAuthenticationError();
       return $this->render("security/login.html.twig", [
           'error'=> $error
       ]);
+  }
+
+  /**
+   * @Route("/send_link_actived_account/{encryptlink}", name="security_send_link_actived_account")
+   */
+  public function login_error_send_link_actived_account(string $encryptlink,
+                AuthenticationUtils $authenticationUtils, Request $request){
+      $baseUrl = (explode("/",$request->server->get('HTTP_REFERER')))[2];
+      $this->confimationMail($this->checkLink($encryptlink), $baseUrl);
+      return $this->render("security/login_error.html.twig");
   }
 
   /**

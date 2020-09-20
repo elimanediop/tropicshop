@@ -15,13 +15,13 @@ security:
             security: false
         main:
             anonymous: true
-            lazy: true
+            # lazy: true
             provider: in_database
             user_checker: App\Services\Security\SecurityService
             form_login:
                 default_target_path: account
                 always_use_default_target_path: true
-                login_path: security_login
+                login_path: security_login_error
                 check_path: security_login
             logout:
                 path: security_logout
