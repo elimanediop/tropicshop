@@ -50,39 +50,6 @@ class StoreController extends AbstractController
         $produitStore = new ProduitStore();
         $produit = new Produit();
         $produits = $this->produitRepository->findAll();
-        //$form = $this->createForm(ProduitStoreType::class, $produitStore);
-        //$form->handleRequest($request);
-
-        /*
-        if($form->isSubmitted() && $form->isValid()) {
-            $brochureFile = $form->get('imagesproduit')->getData();
-            $produit->setStore($this->getUser());
-
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('images_product_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                $produit->setImagesproduit($newFilename);
-                $produit->setImages($produit->getImagesproduit());
-            }
-
-            $this->manager->persist($produit);
-            $this->manager->flush();
-            return $this->redirectToRoute("store_profil", [
-                'title' => $this->title_home
-            ]);
-        }
-        */
 
         return $this->render('components/store/select_produit.html.twig', [
         'title' => $this->title_add_produit,
@@ -118,6 +85,8 @@ class StoreController extends AbstractController
                     ->setIsdefault(false)
                     ->setStore($store)
                     ->setPrix($produit->getPrix())
+                    ->setTypevente($produit->getTypevente())
+                    ->setTaille($produit->getTaille())
                     ->setOrigine($produit->getOrigine())
                     ->setDescription($produit->getDescription())
                     ->setImagesproduit($produit->getImagesproduit())
@@ -125,7 +94,8 @@ class StoreController extends AbstractController
                     ->setTypeproduit($produit->getTypeproduit())
                 ;
 
-                $produit->setPrix(0);
+                $produit->setPrix(0)
+                        ->setTaille(0);
 
                 $this->save($produitStore);
                 return $this->redirectToRoute("store_profil");
@@ -193,4 +163,3 @@ class StoreController extends AbstractController
         ]);
     }
 }
-

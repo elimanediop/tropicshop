@@ -23,6 +23,11 @@ class ProduitStore
      */
     private $produit;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $taille;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +41,18 @@ class ProduitStore
     public function setProduit(Produit $produit): self
     {
         $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function getTaille(): ?float
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(float $taille): self
+    {
+        $this->taille = $taille;
 
         return $this;
     }

@@ -72,6 +72,11 @@ class Produit
     private $typevente;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $taille;
+
+    /**
      * @return string
      */
     public function getImagesproduit(): ?string
@@ -205,6 +210,18 @@ class Produit
     public function setTypevente(?string $typevente): self
     {
         $this->typevente = $typevente;
+
+        return $this;
+    }
+
+    public function getTaille(): ?float
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(?float $taille): self
+    {
+        $this->taille = $taille;
 
         return $this;
     }

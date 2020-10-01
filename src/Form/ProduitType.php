@@ -10,20 +10,31 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class ProduitType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add("nom", TextType::class, ["disabled" => true])
             ->add('prix')
+
+            ->add('taille', NumberType::class, ['error_bubbling' => true])
+
+            ->add('type_vente', ChoiceType::class, [
+                'choices' => [
+                        'Au kilogramme (Kg)' => "Au kilogramme (Kg)",
+                        'Au gramme (g)' => 'Au gramme (g)',
+                        'Au litre (l)' => 'Au litre (l)',
+                        'Au centilitre (cl)' => 'Au centilitre (cl)',
+                        'Au millilitre (ml)' => 'Au millilitre (ml)'
+                    ]])
             ->add('origine', EntityType::class, ["class" => Origine::class, 'choice_label' => 'country'])
             ;
-        //$builder
-          //  ->add('imagesproduit', FileType::class, ['required'=>false])
-        //->add('nom')
-        //->add('description')
-        //->add('typeproduit', EntityType::class, ["class" => TypeProduit::class, 'choice_label' => 'libelle']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
