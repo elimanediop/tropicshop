@@ -51,6 +51,7 @@ class MainController extends AbstractController
     public function afficherProduitDetail(int $id)
     {
         $product = $this->produitRepository->find($id);
+        // dd($product);
         return $this->render('main/show_product.html.twig', [
             'product' =>$product
         ]);
@@ -109,7 +110,7 @@ class MainController extends AbstractController
      * @Route("/les_produits_du_magasin/{store_id}|{product_id}", name="showProductStoreSearch")
      */
     public function afficherProduitMagasin(int $store_id, int $product_id, PanierService $panierService){
-        $this->products = $this->produitRepository->findOneByUserId($product_id, $store_id);
+        $this->products = $this->produitRepository->findOneBy(["id" => $product_id, "store" => $store_id, "isdefault" => true]);
         $cart = $panierService->getProduit();
 
 
