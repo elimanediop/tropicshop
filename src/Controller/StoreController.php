@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Entity\ProduitStore;
+use App\Form\CreateProductStoreType;
 use App\Form\ProduitStoreType;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
@@ -35,7 +36,7 @@ class StoreController extends AbstractController
      */
     public function index(Request $request)
     {
-        $products = $this->produitRepository->findBy(["store"=> $this->getUser()]);
+        $products = $this->produitStoreRepository->findBy(["store"=> $this->getUser()]);
         return $this->render('store/profil_home.html.twig', [
             'title' => $this->title_home,
             'products' => $products
@@ -45,12 +46,9 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/ajouter_produit", name="store_profil_add_product")
      */
-    public function addProduct(Request $request, SluggerInterface $slugger)
+    public function addProduct()
     {
-        $produitStore = new ProduitStore();
-        $produit = new Produit();
         $produits = $this->produitRepository->findAll();
-
         return $this->render('components/store/select_produit.html.twig', [
         'title' => $this->title_add_produit,
             'products' => $produits
@@ -62,49 +60,29 @@ class StoreController extends AbstractController
      */
     public function addProductToStore(Request $request, string $product_id){
         //TODO create product store and allow edition
-        $produitStore = new Produit();
+        $produitStore = new ProduitStore();
         $produit = $this->produitRepository->find($product_id);
+        $produitStore->setProduit($produit);
 
-        $form = $this->createForm(ProduitType::class, $produit);
+        $form = $this->createForm(CreateProductStoreType::class, $produitStore);
         $form->handleRequest($request);
         $error = "";
 
         if($form->isSubmitted() && $form->isValid()) {
-            if(count($this->produitRepository->findBy([
-                "store" => $this->getUser(),
-                "nom" => $produit->getNom(),
-                "origine" => $produit->getOrigine()
-            ])) == 0 && $produit->getPrix() != 0){
-                $store =  $this->getUser();
-                $already = $this->produitRepository->findBy([
-                    "store" => $store,
-                    "nom" => $produit->getNom(),
-                    "origine" => $produit->getOrigine()
-                ]);
-                $produitStore->setNom($produit->getNom())
-                    ->setIsdefault(false)
-                    ->setStore($store)
-                    ->setPrix($produit->getPrix())
-                    ->setTypevente($produit->getTypevente())
-                    ->setTaille($produit->getTaille())
-                    ->setOrigine($produit->getOrigine())
-                    ->setDescription($produit->getDescription())
-                    ->setImagesproduit($produit->getImagesproduit())
-                    ->setImages($produit->getImages()[0])
-                    ->setTypeproduit($produit->getTypeproduit())
-                ;
+            $store =  $this->getUser();
+            //TODO if ! isset typevente ->setTypevente($produit->getTypevente())
+            //TODO if !isset origine  ->setOrigine($produit->getOrigine())
+            $produitStore
+                ->setStore($store);
 
-                $produit->setPrix(0)
-                        ->setTaille(0);
+            $this->save($produitStore);
+            return $this->redirectToRoute("store_profil");
 
-                $this->save($produitStore);
-                return $this->redirectToRoute("store_profil");
-            }else{
-                $error = "Apparemment vous avez déjà ce produit dans votre store ou le prix saisi est 0.";
-            }
+            //$error = "Apparemment vous avez déjà ce produit dans votre store ou le prix saisi est 0.";
+
         }
 
-        $this->previewProduct = $produit;
+        //$this->previewProduct = $produit;
         return $this->render("components/store/edit_product_for_store.html.twig", [
             "form" => $form->createView(),
             "error" => $error

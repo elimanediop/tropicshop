@@ -26,13 +26,6 @@
                             <h4 class="card-title">
                                 <a href="{{ path('showProduct', {'id' : product.id}) }}">{{ product.nom }}</a>
                             </h4>
-                            <h5  style="color:#f5bd4c;">
-                                {% if(app.user) %}
-                                    {{ product.prix }}
-                                {% else %}
-                                    --
-                                {% endif %}
-                                €</h5>
                             <p class="card-text">{{ product.description }}</p>
                         </div>
                         <a href="{{ path('addProductToStore', {'product_id': product.id  }) }}"

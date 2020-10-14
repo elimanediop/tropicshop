@@ -21,19 +21,6 @@ class ProduitType extends AbstractType
     {
         $builder
             ->add("nom", TextType::class, ["disabled" => true])
-            ->add('prix')
-
-            ->add('taille', NumberType::class, ['error_bubbling' => true])
-
-            ->add('type_vente', ChoiceType::class, [
-                'choices' => [
-                        'Au kilogramme (Kg)' => "Au kilogramme (Kg)",
-                        'Au gramme (g)' => 'Au gramme (g)',
-                        'Au litre (l)' => 'Au litre (l)',
-                        'Au centilitre (cl)' => 'Au centilitre (cl)',
-                        'Au millilitre (ml)' => 'Au millilitre (ml)'
-                    ]])
-            ->add('origine', EntityType::class, ["class" => Origine::class, 'choice_label' => 'country'])
             ;
     }
 

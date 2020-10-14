@@ -6,7 +6,6 @@ use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\User;
 
 /**
  * @method Produit|null find($id, $lockMode = null, $lockVersion = null)
