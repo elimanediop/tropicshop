@@ -25,10 +25,12 @@ class StoreController extends AbstractController
     private $manager;
     private $produitRepository;
     private $previewProduct;
+    private $produitStoreRepository;
 
-    public function __construct(ObjectManager $manager, ProduitRepository $produitRepository)
+    public function __construct(ObjectManager $manager, ProduitStoreRepository $produitStoreRepository, ProduitRepository $produitRepository)
     {
         $this->manager = $manager;
+        $this->produitStoreRepository = $produitStoreRepository;
         $this->produitRepository = $produitRepository;
     }
     /**
@@ -70,8 +72,12 @@ class StoreController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $store =  $this->getUser();
-            //TODO if ! isset typevente ->setTypevente($produit->getTypevente())
-            //TODO if !isset origine  ->setOrigine($produit->getOrigine())
+            if(is_null($produitStore->getTypevente())){
+                $produitStore->setTypevente($produit->getTypevente());
+            }
+            if(is_null($produitStore->getOrigine())){
+                $produitStore->setOrigine($produit->getOrigine());
+            }
             $produitStore
                 ->setStore($store);
 
