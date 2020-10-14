@@ -118,12 +118,12 @@
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
 
-                                  <a href="{{ path('addProductCart', {'store_id': product.store.id,'product_id': product.id  }) }}"
-                                     type="button" class="text-white">
-                                     <div class="btn border btn-radius-1em bg-theme {% if(not app.user) %} disabled {% endif %}">
-                                      <i class="fa fa-cart-plus fa-2x"></i>
-                                      </div>
-                                  </a>
+{#                                  <a href="{{ path('addProductCart', {'store_id': product.store.id,'product_id': product.id  }) }}"#}
+{#                                     type="button" class="text-white">#}
+{#                                     <div class="btn border btn-radius-1em bg-theme {% if(not app.user) %} disabled {% endif %}">#}
+{#                                      <i class="fa fa-cart-plus fa-2x"></i>#}
+{#                                      </div>#}
+{#                                  </a>#}
 
                             </div>
                             </a>
