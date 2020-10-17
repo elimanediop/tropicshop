@@ -31,11 +31,6 @@ class Produit
     private $description;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $prix;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Origine::class)
      */
     private $origine;
@@ -55,11 +50,6 @@ class Produit
      */
     private $typeproduit;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="produits")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $store;
 
     /**
      * @ORM\Column(type="boolean")
@@ -70,11 +60,6 @@ class Produit
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $typevente;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $taille;
 
     /**
      * @return string
@@ -95,7 +80,6 @@ class Produit
 
     public function __construct()
     {
-        $this->store = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,8 +99,6 @@ class Produit
         return $this;
     }
 
-
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -125,19 +107,6 @@ class Produit
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-    
-
-    public function getPrix(): ?float
-    {
-        return $this->prix;
-    }
-
-    public function setPrix(float $prix): self
-    {
-        $this->prix = $prix;
 
         return $this;
     }
@@ -178,18 +147,6 @@ class Produit
         return $this;
     }
 
-    public function getStore(): ?User
-    {
-        return $this->store;
-    }
-
-    public function setStore(?User $store): self
-    {
-        $this->store = $store;
-
-        return $this;
-    }
-
     public function getIsdefault(): ?bool
     {
         return $this->isdefault;
@@ -210,18 +167,6 @@ class Produit
     public function setTypevente(?string $typevente): self
     {
         $this->typevente = $typevente;
-
-        return $this;
-    }
-
-    public function getTaille(): ?float
-    {
-        return $this->taille;
-    }
-
-    public function setTaille(?float $taille): self
-    {
-        $this->taille = $taille;
 
         return $this;
     }

@@ -31,6 +31,11 @@ class Origine
      */
     private $country;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ProduitStore::class, mappedBy="origine", cascade={"persist", "remove"})
+     */
+    private $typevente;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,24 @@ class Origine
     public function setCountry(string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getTypevente(): ?ProduitStore
+    {
+        return $this->typevente;
+    }
+
+    public function setTypevente(?ProduitStore $typevente): self
+    {
+        $this->typevente = $typevente;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newOrigine = null === $typevente ? null : $this;
+        if ($typevente->getOrigine() !== $newOrigine) {
+            $typevente->setOrigine($newOrigine);
+        }
 
         return $this;
     }

@@ -26,7 +26,28 @@ class ProduitStore
     /**
      * @ORM\Column(type="float")
      */
-    private $taille;
+    private $mesure;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $prix;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Origine::class, inversedBy="typevente", cascade={"persist", "remove"})
+     */
+    private $origine;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $typevente;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $store;
 
     public function getId(): ?int
     {
@@ -45,14 +66,62 @@ class ProduitStore
         return $this;
     }
 
-    public function getTaille(): ?float
+    public function getMesure(): ?float
     {
-        return $this->taille;
+        return $this->mesure;
     }
 
-    public function setTaille(float $taille): self
+    public function setMesure(float $mesure): self
     {
-        $this->taille = $taille;
+        $this->mesure = $mesure;
+
+        return $this;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getOrigine(): ?Origine
+    {
+        return $this->origine;
+    }
+
+    public function setOrigine(?Origine $origine): self
+    {
+        $this->origine = $origine;
+
+        return $this;
+    }
+
+    public function getTypevente(): ?string
+    {
+        return $this->typevente;
+    }
+
+    public function setTypevente(?string $typevente): self
+    {
+        $this->typevente = $typevente;
+
+        return $this;
+    }
+
+    public function getStore(): ?User
+    {
+        return $this->store;
+    }
+
+    public function setStore(User $store): self
+    {
+        $this->store = $store;
 
         return $this;
     }

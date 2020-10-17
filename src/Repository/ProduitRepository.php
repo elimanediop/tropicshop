@@ -6,7 +6,6 @@ use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\User;
 
 /**
  * @method Produit|null find($id, $lockMode = null, $lockVersion = null)
@@ -54,14 +53,14 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findOneByUserId(int $id, int $store_id, bool $isdefault=tue)
+    public function findOneByUserId(int $id, int $store_id, bool $isdefault=true)
     {
         return $this->createQueryBuilder('p')
             ->where('p.id = :id')
-            ->where('isdefualt = :default')
+            ->andWhere('p.isdefault = :isdefault')
             ->andWhere('p.store = :store')
             ->setParameter('id', $id)
-            ->setParameter('default', $isdefault)
+            ->setParameter('isdefault', $isdefault)
             ->setParameter('store', $store_id)
             ->orderBy('p.id', 'ASC')
             ->getQuery()
@@ -78,7 +77,7 @@ class ProduitRepository extends ServiceEntityRepository
             ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
             ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
             ->andWhere("p.nom like :val")
-            ->where('isdefualt = :default')
+            ->andwhere('isdefualt = :default')
             ->setParameter('default', $isdefault)
             ->setParameter('val', "%$term%")
             ->orderBy('p.id', 'ASC')
@@ -90,7 +89,7 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findByTermAndLocation($term, $lat, $lon, $ray = 5, bool $isdefault)
+    public function findByTermAndLocation($term, $lat, $lon, bool $isdefault=true, $ray = 5)
     {
         $sqlDistance = '(6378 * acos(cos(radians(' . $lat
             . ')) * cos(radians(u.lat)) * cos(radians(u.lon) - radians(' . $lon .
@@ -100,10 +99,10 @@ class ProduitRepository extends ServiceEntityRepository
             ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
             ->andWhere("p.nom like :val")
             ->andWhere(':where < :ray')
-            ->where('isdefualt = :default')
-            ->setParameter('default', $isdefault)
             ->setParameter('where', $sqlDistance)
             ->setParameter('ray', $ray)
+            ->andwhere('p.isdefault = :default')
+            ->setParameter('default', $isdefault)
             ->setParameter('val', "%$term%")
             ->orderBy('p.id', 'ASC')
             ->getQuery()
