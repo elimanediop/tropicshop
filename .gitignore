@@ -52,3 +52,7 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+
+# conf server
+.htaccess
+.env.dev

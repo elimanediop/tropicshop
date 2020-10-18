@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\FiltreProduit;
 
 /**
  * @method Produit|null find($id, $lockMode = null, $lockVersion = null)
@@ -72,18 +73,17 @@ class ProduitRepository extends ServiceEntityRepository
      * @return Produit[] Returns an array of Produit objects
      */
     public function findByTerm($term, bool $isdefault)
-    {
-        return $this->createQueryBuilder('p')
+    {   
+        $qb = $this->createQueryBuilder('p')
             ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
-            ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
+            ->innerJoin("App\Entity\ProduitStore", 'ps', Join::WITH,"p.id = ps.produit")
+            ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = ps.id")
             ->andWhere("p.nom like :val")
-            ->andwhere('isdefualt = :default')
+            ->andwhere('p.isdefault = :default')
             ->setParameter('default', $isdefault)
             ->setParameter('val', "%$term%")
-            ->orderBy('p.id', 'ASC')
-            ->getQuery()
-            ->getResult()
-            ;
+            ->orderBy('p.id', 'ASC');   
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -122,7 +122,7 @@ class ProduitRepository extends ServiceEntityRepository
             ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
             ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
             ->andWhere(':where < :ray')
-            ->where('isdefualt = :default')
+            ->where('p.isdefault = :default')
             ->setParameter('default', $isdefault)
             ->setParameter('where', $sqlDistance)
             ->setParameter('ray', $ray)
@@ -140,7 +140,52 @@ class ProduitRepository extends ServiceEntityRepository
         }
         return $productsByStoreId;
     }
+    // recherche les proquits avec critère du filtre
+    public function findProduitWithFilter(FiltreProduit $filter):array{
+        $qb = $this->createQueryBuilder('p');
+        $this->addFilter($qb,$filter);
+        //dd($qb->getQuery()->getSQL());
+        return $qb->getQuery()->getResult(); 
 
+    }
+
+    // ajoute filtre dans la requette
+    public function addFilter($qb,$filter){
+        if(!empty($filtre->getTerm())){
+
+        }
+
+        if(!empty($filter->getPrixInf())){
+            $qb->andWhere('p.prix >= :prix')
+               ->setParameter('prix',$filter->getPrixInf());
+        }
+
+        if(!empty($filter->getPrixInf())){
+            $qb->andWhere('p.prix =< :prix')
+               ->setParameter('prix',$filter->getPrixInf());
+        }
+
+        if($filter->getTaille()){
+            $qb->andWhere('p.taille = :taille')
+               ->setParameter('taille',$filter->getTaille());
+        }
+
+        if(!empty($filter->getOrigine())){
+            $qb->andWhere('p.origine IN (:origine)')
+               ->setParameter('origine',$filter->getOrigine());
+        }
+
+        if(!empty($filter->getTypeProduits())){
+            $qb->andWhere('p.typeproduit IN (:typeproduit)')
+               ->setParameter('typeproduit',$filter->getTypeProduits());
+        }
+
+        if(!empty($filter->getTypeVente())){
+            $qb->andWhere('p.typevente IN (:typevente)')
+               ->setParameter('typevente',$filter->getTypeVente());
+        }
+
+    }
 
 
 

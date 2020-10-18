@@ -1,6 +1,7 @@
-{{ form_start(filtre_produit) }}
-    <div>{{form_row(filtre_produit.origine)}}</div>
-    <div>{{form_row(filtre_produit.typeProduits)}}</div>
-    <div>{{form_row(filtre_produit.typeVente)}}</div>
+{{ form_start(filtre_produit,{attr:{id:'filtreproduit'}}) }}
+    <div class="row">{{form_row(filtre_produit.origine)}}</div>
+    <div class="row">{{form_row(filtre_produit.typeProduits)}}</div>
+    <div class="row">{{form_row(filtre_produit.store)}}</div>
+    <div class="row">{{form_row(filtre_produit.typeVente)}}</div>
     <input type="submit" value="Filtrer">
 {{ form_end(filtre_produit)}}

@@ -28,6 +28,10 @@ class FiltreProduit
      * origine du produit
      */
     private $taille;
+    /*
+     * magasin pour produits
+     */
+    private $store;
 
     /**
      * @return mixed
@@ -145,6 +149,26 @@ class FiltreProduit
     public function setTaille($taille)
     {
         $this->taille = $taille;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * @param mixed $store
+     *
+     * @return self
+     */
+    public function setStore($store)
+    {
+        $this->store = $store;
 
         return $this;
     }

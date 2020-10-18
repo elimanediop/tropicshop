@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\FiltreProduit;
+use App\Form\FiltreProduitType;
 
 class MainController extends AbstractController
 {
@@ -37,11 +39,20 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->products = $this->produitRepository->findBy(["isdefault" => true]);
+        $filtreProduit  = new FiltreProduit();
+        $filtreForm     = $this->createForm(FiltreProduitType::class,$filtreProduit);
+        $filtreForm->handleRequest($request);
+        
+        if($filtreForm->isSubmitted()){
+            $this->products = $this->produitRepository->findProduitWithFilter($filtreProduit);
+        }else{
+            $this->products = $this->produitRepository->findBy(["isdefault" => true]); 
+        }
         return $this->render('main/home.html.twig', [
-            'products' =>$this->products
+            'products' =>$this->products,
+            'filtre_produit'=>$filtreForm->createView()
         ]);
     }
 
@@ -86,17 +97,23 @@ class MainController extends AbstractController
         $lon = $request->get('lon');
         $storeProducts=[];
 
+        $filtreProduit  = new FiltreProduit();
+        $filtreForm     = $this->createForm(FiltreProduitType::class,$filtreProduit);
+        $filtreForm->handleRequest($request);
+        
         if(strlen($term) && strlen($location)){
             $storeProducts = $this->produitRepository->findByTermAndLocation($term, $lat, $lon);
         }elseif (strlen($location)){
             $storeProducts = $this->produitRepository->findByLocation($lat,$lon);
         }elseif (strlen($term)){
-            $storeProducts = $this->produitRepository->findByTerm($term);
+            $storeProducts = $this->produitRepository->findByTerm($term,true);
         }else{
             $this->products = $this->produitRepository->findBy(["isdefault" => true]);
         }
+
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
+            'filtre_produit'=>$filtreForm->createView(),
             'storeProducts' => $storeProducts,
             'searchTerm' => $term,
             'location' => $location,
@@ -112,7 +129,6 @@ class MainController extends AbstractController
     public function afficherProduitMagasin(int $store_id, int $product_id, PanierService $panierService){
         $this->products = $this->produitRepository->findOneBy(["id" => $product_id, "store" => $store_id, "isdefault" => true]);
         $cart = $panierService->getProduit();
-
 
         return $this->render('main/home.html.twig', [
             'products' => $this->products

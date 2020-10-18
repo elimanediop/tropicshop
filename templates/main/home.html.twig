@@ -19,6 +19,9 @@
                 <a href="{{ path('filter_category', {'category': 'comestiques'}) }}" class="list-group-item">Cosmétiques</a>
                 <a href="{{ path('filter_category', {'category': 'autre'}) }}" class="list-group-item">Autres</a>
             </div>
+            <div class="list-group">
+                {% include 'filtre/produit.html.twig' %}
+            </div>
             <div class="single-sidebar-widget my-4">
                 <video src="{{ asset('img/bg-img/video1.mp4') }}" class="add-img" controls poster="{{ asset('img/bg-img/recette.png') }}">
                     Cette vidéo ne peut être affichée sur votre navigateur Internet.<br>

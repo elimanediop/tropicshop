@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use App\Entity\User;
 use App\Entity\Origine;
 use App\Entity\TypeProduit;
 use App\Entity\FiltreProduit;
@@ -18,6 +20,7 @@ class FiltreProduitType extends AbstractType
         $builder
             ->add('origine',EntityType::class,[
                 'required'=>false,
+                'label'=>false,
                 'class'=>Origine::Class,
                 'choice_label'=>'country',
                 'multiple'=>true
@@ -25,17 +28,27 @@ class FiltreProduitType extends AbstractType
             ->add('typeProduits',EntityType::class,[
                 'required'=>false,
                 'choice_label'=>'libelle',
+                'label'=>false,
                 'class'=>TypeProduit::Class,
-                'multiple'=>true,
-                'expanded'=>true   
+                'multiple'=>true,  
+            ])
+            ->add('store',EntityType::class,[
+                'required'=>false,
+                'choice_label'=>'nommagasin',
+                'label'=>false,
+                'class'=>User::Class,
+                'multiple'=>true,  
             ])
             ->add('typeVente',ChoiceType::class,[
-                'choices' => ['Au kilo'=>1,'par pièce'=>2],
+                'choices' => [
+                    'selectionnez un ou plusieurs'=>0,
+                    'Au kilo'=>1,
+                    'par pièce'=>2
+                ],
                 'multiple'=>true,
-                'expanded' =>true,
                 'label'=>false,
                 'required'=> false
-                ]);
+                ])
         ;
     }
 
