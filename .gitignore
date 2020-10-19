@@ -55,4 +55,4 @@
 
 # conf server
 .htaccess
-.env.dev
+.env.local
