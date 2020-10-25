@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200912135001 extends AbstractMigration
+final class Version20201024134603 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,12 +20,14 @@ final class Version20200912135001 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('INSERT INTO origine(id, country, alpha_2, alpha_3) VALUES(1000,"Afrique","ae","afr"), (1001,"Asie","ai","asi"), (1002,"Amérique Latine","an","aml");');
+        $this->addSql('ALTER TABLE produit DROP INDEX UNIQ_29A5EC2721AE9982, ADD INDEX IDX_29A5EC2721AE9982 (typevente_id)');
+        $this->addSql('ALTER TABLE produit DROP typevente');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE origine DROP country');
+        $this->addSql('ALTER TABLE produit DROP INDEX IDX_29A5EC2721AE9982, ADD UNIQUE INDEX UNIQ_29A5EC2721AE9982 (typevente_id)');
+        $this->addSql('ALTER TABLE produit ADD typevente VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`');
     }
 }

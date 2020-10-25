@@ -1,7 +1,69 @@
-{{ form_start(filtre_produit,{attr:{id:'filtreproduit'}}) }}
-    <div class="row">{{form_row(filtre_produit.origine)}}</div>
-    <div class="row">{{form_row(filtre_produit.typeProduits)}}</div>
-    <div class="row">{{form_row(filtre_produit.store)}}</div>
-    <div class="row">{{form_row(filtre_produit.typeVente)}}</div>
-    <input type="submit" value="Filtrer">
-{{ form_end(filtre_produit)}}
+
+<div class="section-heading my-4">
+    <h5>Filtre produits</h5>
+</div>
+
+<div class="form-group">
+	{{ form_start(filtre_produit,{attr:{id:'filtreproduit'}}) }}
+	    <div class="row">
+	        <div class="row">
+	            <p class="filtre"> Selectionnez les pays d'origines </p>
+	        </div>
+	        <div class="row">
+	        	{{form_row(filtre_produit.origine)}}
+	        </div>
+	    </div>   
+	    </br>
+
+	    <div class="row">
+	        <div class="row">
+	            <p class="filtre"> Selectionnez Categories </p>
+	        </div>
+	        <div class="row">
+	        	{{form_row(filtre_produit.typeProduits)}}
+	        </div>
+	    </div>  
+	    </br>
+
+	    <div class="row">	
+	        <div >
+	            <p class="filtre kilo"> Au Kilos ou par pièces</p>
+	        </div>    
+	        <div class="row">
+	        	{{form_row(filtre_produit.typeVente)}}
+	        </div>
+	    </div> 
+	    </br>
+        
+        <!--div class="row">
+	        <div class="row">
+	            <p> Selectionnez Magasin </p>
+	        </div>   
+	        <!--div class="row">{#{form_row(filtre_produit.store)}#}</div-->
+	    </div-->
+
+	    <div class="row">
+	        <div class="col">
+			    <div class="row">
+			        <p class="prix_label"> prix min </p>
+			    </div>
+			     <div class="row">
+		        	{{form_row(filtre_produit.prixInf)}}
+		        </div> 
+	        </div>
+
+	        <div class="col" >
+		         <div class="row">
+		            <p class="prix_label"> prix max </p>
+		        </div>
+		        <div class="row">
+		        	{{form_row(filtre_produit.prixSup)}}
+		        </div>
+	        </div>
+	    </div>  
+
+        <div style="margin-left:0px"> 
+	    	<input class="btn mag-btn mt-30 filtre_button" type="submit" value="Filtrer" style="width:80%">
+	    </div>
+	{{ form_end(filtre_produit)}}
+</div>

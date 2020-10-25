@@ -6,6 +6,7 @@
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('style.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/sumoselect.min.css') }}" />
         {% endblock %}
         <link rel="icon" href="{{ asset('favicon.png') }}" />
     </head>
@@ -28,6 +29,8 @@
             <script src="{{ asset('js/load.js') }}"></script>
             <!-- Show/Hide Password -->
             <script src="{{ asset('js/bootstrap-show-password.js') }}"></script>
+            <script src="{{ asset('js/jquery.sumoselect.min.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
             <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ api_google_key }}&libraries=places"></script>
             <script src="{{ asset('js/auto-complete.js') }}"></script>
         {% endblock %}

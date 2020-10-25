@@ -7,11 +7,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use App\Entity\User;
 use App\Entity\Origine;
 use App\Entity\TypeProduit;
 use App\Entity\FiltreProduit;
+use App\Entity\TypeVente;
 
 class FiltreProduitType extends AbstractType
 {
@@ -23,31 +25,60 @@ class FiltreProduitType extends AbstractType
                 'label'=>false,
                 'class'=>Origine::Class,
                 'choice_label'=>'country',
+                'attr'=>[
+                    'class'=>'SlectBox form-control',
+                    'placeholder'=>'Selectionnez origines'
+                ],
                 'multiple'=>true
             ])
             ->add('typeProduits',EntityType::class,[
                 'required'=>false,
                 'choice_label'=>'libelle',
                 'label'=>false,
+                'attr'=>[
+                    'class'=>'SlectBox form-control',
+                    'placeholder'=>'Selectionnez catégories'
+                ],
                 'class'=>TypeProduit::Class,
                 'multiple'=>true,  
             ])
-            ->add('store',EntityType::class,[
+            ->add('prixInf',TextType::class,[ 
+                'required'=>false,
+                'label'=>false, 
+                'attr'=>[
+                    'class'=>'prix form-control',
+
+                ],  
+            ])
+             ->add('prixSup',TextType::class,[
+                'required'=>false,
+                'label'=>false, 
+                'attr'=>[
+                    'class'=>'prix form-control',
+                    
+                ], 
+            ])
+            ->add('recherche',HiddenType::class,[
+                'required'=>false,
+                'label'=>false,  
+            ])
+            /*->add('store',EntityType::class,[
                 'required'=>false,
                 'choice_label'=>'nommagasin',
                 'label'=>false,
                 'class'=>User::Class,
                 'multiple'=>true,  
-            ])
-            ->add('typeVente',ChoiceType::class,[
-                'choices' => [
-                    'selectionnez un ou plusieurs'=>0,
-                    'Au kilo'=>1,
-                    'par pièce'=>2
-                ],
-                'multiple'=>true,
+            ])*/
+            ->add('typeVente',EntityType::class,[
+                'required'=>false,
+                'choice_label'=>'libelle',
                 'label'=>false,
-                'required'=> false
+                'attr'=>[
+                    'class'=>'SlectBox form-control',
+                    'placeholder'=>'Selectionnez tye de vente'
+                ],
+                'class'=>TypeVente::Class,
+                'multiple'=>true, 
                 ])
         ;
     }

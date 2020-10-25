@@ -44,12 +44,10 @@ class MainController extends AbstractController
         $filtreProduit  = new FiltreProduit();
         $filtreForm     = $this->createForm(FiltreProduitType::class,$filtreProduit);
         $filtreForm->handleRequest($request);
-        
-        if($filtreForm->isSubmitted()){
+        //dd();
+        //if($filtreForm->isSubmitted()){
             $this->products = $this->produitRepository->findProduitWithFilter($filtreProduit);
-        }else{
-            $this->products = $this->produitRepository->findBy(["isdefault" => true]); 
-        }
+       // }
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
             'filtre_produit'=>$filtreForm->createView()
@@ -96,8 +94,10 @@ class MainController extends AbstractController
         $lat = $request->get('lat');
         $lon = $request->get('lon');
         $storeProducts=[];
-
+        
         $filtreProduit  = new FiltreProduit();
+        $filtreProduit->setRecherche($term);
+        
         $filtreForm     = $this->createForm(FiltreProduitType::class,$filtreProduit);
         $filtreForm->handleRequest($request);
         
@@ -105,10 +105,8 @@ class MainController extends AbstractController
             $storeProducts = $this->produitRepository->findByTermAndLocation($term, $lat, $lon);
         }elseif (strlen($location)){
             $storeProducts = $this->produitRepository->findByLocation($lat,$lon);
-        }elseif (strlen($term)){
-            $storeProducts = $this->produitRepository->findByTerm($term,true);
         }else{
-            $this->products = $this->produitRepository->findBy(["isdefault" => true]);
+            $storeProducts = $this->produitRepository->findByTerm($filtreProduit,true);
         }
 
         return $this->render('main/home.html.twig', [

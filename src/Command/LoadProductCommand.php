@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Produit;
 use App\Entity\ProduitStore;
+use App\Entity\TypeVente;
 use App\Repository\OrigineRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\TypeProduitRepository;
@@ -56,7 +57,7 @@ class LoadProductCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $current_dir = __DIR__;
-        $file_path = $current_dir."/../../Data/product/liste101-174.csv";
+        $file_path = $current_dir."/../../Data/product/fiche_produit_template.csv";
         $csv_data = $this->utils->getCSVContent($file_path);
 
         foreach ($csv_data as $data){
@@ -78,10 +79,10 @@ class LoadProductCommand extends Command
             ->setDescription($data["description"])
             ->setTypeproduit($this->typeProduitRepository->findOneBy(["libelle" => $data["type_produit"]]))
             ->setOrigine($this->origineRepository->findOneBy(["country" => $data["origine"]]))
-            ->setTypevente($data["vente"])
-            ->setPrix(0)
+            ->setTypevente($this->manager->getRepository(TypeVente::class)->find(1))
+            //->setPrix(0)
             ->setIsdefault(true)
-            ->setStore($this->userRepository->find(1)) //TODO add admin user
+            //->setStore($this->userRepository->find(1)) //TODO add admin user
         ;
         $this->manager->persist($produit);
         $this->manager->flush();

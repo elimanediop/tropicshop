@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\TypeProduit;
+use App\Entity\TypeVente;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method TypeProduit|null find($id, $lockMode = null, $lockVersion = null)
- * @method TypeProduit|null findOneBy(array $criteria, array $orderBy = null)
- * @method TypeProduit[]    findAll()
- * @method TypeProduit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TypeVente|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TypeVente|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TypeVente[]    findAll()
+ * @method TypeVente[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TypeProduitRepository extends ServiceEntityRepository
+class TypeVenteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TypeProduit::class);
+        parent::__construct($registry, TypeVente::class);
     }
 
     // /**
-    //  * @return TypeProduit[] Returns an array of TypeProduit objects
+    //  * @return TypeVente[] Returns an array of TypeVente objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TypeProduitRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?TypeProduit
+    public function findOneBySomeField($value): ?TypeVente
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-lg-3">
-            <div class="section-heading my-4">
+            <!--div class="section-heading my-4">
                 <h5>Categories</h5>
             </div>
             <div class="list-group">
@@ -18,10 +18,11 @@
                 <a href="{{ path('filter_category', {'category': 'condiments-epices'}) }}" class="list-group-item">Condiments et Epices</a>
                 <a href="{{ path('filter_category', {'category': 'comestiques'}) }}" class="list-group-item">Cosmétiques</a>
                 <a href="{{ path('filter_category', {'category': 'autre'}) }}" class="list-group-item">Autres</a>
-            </div>
-            <div class="list-group">
-                {% include 'filtre/produit.html.twig' %}
-            </div>
+            </div-->
+
+            {#################### include filtre ####################}
+             {% include 'filtre/produit.html.twig' %}
+            
             <div class="single-sidebar-widget my-4">
                 <video src="{{ asset('img/bg-img/video1.mp4') }}" class="add-img" controls poster="{{ asset('img/bg-img/recette.png') }}">
                     Cette vidéo ne peut être affichée sur votre navigateur Internet.<br>
@@ -117,7 +118,7 @@
                                     <h4 class="card-title">
                                         <a href="{{ path('showProduct', {'id' : product.id}) }}">{{ product.nom }}</a>
                                     </h4>
-                                    <h6 style="color:#f5bd4c;">{{ product.typevente }}</h6>
+                                    <h6 style="color:#f5bd4c;">{{ product.typevente.libelle }}</h6>
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
 

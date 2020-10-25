@@ -19,7 +19,7 @@ class FiltreProduit
     /*
      * types des produits
      */
-    private $typeProduits = [];
+    private $typeProduits;
     /*
      * type de vente kilo|pièce
      */
@@ -32,6 +32,15 @@ class FiltreProduit
      * magasin pour produits
      */
     private $store;
+
+    /*
+     * recherche produit dans magasin 
+     */
+    private $recherche;
+
+    public function __tostring(){
+        return $this->prixInf.$this->prixSup.$this->typeVente.$this->typeProduits.$this->taille.$this->store;
+    }
 
     /**
      * @return mixed
@@ -169,6 +178,25 @@ class FiltreProduit
     public function setStore($store)
     {
         $this->store = $store;
+
+        return $this;
+    }
+        /**
+     * @return mixed
+     */
+    public function getRecherche()
+    {
+        return $this->recherche;
+    }
+
+    /**
+     * @param mixed $recherche
+     *
+     * @return self
+     */
+    public function setRecherche($recherche)
+    {
+        $this->recherche = $recherche;
 
         return $this;
     }

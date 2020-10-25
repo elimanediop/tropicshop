@@ -72,17 +72,18 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findByTerm($term, bool $isdefault)
+    public function findByTerm($filter = null, bool $isdefault)
     {   
         $qb = $this->createQueryBuilder('p')
             ->select("u.id, p.id as produit_id, u.nommagasin, u.adresse, u.codepostal, u.ville, p.nom" )
             ->innerJoin("App\Entity\ProduitStore", 'ps', Join::WITH,"p.id = ps.produit")
             ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = ps.id")
-            ->andWhere("p.nom like :val")
             ->andwhere('p.isdefault = :default')
             ->setParameter('default', $isdefault)
-            ->setParameter('val', "%$term%")
-            ->orderBy('p.id', 'ASC');   
+            ->orderBy('p.id', 'ASC'); 
+         if ($filter) {
+            $this->addFilter($qb,$filter);
+        }
         return $qb->getQuery()->getResult();
     }
 
@@ -140,21 +141,34 @@ class ProduitRepository extends ServiceEntityRepository
         }
         return $productsByStoreId;
     }
+
     // recherche les proquits avec critère du filtre
-    public function findProduitWithFilter(FiltreProduit $filter):array{
+    public function findProduitWithFilter(FiltreProduit $filter = null):array{
+    
         $qb = $this->createQueryBuilder('p');
-        $this->addFilter($qb,$filter);
-        //dd($qb->getQuery()->getSQL());
+                
+        if (strlen($filter)) {
+            $this->addFilter($qb,$filter);
+            $qb->innerJoin("App\Entity\ProduitStore", 'ps', Join::WITH,"p.id = ps.produit");
+                //->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = ps.id");
+        }
+        
+        //dd($qb->getQuery()->getSQL(),$qb->getQuery()->getParameters());
         return $qb->getQuery()->getResult(); 
 
     }
 
     // ajoute filtre dans la requette
     public function addFilter($qb,$filter){
-        if(!empty($filtre->getTerm())){
+       //dd($filter);
 
+        if (!empty($term = $filter->getRecherche())) {
+               $qb->andWhere("p.nom like :val")
+                  ->setParameter('val', "%$term%");
         }
-
+        /*  
+          ******* TO DO when prix by store done *****
+          *******************************************
         if(!empty($filter->getPrixInf())){
             $qb->andWhere('p.prix >= :prix')
                ->setParameter('prix',$filter->getPrixInf());
@@ -164,23 +178,23 @@ class ProduitRepository extends ServiceEntityRepository
             $qb->andWhere('p.prix =< :prix')
                ->setParameter('prix',$filter->getPrixInf());
         }
-
+        */ 
         if($filter->getTaille()){
             $qb->andWhere('p.taille = :taille')
                ->setParameter('taille',$filter->getTaille());
         }
 
-        if(!empty($filter->getOrigine())){
+        if( !empty($filter->getOrigine()) && !$filter->getOrigine()->isEmpty()){
             $qb->andWhere('p.origine IN (:origine)')
                ->setParameter('origine',$filter->getOrigine());
         }
 
-        if(!empty($filter->getTypeProduits())){
+        if(!empty($filter->getTypeProduits()) && !$filter->getTypeProduits()->isEmpty()){
             $qb->andWhere('p.typeproduit IN (:typeproduit)')
                ->setParameter('typeproduit',$filter->getTypeProduits());
         }
 
-        if(!empty($filter->getTypeVente())){
+        if(!empty($filter->getTypeVente()) && !$filter->getTypeVente()->isEmpty()){
             $qb->andWhere('p.typevente IN (:typevente)')
                ->setParameter('typevente',$filter->getTypeVente());
         }

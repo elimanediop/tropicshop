@@ -45,9 +45,9 @@ class Produit
      */
     private $imagesproduit;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=TypeProduit::class)
-     */
+        /**
+         * @ORM\ManyToOne(targetEntity=TypeProduit::class)
+         */
     private $typeproduit;
 
 
@@ -57,7 +57,8 @@ class Produit
     private $isdefault = false;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity=TypeVente::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $typevente;
 
@@ -159,12 +160,12 @@ class Produit
         return $this;
     }
 
-    public function getTypevente(): ?string
+    public function getTypevente(): ?TypeVente
     {
         return $this->typevente;
     }
 
-    public function setTypevente(?string $typevente): self
+    public function setTypevente(TypeVente $typevente): self
     {
         $this->typevente = $typevente;
 
