@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Entity\Produit;
+use App\Entity\ProduitStore;
 use App\Repository\OrigineRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\ProduitStoreRepository;
@@ -56,7 +58,7 @@ class   LoadProductStoreCommand extends Command
         $this
             ->setDescription('Load product in a store from csv file')
             ->addArgument('id_store', InputArgument::REQUIRED, 'Id of store')
-            ->addArgument('file', InputArgument::REQUIRED, 'Absolute Path of csv file which content product store to load')
+            ->addArgument('filename', InputArgument::REQUIRED, 'csv file name which content product store to load. Example: liste101-174.csv')
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
@@ -65,16 +67,54 @@ class   LoadProductStoreCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $id_store = $input->getArgument('id_store');
-        $file_path = $input->getArgument('file');
+        $file_name = $input->getArgument('filename');
 
+        $current_dir = __DIR__;
+        $file_path = $current_dir."/../../Data/product_store/".$file_name;
         if ($id_store && $file_path) {
-            $io->note(sprintf('You passed an argument: %s', $id_store));
+            $io->note(sprintf('You passed two arguments : %s | %s', $id_store, $file_name));
+        }
+        if(file_exists($file_path)){
+            $csv_data = $this->utils->getCSVContent($file_path);
+        }else{
+            $io->error(sprintf('File : %s does not exist', $file_path));
+            return 0;
         }
 
+
+        //dd($csv_data);
+
+        foreach ($csv_data as $data){
+            $this->addProduct($data, $id_store, $io);
+        }
 
 
         $io->success('All product store are loading !');
 
         return 0;
+    }
+
+    private function addProduct($data, $id, SymfonyStyle $io){
+        /**
+         * @var ProduitStore $produitstore
+         */
+        $produitstore = new ProduitStore();
+        /**
+         * @var Produit[] $produit
+         */
+        $produit = $this->produitRepository->findByNameLike($data["nom"]);
+
+
+        //dd(($data["nom"]));
+        if(count($produit) > 0){
+            var_dump($data["nom"]);
+
+            //dd($produit);
+            //print_r($produit);
+            //$io->note("Product found : %s ", $data["nom"]);
+        }
+
+        //$this->manager->persist($produitstore);
+        //$this->manager->flush();
     }
 }
