@@ -39,6 +39,19 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
+    public function findByNameLike($nom)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.nom LIKE :nom')
+            ->setParameter('nom', '%'.$nom.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Produit[] Returns an array of Produit objects
+     */
     public function findByUserId($id)
     {
         return $this->createQueryBuilder('p')
