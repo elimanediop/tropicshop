@@ -1,0 +1,81 @@
+nom,prix,type_vente,mesure,origine
+Farine de maïs (éwô),"4,10 €",Au kilogramme (Kg),1,Afrique
+Farine de maïs grillé (ewo tôtô),"5,00 €",Au kilogramme (Kg),1,Afrique
+Tapioca,"4,10 €",Au kilogramme (Kg),1,Togo
+Gari,"4,10 €",Au kilogramme (Kg),1,Togo
+Farine de mil rouge (épowô),"5,00 €",Au kilogramme (Kg),1,Burkina-Faso
+Farine de manioc (kokotin),"3,50 €",Au kilogramme (Kg),1,Togo
+Haricots cornille (ayi),"4,99 €",Au kilogramme (Kg),1,Madagascar
+Haricots cornille rouges (ayidjin),"4,99 €",Au kilogramme (Kg),1,Madagascar
+Doiwoè,"5,99 €",Au gramme (g)',1,Togo
+azikokui- vanzou,"5,99 €",Au kilogramme (Kg),1,Togo
+telibô-amala,"5,00 €",Au gramme (g)',250,Togo
+farine de mil,"3,50 €",Au kilogramme (Kg),1,Burkina-Faso
+folly konme (farine de dokounou),"4,00 €",Au gramme (g)',250,Togo
+folly akpan (farine de akassa),"3,50 €",Au gramme (g)',250,Togo
+"zomi (0,5L)","5,00 €",Au litre (l),"0,5",Afrique
+agbelima- placaly-waterfufu /kg,"5,99 €",Au kilogramme (Kg),1,Togo
+epoma /kg,"5,99 €",Au kilogramme (Kg),1,Togo
+"ema, mawoè, pate de maïs, /kg","5,99 €",Au kilogramme (Kg),1,Togo
+"konmema, ema pour konme /kg","5,99 €",Au kilogramme (Kg),1,Togo
+"asrokui , ogbono, atôkou en poudre / 100g","3,00 €",Au gramme (g)',100,Afrique
+"asrokui, ogbono, atôkou entier /100g","3,00 €",Au gramme (g)',100,Afrique
+gussi en poudre /100g,"2,00 €",Au gramme (g)',100,Togo
+goussi entier /100g,"2,00 €",Au gramme (g)',100,Togo
+piment en poudre.,"2,00 €",Au gramme (g)',100,Afrique
+Piment entier sec /100g,"2,00 €",Au gramme (g)',100,Afrique
+"Alo, cure dents","0,50 €",Pièce,,Togo
+"Ebli schtro, peau de maïs /sachet","2,00 €",Pièce,,Togo
+Akam djin,"1,50 €",Pièce,,Togo
+Akam,"1,50 €",Pièce,,Togo
+"Agoègbé, feuilles de céné","3,00 €",Pièce,,Afrique
+"Afiti, graine de néré fermenté","2,50 €",Pièce,,Togo
+"Akpi, n'janssan en grain","1,50 €",Pièce,,Cameroun
+"Etcho, poivre long entier /50g","2,00 €",Au gramme (g)',50,Afrique
+"Echto, poivre long en poudre /50g","2,00 €",Au gramme (g)',50,Afrique
+"Ayikou, pèbè entier/50g","2,00 €",Au gramme (g)',50,Afrique
+"Ayikou, pèbè en poudre/50g","2,00 €",Au gramme (g)',50,Togo
+Gingembre en poudre du Togo /50g,"2,00 €",Au gramme (g)',50,Afrique
+"Atikanli, poivre noir d’Afrique entier /50g","2,00 €",Au gramme (g)',50,Afrique
+"Atikanli, poivre noir d’Afrique en poudre /50g","2,00 €",Au gramme (g)',50,Togo
+Arachides salé 1L,"6,50 €",Au kilogramme (Kg),1,Togo
+"Arachides salé 0,5L","3,50 €",Au kilogramme (Kg),"0,5",Togo
+Arachides sucrées 1L,"6,50 €",Au kilogramme (Kg),1,Togo
+"Arcahides sucrees 0,5L","3,50 €",Au kilogramme (Kg),"0,5",Togo
+Gingembre torifié 1L,,Au kilogramme (Kg),1,Togo
+"Gingembre torifié 0,5L","3,50 €",Au kilogramme (Kg),"0,5",Togo
+Coco râpée 1L,"6,50 €",Au kilogramme (Kg),1,Togo
+"Coco râpée 0,5L",,Au kilogramme (Kg),"0,5",Togo
+Louga grand,"6,50 €",Au kilogramme (Kg),"0,5",Togo
+Louga petita,"3,50 €",Au kilogramme (Kg),"0,25",Togo
+Cokada arachides grand,"6,50 €",Au kilogramme (Kg),"0,5",Togo
+Cokada arachides petit,"3,50 €",Au kilogramme (Kg),"0,25",Togo
+Cokada coco grand,"6,50 €",Au kilogramme (Kg),"0,5",Togo
+Cokada coco petit,"3,50 €",Au kilogramme (Kg),"0,25",Togo
+Pompom canette,"2,00 €",Au centilitre (cl),33,Togo
+Cocktail canette,"2,00 €",Au centilitre (cl),33,Togo
+Malta canette,"2,00 €",Au centilitre (cl),33,Togo
+Eku bouteille,"5,80 €",Au centilitre (cl),60,Togo
+Awooyo bouteille,"5,80 €",Au centilitre (cl),60,Togo
+Pils bouteille,"4,80 €",Au centilitre (cl),60,Togo
+Lager,"4,80 €",Au centilitre (cl),60,Togo
+Guinnesse togo grand,"3,90 €",Au centilitre (cl),60,Togo
+Guinnesse togo petit,"2,90 €",Au centilitre (cl),33,Togo
+Flag grand,"3,50 €",Au centilitre (cl),60,Togo
+Flag petit,"1,90 €",Au centilitre (cl),33,Togo
+"Akpan, akassa /pièce","1,50 €",Pièce,,Togo
+"Konme, Dokounou /la boule","1,50 €",Pièce,,Togo
+Lanhoin,,Au kilogramme (Kg),VARIABLE,Togo
+Ademin,,Au kilogramme (Kg),VARIABLE,Togo
+Gombos togo /kg,"8,90 €",Au kilogramme (Kg),VARIABLE,Togo
+"Thiacry, déguè /500g","2,00 €",Au kilogramme (Kg),VARIABLE,Burkina
+Fufu plantain /le carton,"3,90 €",Au gramme (g)',500,Afrique
+Fufu cocoyam,"3,90 €",Au kilogramme (Kg),1,Afrique
+Fufu igname,"2,90 €",Au kilogramme (Kg),1,Afrique
+Piments antillais,RUPTURE,Au kilogramme (Kg),1,Antilles
+Piments végétariens.,RUPTURE,Au kilogramme (Kg),VARIABLE,Antilles
+Manioc,RUPTURE,Au kilogramme (Kg),VARIABLE,Togo
+Ignames,RUPTURE,Au kilogramme (Kg),VARIABLE,Togo
+Patates douces,RUPTURE,Au kilogramme (Kg),VARIABLE,Togo
+Maquereaux fumé,RUPTURE,Au kilogramme (Kg),VARIABLE,Togo
+,,Au kilogramme (Kg),VARIABLE,
