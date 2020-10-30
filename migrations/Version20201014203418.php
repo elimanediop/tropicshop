@@ -21,13 +21,13 @@ final class Version20201014203418 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE produit DROP prix');
-        $this->addSql('ALTER TABLE produit_store ADD prix DOUBLE PRECISION NOT NULL, CHANGE taille mesure DOUBLE PRECISION NOT NULL');
+        $this->addSql('ALTER TABLE product_store ADD prix DOUBLE PRECISION NOT NULL, CHANGE taille mesure DOUBLE PRECISION NOT NULL');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE produit ADD prix DOUBLE PRECISION NOT NULL');
-        $this->addSql('ALTER TABLE produit_store ADD taille DOUBLE PRECISION NOT NULL, DROP mesure, DROP prix');
+        $this->addSql('ALTER TABLE product_store ADD taille DOUBLE PRECISION NOT NULL, DROP mesure, DROP prix');
     }
 }

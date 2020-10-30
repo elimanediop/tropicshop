@@ -23,9 +23,9 @@ final class Version20201014212452 extends AbstractMigration
         $this->addSql('ALTER TABLE produit DROP FOREIGN KEY FK_29A5EC27B092A811');
         $this->addSql('DROP INDEX IDX_29A5EC27B092A811 ON produit');
         $this->addSql('ALTER TABLE produit DROP store_id');
-        $this->addSql('ALTER TABLE produit_store ADD store_id INT NOT NULL');
-        $this->addSql('ALTER TABLE produit_store ADD CONSTRAINT FK_CFCB3FE3B092A811 FOREIGN KEY (store_id) REFERENCES user (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_CFCB3FE3B092A811 ON produit_store (store_id)');
+        $this->addSql('ALTER TABLE product_store ADD store_id INT NOT NULL');
+        $this->addSql('ALTER TABLE product_store ADD CONSTRAINT FK_CFCB3FE3B092A811 FOREIGN KEY (store_id) REFERENCES user (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_CFCB3FE3B092A811 ON product_store (store_id)');
     }
 
     public function down(Schema $schema) : void
@@ -34,8 +34,8 @@ final class Version20201014212452 extends AbstractMigration
         $this->addSql('ALTER TABLE produit ADD store_id INT NOT NULL');
         $this->addSql('ALTER TABLE produit ADD CONSTRAINT FK_29A5EC27B092A811 FOREIGN KEY (store_id) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('CREATE INDEX IDX_29A5EC27B092A811 ON produit (store_id)');
-        $this->addSql('ALTER TABLE produit_store DROP FOREIGN KEY FK_CFCB3FE3B092A811');
-        $this->addSql('DROP INDEX UNIQ_CFCB3FE3B092A811 ON produit_store');
-        $this->addSql('ALTER TABLE produit_store DROP store_id');
+        $this->addSql('ALTER TABLE product_store DROP FOREIGN KEY FK_CFCB3FE3B092A811');
+        $this->addSql('DROP INDEX UNIQ_CFCB3FE3B092A811 ON product_store');
+        $this->addSql('ALTER TABLE product_store DROP store_id');
     }
 }
