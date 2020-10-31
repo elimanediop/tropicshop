@@ -56,15 +56,16 @@ class LoadProductCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $current_dir = __DIR__;
-        $file_path = $current_dir."/../../Data/product/liste101-174.csv";
+        $file_path = $current_dir."/../../Data/product/fiche_produit_template .csv";
         $csv_data = $this->utils->getCSVContent($file_path);
-
+        $i = 0;
         foreach ($csv_data as $data){
             $this->addProduct($data);
+            $i++;
         }
 
         //$csvname = $input->getArgument('csvname');
-
+        print_r("$i products are really load\n");
         $io->success(sprintf("You're load %s product template in database.", count($csv_data)));
 
         return 0;
@@ -73,17 +74,23 @@ class LoadProductCommand extends Command
     private function addProduct($data){
         $produit = new Produit();
         //dd($data);
-        $produit->setImages($data["num_image"].'.jpg')
-            ->setNom($data["nom_produit"])
-            ->setDescription($data["description"])
-            ->setTypeproduit($this->typeProduitRepository->findOneBy(["libelle" => $data["type_produit"]]))
-            ->setOrigine($this->origineRepository->findOneBy(["country" => $data["origine"]]))
-            ->setTypevente($data["vente"])
-            ->setPrix(0)
-            ->setIsdefault(true)
-            ->setStore($this->userRepository->find(1)) //TODO add admin user
-        ;
-        $this->manager->persist($produit);
-        $this->manager->flush();
+        /**
+         * @var Produit[] $produits
+         */
+        $produits = $this->produitRepository->findByNameLike($data["nom_produit"]);
+        //if(count($produits) == 0){
+            $produit->setImages($data["num_image"].'.jpg')
+                ->setNom($data["nom_produit"])
+                ->setDescription($data["description"])
+                ->setTypeproduit($this->typeProduitRepository->findOneBy(["libelle" => $data["type_produit"]]))
+                ->setOrigine($this->origineRepository->findOneBy(["country" => $data["origine"]]))
+                ->setTypevente($data["vente"])
+                ->setIsdefault(true)
+            ;
+            $this->manager->persist($produit);
+            $this->manager->flush();
+        //}else{
+            var_dump($data["nom_produit"]);
+        //}
     }
 }
