@@ -109,7 +109,7 @@ class   LoadProductStoreCommand extends Command
             $produitstore->setProduit($produits[0])
                 ->setMesure(is_numeric($data["mesure"]) ? $data["mesure"] : 0)
                 ->setOrigine($origine)
-                ->setPrix(is_numeric($data["prix"])? $data["prix"] : 0)
+                ->setPrix((float)$data["prix"])
                 ->setTypevente($data["type_vente"])
                 ->setStore($store);
 
