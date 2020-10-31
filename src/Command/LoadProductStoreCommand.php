@@ -81,40 +81,43 @@ class   LoadProductStoreCommand extends Command
             return 0;
         }
 
-
-        //dd($csv_data);
-
+        $i = 0;
+        $store = $this->userRepository->findOneBy(["id" => $id_store]);
         foreach ($csv_data as $data){
-            $this->addProduct($data, $id_store, $io);
+            $this->addProduct($data, $id_store, $io, $i, $store);
         }
 
-
-        $io->success('All product store are loading !');
+        $io->success("All $i product store are loading !");
 
         return 0;
     }
 
-    private function addProduct($data, $id, SymfonyStyle $io){
+    private function addProduct($data, $id, SymfonyStyle $io, &$i, $store){
         /**
          * @var ProduitStore $produitstore
          */
         $produitstore = new ProduitStore();
         /**
-         * @var Produit[] $produit
+         * @var Produit[] $produits
          */
-        $produit = $this->produitRepository->findByNameLike($data["nom"]);
+        $produits = $this->produitRepository->findByNameLike($data["nom"]);
 
+        if(count($produits) > 0){
+            $i++;
+            $origine = $this->origineRepository->findOneBy(["country" => $data["origine"]]);
 
-        //dd(($data["nom"]));
-        if(count($produit) > 0){
-            var_dump($data["nom"]);
+            $produitstore->setProduit($produits[0])
+                ->setMesure(is_numeric($data["mesure"]) ? $data["mesure"] : 0)
+                ->setOrigine($origine)
+                ->setPrix(is_numeric($data["prix"])? $data["prix"] : 0)
+                ->setTypevente($data["type_vente"])
+                ->setStore($store);
 
-            //dd($produit);
-            //print_r($produit);
-            //$io->note("Product found : %s ", $data["nom"]);
+            $this->manager->persist($produitstore);
+            $this->manager->flush();
+
+        }else{
+            $io->comment($data["nom"]);
         }
-
-        //$this->manager->persist($produitstore);
-        //$this->manager->flush();
     }
 }
