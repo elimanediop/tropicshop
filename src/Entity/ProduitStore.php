@@ -125,4 +125,8 @@ class ProduitStore
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->getProduit()->getNom();
+    }
 }
