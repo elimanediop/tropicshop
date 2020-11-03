@@ -112,20 +112,18 @@ class StoreController extends AbstractController
                 'title' => $this->title_home
             ]);
         }
-        $produit = $this->produitRepository->find($id);
+        $produitStore = $this->produitStoreRepository->find($id);
 
-        $form = $this->createForm(ProduitType::class, $produit);
+        $form = $this->createForm(ProduitStoreType::class, $produitStore);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid() && $produit->getPrix() != 0) {
+        if($form->isSubmitted() && $form->isValid()) {
 
-            $this->manager->persist($produit);
+            $this->manager->persist($produitStore);
             $this->manager->flush();
             return $this->redirectToRoute("store_profil", [
                 'title' => $this->title_home
             ]);
-        }else{
-            $error = "Apparemment vous avez saisi un prix égal à 0.";
         }
 
 
