@@ -84,7 +84,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="login-content bg-white p-30 box-shadow">
                                 <div class="section-heading">
-                                    <h5>Ajout d'un produit</h5>
+                                    <h5>Édition d'un produit</h5>
                                 </div>
                                 {% if (error ) %}
                                     <div class="p-1 border border-danger">
@@ -92,11 +92,40 @@
                                         <p class="text-danger d-inline-block">{{ error }}</p>
                                     </div>
                                 {% endif %}
+                                <div class="">
+                                    <ul class="text-danger">
+                                        <li>{{ form_errors(form) }}</li>
+                                    </ul>
+                                </div>
 
                                 {{ form_start(form) }}
-                                {{ form_errors(form) }}
-                                {{ form_widget(form) }}
-                                 <button type="submit" class="btn mag-btn mt-30">Valider</button>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        {{ form_widget(form.produit.nom , {'attr': {
+                                            'class':'form-control'}}) }}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        {{ form_label(form.prix, 'Prix') }}
+                                        {{ form_widget(form.prix, {'attr': {
+                                            'class':'form-control'}}) }}
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        {{ form_label(form.mesure, 'Mesure') }}
+                                        {{ form_widget(form.mesure, {'attr': {
+                                            'class':'form-control'}}) }}
+                                    </div>
+
+                                    <div class="form-group col-md-9">
+                                        {{ form_label(form.typevente, 'Type de Vente') }}
+                                        {{ form_widget(form.typevente, {'attr': {
+                                            'class':'form-control'}}) }}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        {{ form_label(form.origine, 'Origine du produit (pays, région continentale)') }}
+                                        {{ form_widget(form.origine.country, {'attr': {
+                                            'class':'form-control'}}) }}
+                                    </div>
+                                </div>                                 <button type="submit" class="btn mag-btn mt-30">Valider</button>
                                     <a href="{{ path('store_profil') }}" class="post-title">
                                         <button type="button" class="btn mag-btn mt-30">Retour</button>
                                     </a>
