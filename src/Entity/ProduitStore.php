@@ -18,7 +18,7 @@ class ProduitStore
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Produit::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Produit::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $produit;
@@ -34,7 +34,7 @@ class ProduitStore
     private $prix;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Origine::class, inversedBy="typevente", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Origine::class, inversedBy="typevente")
      */
     private $origine;
 
@@ -44,7 +44,7 @@ class ProduitStore
     private $typevente;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $store;

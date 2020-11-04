@@ -140,8 +140,23 @@ class StoreController extends AbstractController
      */
     public function deleteProduct()
     {
-        return $this->render('store/profil_home.html.twig', [
-            'title' => $this->title_delete_produit
+        $produitsStore = $this->produitStoreRepository->findBy(["store" => $this->getUser()->getId()]);
+        return $this->render('components/store/delete_produit.html.twig', [
+            'title' => $this->title_delete_produit,
+            'productsStore' => $produitsStore
         ]);
+
+    }
+
+    /**
+     * @Route("/store/supprimer_produit_store/{product_id}", name="deleteProductFromStore")
+     */
+    public function deleteProductFromStore(Request $request, string $product_id){
+        $entityManager = $this->getDoctrine()->getManager();
+        $produitStore = $this->produitStoreRepository->find($product_id);
+        $entityManager->remove($produitStore);
+        $entityManager->flush();
+        return $this->redirectToRoute("store_profil_delete_product");
+
     }
 }
