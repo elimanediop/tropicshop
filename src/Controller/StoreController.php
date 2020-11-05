@@ -179,12 +179,28 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/supprimer_produit", name="store_profil_delete_product")
      */
-    public function deleteProduct()
+    public function deleteProduct(Request $request)
     {
-        $produitsStore = $this->produitStoreRepository->findBy(["store" => $this->getUser()->getId()]);
+        $produitsStore = $this->produitStoreRepository->findBy(["store" => $this->getUser()]);
+        $searchObj = ["nom" => null];
+        $msg = "";
+        $searchForm = $this->createForm(SearchType::class, $searchObj);
+
+        $searchForm->handleRequest($request);
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $searchObj = $searchForm->getData();
+            $resultSearch = $this->produitStoreRepository->findByNameLike($searchObj['nom']);
+            if(count($resultSearch))
+                $produitsStore = $resultSearch;
+            else
+                $msg = "Aucun produit trouvé avec le nom cherché";
+        }
+
         return $this->render('components/store/delete_produit.html.twig', [
             'title' => $this->title_delete_produit,
-            'productsStore' => $produitsStore
+            'productsStore' => $produitsStore,
+            "msg" => $msg,
+            'searchForm' => $searchForm->createView()
         ]);
 
     }

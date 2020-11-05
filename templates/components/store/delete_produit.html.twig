@@ -4,40 +4,57 @@
 
 {% block body %}
     <div class="container">
-        <div class="section">
-            <div class="col-md-5">
-                <h1>Votre compte client</h1>
+        <div class="section-heading mt-4">
+            <div class="col-md-12">
+                <h1>Supprimer des produits</h1>
+                <div class="col-md-8">
+                    <div class="w-100 p-1">
+                        {% if msg|length %}
+                            <p class="text-light"><i class="fa fa-info-circle "></i> {{ msg }}</p>
+                        {% endif %}
+                    </div>
+                    {{ form_start(searchForm) }}
+                    <div class="form-group">
+                        {{ form_widget(searchForm.nom, {'attr': {
+                            'placeholder':'Saisissez le nom d\'un produit',
+                            'class':'form-control'}}) }}
+                    </div>
+                    <button type="submit" class="btn mt-30" id="">Rechercher</button>
+                    {{ form_end(searchForm) }}
+                </div>
             </div>
         </div>
-        {% if(productsStore is defined and productsStore|length) %}
-            <div class="row">
-                {% for product in productsStore %}
-                    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="section-padding-0-100">
+            {% if(productsStore is defined and productsStore|length) %}
+                <div class="row">
+                    {% for product in productsStore %}
+                        <div class="col-lg-4 col-md-6 mb-4">
 
-                        <div class="card h-100">
-{#                            <a href="{{ path('showProduct', {'id' : product.id}) }}">#}
+                            <div class="card h-100">
+                                {#                            <a href="{{ path('showProduct', {'id' : product.id}) }}">#}
                                 {% set img = '8.jpg' %}
                                 {% if product.produit.images|length %}
-                                    {% set img = product.produit.images.0 %}
+                                    {% set img = product.getProduit().images.0 %}
                                 {% endif %}
                                 <img class="card-img-top" src="{{ asset('img/'~img) }}" alt="">
-{#                            </a>#}
-                            <div class="card-body">
-                                <h4 class="card-title text-dark h6">
-                                    {{ product.produit.nom }}
-{#                                    <a href="{{ path('showProduct', {'id' : product.id}) }}">{{ product.produit.nom }}</a>#}
-                                </h4>
-                                <p class="card-text">{{ product.produit.description }}</p>
+                                {#                            </a>#}
+                                <div class="card-body">
+                                    <h4 class="card-title text-dark h6">
+                                        {{ product.produit.nom }}
+                                        {#                                    <a href="{{ path('showProduct', {'id' : product.id}) }}">{{ product.produit.nom }}</a>#}
+                                    </h4>
+                                    <p class="card-text">{{ product.produit.description }}</p>
+                                </div>
+                                <a href="{{ path('deleteProductFromStore', {'product_id': product.id  }) }}"
+                                   type="button" class="btn alert-primary">
+                                    <i class="fa fa-trash fa-2x"></i>
+                                </a>
                             </div>
-                            <a href="{{ path('deleteProductFromStore', {'product_id': product.id  }) }}"
-                               type="button" class="btn alert-primary">
-                                <i class="fa fa-trash fa-2x"></i>
                             </a>
                         </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
