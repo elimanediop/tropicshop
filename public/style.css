@@ -412,7 +412,7 @@ input:focus {
       .header-area .mag-main-menu .top-search-area form {
         position: relative;
         z-index: 1;
-        border-left: 1px solid #ebebeb; }
+      }
         .header-area .mag-main-menu .top-search-area form input {
           -webkit-transition-duration: 500ms;
           -o-transition-duration: 500ms;
@@ -482,7 +482,6 @@ input:focus {
       height: 70px;
       line-height: 70px;
       font-size: 16px;
-      border-left: 1px solid #ebebeb;
       text-align: center; }
       @media only screen and (min-width: 992px) and (max-width: 1199px) {
         .header-area .mag-main-menu .login-btn {
