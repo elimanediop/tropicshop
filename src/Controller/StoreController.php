@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Origine;
 use App\Entity\Produit;
 use App\Entity\ProduitStore;
 use App\Form\CreateProductStoreType;
 use App\Form\ProduitStoreType;
 use App\Form\ProduitType;
+use App\Repository\OrigineRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\ProduitStoreRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,14 +26,16 @@ class StoreController extends AbstractController
     private $title_delete_produit = "Espace de gestion magasin - supprimer un produit";
     private $manager;
     private $produitRepository;
-    private $previewProduct;
     private $produitStoreRepository;
+    private $origieRepository;
 
-    public function __construct(ObjectManager $manager, ProduitStoreRepository $produitStoreRepository, ProduitRepository $produitRepository)
+    public function __construct(ObjectManager $manager, ProduitStoreRepository $produitStoreRepository,
+                                ProduitRepository $produitRepository, OrigineRepository $origineRepository)
     {
         $this->manager = $manager;
         $this->produitStoreRepository = $produitStoreRepository;
         $this->produitRepository = $produitRepository;
+        $this->origieRepository = $origineRepository;
     }
     /**
      * @Route("/store", name="store_profil")
@@ -66,7 +70,7 @@ class StoreController extends AbstractController
         $produit = $this->produitRepository->find($product_id);
         $produitStore->setProduit($produit);
 
-        $form = $this->createForm(CreateProductStoreType::class, $produitStore);
+        $form = $this->createForm(ProduitStoreType::class, $produitStore);
         $form->handleRequest($request);
         $error = "";
 
@@ -77,10 +81,15 @@ class StoreController extends AbstractController
             }
             if(is_null($produitStore->getOrigine())){
                 $produitStore->setOrigine($produit->getOrigine());
+            }else{
+                /**
+                 * @var Origine
+                 */
+                $origne = $produitStore->getOrigine();
+                $produitStore->setOrigine($this->origieRepository->findOneBy(["country" => $origne->getCountry()]));
             }
             $produitStore
                 ->setStore($store);
-
             $this->save($produitStore);
             return $this->redirectToRoute("store_profil");
 
