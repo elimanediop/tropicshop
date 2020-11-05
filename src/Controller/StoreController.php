@@ -44,9 +44,24 @@ class StoreController extends AbstractController
     public function index(Request $request)
     {
         $products = $this->produitStoreRepository->findBy(["store"=> $this->getUser()]);
+        $searchObj = ["nom" => null];
+        $msg = "";
+        $searchForm = $this->createForm(SearchType::class, $searchObj);
+
+        $searchForm->handleRequest($request);
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $searchObj = $searchForm->getData();
+            $resultSearch = $this->produitStoreRepository->findByNameLike($searchObj['nom']);
+            if(count($resultSearch))
+                $products = $resultSearch;
+            else
+                $msg = "Aucun produit trouvé avec le nom cherché";
+        }
         return $this->render('store/profil_home.html.twig', [
             'title' => $this->title_home,
-            'products' => $products
+            'products' => $products,
+            "msg" => $msg,
+            'searchForm' => $searchForm->createView()
         ]);
     }
 
