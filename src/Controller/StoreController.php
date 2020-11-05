@@ -8,6 +8,7 @@ use App\Entity\ProduitStore;
 use App\Form\CreateProductStoreType;
 use App\Form\ProduitStoreType;
 use App\Form\ProduitType;
+use App\Form\SearchType;
 use App\Repository\OrigineRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\ProduitStoreRepository;
@@ -52,12 +53,28 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/ajouter_produit", name="store_profil_add_product")
      */
-    public function addProduct()
+    public function addProduct(Request $request)
     {
         $produits = $this->produitRepository->findAll();
+        $searchObj = ["nom" => null];
+        $msg = "";
+        $searchForm = $this->createForm(SearchType::class, $searchObj);
+
+        $searchForm->handleRequest($request);
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $searchObj = $searchForm->getData();
+            $resultSearch = $this->produitRepository->findByNameLike($searchObj['nom']);
+            if(count($resultSearch))
+                $produits = $resultSearch;
+            else
+                $msg = "Aucun produit trouvé avec le nom cherché";
+        }
+
         return $this->render('components/store/select_produit.html.twig', [
         'title' => $this->title_add_produit,
-            'products' => $produits
+            'products' => $produits,
+            "msg" => $msg,
+            'searchForm' => $searchForm->createView()
         ]);
     }
 
