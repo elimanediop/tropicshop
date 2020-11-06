@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\TypeProduit;
 use App\Repository\ProduitRepository;
+use App\Repository\TypeProduitRepository;
 use App\Repository\UserRepository;
 use App\Services\Panier\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,21 +18,19 @@ class MainController extends AbstractController
     protected $produitRepository;
     protected $userRepository;
     protected $session;
-    private $types_produits = [
-        "fruits" => 1,
-        "comestiques" => 2,
-        "legumes" => 3,
-        "condiments-epices" => 4,
-        "autre" => 5,
-        "Boisson" => 6,
-        "Tubercule" => 7
+    private $typeProduits;
+    private $typeProduitRepository;
 
-    ];
-
-    public function __construct(ProduitRepository $produitRepository, UserRepository $userRepository)
+    public function __construct(ProduitRepository $produitRepository,
+                                UserRepository $userRepository, TypeProduitRepository $typeProduitRepository)
     {
         $this->produitRepository = $produitRepository;
         $this->userRepository = $userRepository;
+        $this->typeProduitRepository = $typeProduitRepository;
+        $this->typeProduits = $this->typeProduitRepository->findBy(
+            array(),
+            array('libelle' => 'ASC')
+        );
 
     }
 
@@ -41,7 +41,8 @@ class MainController extends AbstractController
     {
         $this->products = $this->produitRepository->findBy(["isdefault" => true]);
         return $this->render('main/home.html.twig', [
-            'products' =>$this->products
+            'products' =>$this->products,
+            'typeproduits' => $this->typeProduits
         ]);
     }
 
@@ -62,11 +63,12 @@ class MainController extends AbstractController
      */
     public function filter(string $category){
         $error = "";
-        $id_category = isset($this->types_produits[$category])? $this->types_produits[$category] : null;
-        if($id_category){
-            $this->products = $this->produitRepository->findByTypeproduit($id_category, true);
+
+        if($category){
+            $this->products = $this->produitRepository->findByTypeproduit($this->typeProduitRepository->findBy(["libelle" => $category]), true);
             return $this->render('main/home.html.twig', [
                 'products' =>$this->products,
+                'typeproduits' => $this->typeProduits
 
             ]);
         }
