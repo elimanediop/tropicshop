@@ -16,6 +16,13 @@
                     <a href="{{ path('store_profil_delete_product') }}" class="list-group-item">Supprimer un produit</a>
                 </div>
                 <div class="section-heading my-4">
+                    <h5>Gestion de stock</h5>
+                </div>
+                <div class="list-group">
+                    <a href="{{ path('addStockStore') }}" class="list-group-item">Ajouter un produit</a>
+
+                </div>
+                <div class="section-heading my-4">
                     <h5>Espace magasin</h5>
                 </div>
                 <div class="list-group">
@@ -159,7 +166,7 @@
                             <div class="col-lg-4 col-md-6 mb-4">
 
                                     <div class="card h-100">
-                                        <a href="{{ path('store_profil_edit_product', {'id' : product.id}) }}">
+                                        <a href="{{ path('edit_product_store', {'product_id' : product.id}) }}">
                                             {% set img = '8.jpg' %}
                                             {% if product.produit.images|length %}
                                                 {% set img = product.produit.images.0 %}
@@ -169,7 +176,7 @@
                                         <div class="card-body">
                                             <h4 class="color-theme">{{ product.prix|number_format(2) }} €</h4>
                                             <h4 class="card-title">
-                                                <a href="{{ path('store_profil_edit_product', {'id' : product.id}) }}">{{ product.produit.nom }}</a>
+                                                <a href="{{ path('edit_product_store', {'product_id' : product.id}) }}">{{ product.produit.nom }}</a>
                                             </h4>
                                             <h6 style="color:#f5bd4c;">{{ product.typevente }}</h6>
                                             <p class="card-text">{{ product.produit.description }}</p>

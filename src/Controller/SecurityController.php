@@ -202,7 +202,7 @@ class SecurityController extends AbstractController
 
       return $this->redirectToRoute("store_profil");
     }
-    return $this->render('security/new_mail.html.twig', [
+    return $this->render('security/add_quantity.html.twig', [
       'form' => $form->createView(),
     ]);
   }

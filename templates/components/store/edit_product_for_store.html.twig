@@ -14,7 +14,7 @@
                 <div class="col-12 col-lg-6">
                     <div class="login-content bg-white p-30 box-shadow">
                         <div class="section-heading">
-                            <h5>Édition d'un produit</h5>
+                            <h5>Éditer d'un produit</h5>
                         </div>
                         {% if (error ) %}
                             <div class="p-1 border border-danger">
@@ -56,7 +56,16 @@
                                     'class':'form-control'}}) }}
                             </div>
                         </div>
+                        <hr/>
+                        <div class="form-group border border-secondary rounded p-2">
+                            <h4 class="text-dark">Stock du produit</h4>
+                            {{ form_label(stockForm.quantity, 'Quantité :') }}
+                            {{ form_widget(stockForm.quantity, {'attr': {
+                                'placeholder':'Saisir la quantité',
+                                'class':'form-control'}}) }}
+                        </div>
                         <button type="submit" class="btn mag-btn mt-30">Valider</button>
+                        <a href="{{ path('store_profil_edit_product') }}" class="post-title">
                             <button type="button" class="btn mag-btn mt-30">Retour</button>
                         </a>
                         {{ form_end(form) }}
