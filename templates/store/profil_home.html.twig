@@ -165,7 +165,7 @@
                         {% for product in products %}
                             <div class="col-lg-4 col-md-6 mb-4">
 
-                                    <div class="card h-100">
+                                    <div class="card h-75 scrollbar scrollbar-yellow bordered-yellow thin" style="height: 100px; overflow-y: scroll;">
                                         <a href="{{ path('edit_product_store', {'product_id' : product.id}) }}">
                                             {% set img = '8.jpg' %}
                                             {% if product.produit.images|length %}
@@ -179,7 +179,15 @@
                                                 <a href="{{ path('edit_product_store', {'product_id' : product.id}) }}">{{ product.produit.nom }}</a>
                                             </h4>
                                             <h6 style="color:#f5bd4c;">{{ product.typevente }}</h6>
+                                            <!-- stock -->
+                                            {% if stocks[product.id] is defined %}
+                                                <h6 style="color:#f5bd4c;">{{ stocks[product.id].quantity }} en stock</h6>
+                                            {% else %}
+                                                <h6 style="color:#f5bd4c;">0 en stock</h6>
+                                            {% endif %}
+                                            <!-- fin stock -->
                                             <p class="card-text">{{ product.produit.description }}</p>
+
                                         </div>
                                     </div>
                                 </a>

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Stock;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +48,24 @@ class StockRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByIdStore($idStore)
+    {
+
+        return $this->createQueryBuilder('s')
+            ->innerJoin("App\Entity\ProduitStore", 'p', Join::WITH,"p.id  = s.produitStore")
+            ->where('p.store = :id')
+            ->setParameter('id', $idStore)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function arrayAssocKeyProduitStoreStock($idStore){
+        $assocStock = [];
+        $stocks = $this->findByIdStore($idStore);
+        foreach ($stocks as $stock){
+            $assocStock[$stock->getProduitStore()->getId()] = $stock;
+        }
+        return $assocStock;
+    }
 }

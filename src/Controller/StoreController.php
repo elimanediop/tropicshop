@@ -49,6 +49,8 @@ class StoreController extends AbstractController
     public function index(Request $request)
     {
         $products = $this->produitStoreRepository->findBy(["store"=> $this->getUser()]);
+        $stocks = $this->stockRepository->arrayAssocKeyProduitStoreStock($this->getUser()->getId());
+
         $searchObj = ["nom" => null];
         $msg = "";
         $searchForm = $this->createForm(SearchType::class, $searchObj);
@@ -66,7 +68,8 @@ class StoreController extends AbstractController
             'title' => $this->title_home,
             'products' => $products,
             "msg" => $msg,
-            'searchForm' => $searchForm->createView()
+            'searchForm' => $searchForm->createView(),
+            'stocks' => $stocks
         ]);
     }
 
