@@ -114,6 +114,13 @@ class StoreController extends AbstractController
         $form->handleRequest($request);
         $error = "";
 
+        $stock = new Stock();
+        $stock->setProduitStore($produitStore);
+
+        $stockForm = $this->createForm(StockType::class, $stock);
+
+        $stockForm->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()) {
             $store =  $this->getUser();
             if(is_null($produitStore->getTypevente())){
@@ -131,6 +138,7 @@ class StoreController extends AbstractController
             $produitStore
                 ->setStore($store);
             $this->save($produitStore);
+            $this->save($stock);
             return $this->redirectToRoute("store_profil");
 
             //$error = "Apparemment vous avez déjà ce produit dans votre store ou le prix saisi est 0.";
@@ -138,10 +146,13 @@ class StoreController extends AbstractController
         }
 
         //$this->previewProduct = $produit;
+
         return $this->render("components/store/edit_product_for_store.html.twig", [
             "form" => $form->createView(),
+            'stockForm' => $stockForm->createView(),
             "error" => $error
         ]);
+
     }
 
     public function save($produitStore){
@@ -201,9 +212,6 @@ class StoreController extends AbstractController
         $form = $this->createForm(ProduitStoreType::class, $produitStore);
         $form->handleRequest($request);
 
-        if($stockForm->isSubmitted() && $stockForm->isValid()) {
-            $this->save($stock);
-        }
         if($form->isSubmitted() && $form->isValid()) {
             if(is_null($produitStore->getOrigine())){
                 $produitStore->setOrigine($produitStore->getOrigine());
@@ -214,7 +222,7 @@ class StoreController extends AbstractController
                 $origne = $produitStore->getOrigine();
                 $produitStore->setOrigine($this->origieRepository->findOneBy(["country" => $origne->getCountry()]));
             }
-
+            $this->save($stock);
             $this->save($produitStore);
             return $this->redirectToRoute("store_profil_edit_product");
         }
@@ -263,6 +271,11 @@ class StoreController extends AbstractController
     public function deleteProductFromStore(Request $request, string $product_id){
         $entityManager = $this->getDoctrine()->getManager();
         $produitStore = $this->produitStoreRepository->find($product_id);
+
+        $stock = $this->stockRepository->findOneBy(["produitStore" => $product_id]);
+        $entityManager->remove($stock);
+        $entityManager->flush();
+
         $entityManager->remove($produitStore);
         $entityManager->flush();
         return $this->redirectToRoute("store_profil_delete_product");
