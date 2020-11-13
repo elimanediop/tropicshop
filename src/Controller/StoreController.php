@@ -106,6 +106,7 @@ class StoreController extends AbstractController
      */
     public function addProductToStore(Request $request, string $product_id){
         //TODO create product store and allow edition
+        //TODO on adding check product if exists and different origin
         $produitStore = new ProduitStore();
         $produit = $this->produitRepository->find($product_id);
         $produitStore->setProduit($produit);
@@ -273,8 +274,10 @@ class StoreController extends AbstractController
         $produitStore = $this->produitStoreRepository->find($product_id);
 
         $stock = $this->stockRepository->findOneBy(["produitStore" => $product_id]);
-        $entityManager->remove($stock);
-        $entityManager->flush();
+        if($stock){
+            $entityManager->remove($stock);
+            $entityManager->flush();
+        }
 
         $entityManager->remove($produitStore);
         $entityManager->flush();
