@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\HistoriqueStock;
 use App\Entity\Origine;
 use App\Entity\Produit;
 use App\Entity\ProduitStore;
 use App\Entity\Stock;
+use App\Entity\StockUpdate;
 use App\Form\CreateProductStoreType;
 use App\Form\ProduitStoreType;
 use App\Form\ProduitType;
 use App\Form\SearchType;
 use App\Form\StockType;
+use App\Repository\HistoriqueStockRepository;
 use App\Repository\OrigineRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\ProduitStoreRepository;
@@ -33,15 +36,18 @@ class StoreController extends AbstractController
     private $produitStoreRepository;
     private $origieRepository;
     private $stockRepository;
+    private $historyRepository;
 
     public function __construct(ObjectManager $manager, ProduitStoreRepository $produitStoreRepository,
-                                ProduitRepository $produitRepository, OrigineRepository $origineRepository, StockRepository $stockRepository)
+                                ProduitRepository $produitRepository, OrigineRepository $origineRepository,
+                                StockRepository $stockRepository, HistoriqueStockRepository $historyRepository)
     {
         $this->manager = $manager;
         $this->produitStoreRepository = $produitStoreRepository;
         $this->produitRepository = $produitRepository;
         $this->origieRepository = $origineRepository;
         $this->stockRepository = $stockRepository;
+        $this->historyRepository = $historyRepository;
     }
     /**
      * @Route("/store", name="store_profil")
@@ -289,7 +295,7 @@ class StoreController extends AbstractController
      * @Route("/store/ajouter_stock_store", name="addStockStore")
      */
     public function addStockStore(Request $request){
-        $produits = $this->produitStoreRepository->findAll();
+        $produits = $this->produitStoreRepository->findBy(["store" => $this->getUser()]);
         $searchObj = ["nom" => null];
         $msg = "";
         $searchForm = $this->createForm(SearchType::class, $searchObj);
@@ -323,11 +329,19 @@ class StoreController extends AbstractController
         if($stockN){
             $stock = $stockN;
         }
+        $history = $this->historyRepository->findOneBy(["stock" => $stock]);
+        if(!$history){
+            $history = new HistoriqueStock();
+            $history->setStock($stock);
+        }
         $stockForm = $this->createForm(StockType::class, $stock);
         $msg = "";
         $stockForm->handleRequest($request);
         if($stockForm->isSubmitted() && $stockForm->isValid()) {
-            //dd($stockForm);
+
+            $stockUpdate = new StockUpdate($stock->getQuantity());
+            $history->setDateUpdate($stockUpdate);
+            $this->save($history);
             $this->save($stock);
             return $this->redirectToRoute("addStockStore");
         }
@@ -335,6 +349,7 @@ class StoreController extends AbstractController
             'title' => $this->title_add_produit,
             'product' => $productStore,
             "msg" => $msg,
+            'history' => $history,
             'form' => $stockForm->createView()
         ]);
 

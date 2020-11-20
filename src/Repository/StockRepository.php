@@ -52,7 +52,7 @@ class StockRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('s')
-            ->innerJoin("App\Entity\ProduitStore", 'p', Join::WITH,"p.id  = s.produitStore")
+            ->leftJoin("App\Entity\ProduitStore", 'p', Join::WITH, "s.produitStore = p.id")
             ->where('p.store = :id')
             ->setParameter('id', $idStore)
             ->getQuery()
@@ -63,6 +63,7 @@ class StockRepository extends ServiceEntityRepository
     public function arrayAssocKeyProduitStoreStock($idStore){
         $assocStock = [];
         $stocks = $this->findByIdStore($idStore);
+        //dd($stocks);
         foreach ($stocks as $stock){
             $assocStock[$stock->getProduitStore()->getId()] = $stock;
         }

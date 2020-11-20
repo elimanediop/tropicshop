@@ -28,6 +28,7 @@ class Stock
      */
     private $quantity;
 
+
     public function getId(): ?int
     {
         return $this->id;
