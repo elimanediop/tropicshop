@@ -35,4 +35,19 @@ class ProduitStoreRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    /**
+     * @return ProduitStore[] Returns an array of Produit objects
+     */
+    public function findByNameStoreLike($nom)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin("App\Entity\User", 'u', Join::WITH,"u.id  = p.store")
+            ->where('u.nom LIKE :nom')
+            ->setParameter('nom', '%'.$nom.'%')
+            ->orderBy('u.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

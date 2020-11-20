@@ -5,20 +5,21 @@ namespace App\Services\Panier;
 
 
 use App\Repository\ProduitRepository;
+use App\Repository\ProduitStoreRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class PanierService
 {
     protected $session;
-    protected $produitRepository;
+    protected $produitStoreRepository;
     public $DELETEONE = 1;
     public $DELETEALL = 2;
     public $DELETECART = 3;
 
-    public function __construct(SessionInterface $session, ProduitRepository $produitRepository)
+    public function __construct(SessionInterface $session, ProduitStoreRepository $produitStoreRepository)
     {
         $this->session = $session;
-        $this->produitRepository = $produitRepository;
+        $this->produitStoreRepository = $produitStoreRepository;
     }
 
     public function addProduct(int $id){
@@ -29,7 +30,7 @@ class PanierService
             $cart[$id]['quantity'] = $quantity + 1;
             $cart[$id]['total_price'] = ($total_price/$quantity) * $cart[$id]['quantity'];
         }else{
-            $product = $this->produitRepository->find($id);
+            $product = $this->produitStoreRepository->find($id);
             $cart[$id] = [
                 "product" => $product,
                 'quantity' => 1,

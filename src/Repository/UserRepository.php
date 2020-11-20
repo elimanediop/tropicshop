@@ -60,6 +60,15 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findByNameLike($nom)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.nom LIKE :nom')
+            ->setParameter('nom', '%'.$nom.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 
 }

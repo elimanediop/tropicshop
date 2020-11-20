@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\TypeProduit;
+use App\Form\SearchType;
 use App\Repository\ProduitRepository;
+use App\Repository\ProduitStoreRepository;
 use App\Repository\TypeProduitRepository;
 use App\Repository\UserRepository;
 use App\Services\Panier\PanierService;
@@ -20,9 +22,11 @@ class MainController extends AbstractController
     protected $session;
     private $typeProduits;
     private $typeProduitRepository;
+    private $produitStoreRepository;
 
     public function __construct(ProduitRepository $produitRepository,
-                                UserRepository $userRepository, TypeProduitRepository $typeProduitRepository)
+                                UserRepository $userRepository, TypeProduitRepository $typeProduitRepository,
+                                ProduitStoreRepository $produitStoreRepository)
     {
         $this->produitRepository = $produitRepository;
         $this->userRepository = $userRepository;
@@ -31,6 +35,7 @@ class MainController extends AbstractController
             array(),
             array('libelle' => 'ASC')
         );
+        $this->produitStoreRepository = $produitStoreRepository;
 
     }
 
@@ -47,14 +52,16 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/produit/{id}", name="showProduct")
+     * @Route("/produit/{product_id}", name="showProduct")
      */
-    public function afficherProduitDetail(int $id)
+    public function afficherProduitDetail(int $product_id, PanierService $panierService)
     {
-        $product = $this->produitRepository->find($id);
-        // dd($product);
+        $productStore = $this->produitStoreRepository->find($product_id);
+        $cart = $panierService->getProduit();
+        //dd($cart);
         return $this->render('main/show_product.html.twig', [
-            'product' =>$product
+            'productStore' =>$productStore,
+            'cart' => $cart
         ]);
     }
 
@@ -106,6 +113,32 @@ class MainController extends AbstractController
             'lat' => $lat
         ]);
     }
+    /**
+     * @Route("/le_produit_par_magasins/{product_id}", name="showProductByStores")
+     */
+    public function afficherProduitParMagasins(Request $request, int $product_id){
+        $storeProducts = $this->produitStoreRepository->findBy(["produit" => $product_id]);
+        $searchObj = ["nom" => null];
+        $msg = "";
+        $searchForm = $this->createForm(SearchType::class, $searchObj);
+
+        $searchForm->handleRequest($request);
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $searchObj = $searchForm->getData();
+            $resultSearch = $this->produitStoreRepository->findByNameStoreLike($searchObj['nom']);
+            if(count($resultSearch))
+                $storeProducts = $resultSearch;
+            else
+                $msg = "Aucun magasin trouvé avec le nom cherché";
+        }
+
+        return $this->render('main/home.html.twig', [
+            'msg' => $msg,
+            'storeProducts' => $storeProducts,
+            'typeproduits' => $this->typeProduits,
+            'searchForm' => $searchForm->createView()
+        ]);
+    }
 
 
     /**
@@ -127,7 +160,7 @@ class MainController extends AbstractController
     public function ajouterProduitPanier(int $product_id, int $store_id,PanierService $panierService){
         $panierService->addProduct($product_id);
 
-        return $this->redirectToRoute('showProductStoreSearch', ['store_id' => $store_id, 'product_id' => $product_id]);
+        return $this->redirectToRoute('showProduct', ['product_id' => $product_id]);
     }
 
     /**
@@ -166,6 +199,15 @@ class MainController extends AbstractController
      */
     public function supprimerPanier(PanierService $panierService){
         $cart = $panierService->deleteProduct(null, $panierService->DELETECART);
+        //TODO redirect to cart page
+        return $this->redirectToRoute('showProductCart');
+    }
+
+    /**
+     * @Route("/panier/payer", name="validateCart")
+     */
+    public function validerPanier(PanierService $panierService){
+        //$cart = $panierService->deleteProduct(null, $panierService->DELETECART);
         //TODO redirect to cart page
         return $this->redirectToRoute('showProductCart');
     }
