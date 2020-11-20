@@ -181,8 +181,8 @@
                   {% set totalPrice = productCart.total_price + totalPrice %}
                   <td class="col-2">{{ productCart.total_price }} €</td>
                   <td>
-                    <a href="{{ path('deleteAllProductCart', {'product_id': productCart.product.id  }) }}" type="submit" class="btn alert-primary">
-                      <i class="fa fa-trash-o"></i>
+                    <a href="{{ path('deleteAllProductCart', {'product_id': productCart.product.id  }) }}" type="submit" class="btn bg-warning">
+                      <i class="fa fa-trash-o text-light"></i>
                     </a>
                   </td>
                 </tr>
