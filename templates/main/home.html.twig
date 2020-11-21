@@ -137,7 +137,7 @@
                     <div class="row ml-15">
                         <div class="section-heading mt-4">
                             <div class="col-md-12">
-                                <h1>Choisir mon magasin de course</h1>
+                                <h1 class="h1">Choisir mon magasin de course</h1>
                                 <div class="col-md-8">
                                     <div class="w-100 p-1">
                                         {% if msg is defined and msg|length %}
@@ -173,7 +173,7 @@
                                             {{ storeProduct.store.nommagasin }}
                                         </a>
                                     </h4>
-                                    <h5  style="color:#f5bd4c;">{{ storeProduct.store.adresse }}</h5>
+                                    <h6  class="color-theme">{{ storeProduct.store.adresse }}</h6>
                                     <p class="card-text">{{ storeProduct.store.codepostal }} {{ storeProduct.store.ville }}</p>
                                 </div>
                             </div>
