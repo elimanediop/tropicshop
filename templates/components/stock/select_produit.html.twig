@@ -46,7 +46,13 @@
                                     <h4 class="card-title">
                                         <a href="{{ path('addQuantityStockStore', {'product_id' : product.id}) }}">{{ product.produit.nom }}</a>
                                     </h4>
-                                    <p class="card-text">{{ product.produit.description }}</p>
+                                    {% set tvente = product.typevente |split('(') %}
+                                    <h6 style="color:#f5bd4c;">{{ product.mesure }} {{ tvente.1 | split(')')|first }}</h6>
+                                    {% if (stocks[product.id] is defined and stocks[product.id].quantity > 1) %}
+                                        <h6 style="color:#f5bd4c;">{{ stocks[product.id].quantity }} en stock</h6>
+                                    {% else %}
+                                        <h6 style="color:#f5bd4c;">En rupture de stock</h6>
+                                    {% endif %}
                                 </div>
                                 <a href="{{ path('addQuantityStockStore', {'product_id': product.id  }) }}"
                                    type="button" class="btn alert-primary">
