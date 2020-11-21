@@ -171,6 +171,7 @@ class StoreController extends AbstractController
         $produitsStore = $this->produitStoreRepository->findBy(["store" => $this->getUser()]);
         $searchObj = ["nom" => null];
         $msg = "";
+        $stocks = $this->stockRepository->arrayAssocKeyProduitStoreStock($this->getUser()->getId());
         $searchForm = $this->createForm(SearchType::class, $searchObj);
 
         $searchForm->handleRequest($request);
@@ -187,6 +188,7 @@ class StoreController extends AbstractController
             'title' => $this->title_delete_produit,
             'productsStore' => $produitsStore,
             "msg" => $msg,
+            'stocks' => $stocks,
             'searchForm' => $searchForm->createView()
         ]);
     }
@@ -245,6 +247,7 @@ class StoreController extends AbstractController
     public function deleteProduct(Request $request)
     {
         $produitsStore = $this->produitStoreRepository->findBy(["store" => $this->getUser()]);
+        $stocks = $this->stockRepository->arrayAssocKeyProduitStoreStock($this->getUser()->getId());
         $searchObj = ["nom" => null];
         $msg = "";
         $searchForm = $this->createForm(SearchType::class, $searchObj);
@@ -263,6 +266,7 @@ class StoreController extends AbstractController
             'title' => $this->title_delete_produit,
             'productsStore' => $produitsStore,
             "msg" => $msg,
+            'stocks' => $stocks,
             'searchForm' => $searchForm->createView()
         ]);
 
