@@ -1,7 +1,7 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
-      app_name: 'Tropic shop - Commande de produits africains'
+      app_name: 'Tropic shop - Commande de produits exotique'
       user_type_store: 'ROLE_STORE'
       user_type_client: 'ROLE_USER'
       api_google_key: 'AIzaSyArPbmDvdkesPQh_f_acMOsusxmnKD7Edk'
