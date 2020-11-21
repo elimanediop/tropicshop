@@ -62,11 +62,14 @@
                                 'placeholder':'Saisir la quantité',
                                 'class':'form-control'}}) }}
                         </div>
+                        {% set nbhistory = history.dateUpdate | length %}
+                        {% if nbhistory %}
                         <div class="">
                             <label>Date de la dernière mise à jour :</label>
-                            {% set nbhistory = history.dateUpdate | length %}
+
                             <div class="form-control">{{ history.dateUpdate[nbhistory-1].getDateUpdate() }}</div>
                         </div>
+                        {% endif %}
                         <div class="form-group col-md-12">
                             <button type="submit" class="btn mag-btn mt-30" id="btn-valid-registration">Ajouter</button>
                             <a href="{{ path('addStockStore') }}" class="post-title">
