@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\BonLivraison;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,9 +20,12 @@ class BonLivraisonType extends AbstractType
             ->add('typeLivraison', ChoiceType::class, [
                 'choices' => [
                     'Choisir' => '',
-                    'Standard' => 'ROLE_CLIENT',
-                    'Express' => 'ROLE_STORE'
+                    'Standard' => BonLivraison::STANDARD,
+                    'Express' => BonLivraison::EXPRESS
                 ]])
+            ->add('dateExpress',  DateTimeType::class, array(
+
+            ))
             ->add('dateLivraison', ChoiceType::class, [
                 'choices' => [
                     'Choisir' => '',
