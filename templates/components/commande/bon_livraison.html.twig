@@ -33,10 +33,17 @@
                             {{ form_widget(form.typeLivraison, {'attr': {
                                 'class':'form-control'}}) }}
                         </div>
-                        <div class="form-group col-md-3">
-                            {{ form_label(form.dateLivraison, 'Date de livraison') }}
+                        <div class="form-group col-md-3" id="dateStandard">
+                            {{ form_label(form.dateLivraison, 'Date de livraison standard') }}
                             {{ form_widget(form.dateLivraison, {'attr': {
                                 'class':'form-control'}}) }}
+                            <p class="text-muted"><i class="fa fa-info-circle"> </i> Livraison gratuite</p>
+                        </div>
+                        <div class="form-group col-md-3 d-none" id="dateExpress">
+                            {{ form_label(form.dateExpress, 'Date de livraison express') }}
+                            {{ form_widget(form.dateExpress, {'attr': {
+                                'class':'form-group'}}) }}
+                            <p class="text-muted"><i class="fa fa-info-circle"> </i> Frais de livraison 3,99€</p>
                         </div>
                     </div>
                     <div class="form-row">
@@ -132,5 +139,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var selectTypeLivraison = document.querySelector("#bon_livraison_typeLivraison");
+        selectTypeLivraison.addEventListener("change", function (){
+            var expressLivraison = document.querySelector("#dateExpress");
+            var standardLivraison = document.querySelector("#dateStandard");
+            expressLivraison.setAttribute("class", "");
+            standardLivraison.setAttribute("class", "");
+            if(this.value == "express"){
+                expressLivraison.setAttribute("class", "form-group col-md-3");
+                standardLivraison.setAttribute("class", "form-group col-md-3 d-none");
+            }else{
+                expressLivraison.setAttribute("class", "form-group col-md-3 d-none");
+                standardLivraison.setAttribute("class", "form-group col-md-3");
+            }
+        }, false)
+    </script>
 
 {% endblock %}

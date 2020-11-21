@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BonLivraison
 {
+    public const STANDARD = "standard";
+    public const EXPRESS = "express";
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -46,6 +48,11 @@ class BonLivraison
      * @ORM\Column(type="string", length=255)
      */
     private $typeLivraison;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $dateExpress;
 
     public function getId(): ?int
     {
@@ -120,6 +127,18 @@ class BonLivraison
     public function setTypeLivraison(string $typeLivraison): self
     {
         $this->typeLivraison = $typeLivraison;
+
+        return $this;
+    }
+
+    public function getDateExpress(): ?string
+    {
+        return $this->dateExpress;
+    }
+
+    public function setDateExpress(?string $dateExpress): self
+    {
+        $this->dateExpress = $dateExpress;
 
         return $this;
     }
