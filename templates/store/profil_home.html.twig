@@ -180,10 +180,10 @@
                                             </h4>
                                             <h6 style="color:#f5bd4c;">{{ product.typevente }}</h6>
                                             <!-- stock -->
-                                            {% if stocks[product.id] is defined %}
+                                            {% if (stocks[product.id] is defined and stocks[product.id].quantity > 1) %}
                                                 <h6 style="color:#f5bd4c;">{{ stocks[product.id].quantity }} en stock</h6>
                                             {% else %}
-                                                <h6 style="color:#f5bd4c;">0 en stock</h6>
+                                                <h6 style="color:#f5bd4c;">En rupture de stock</h6>
                                             {% endif %}
                                             <!-- fin stock -->
                                             <p class="card-text">{{ product.produit.description }}</p>
