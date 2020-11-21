@@ -26,7 +26,7 @@
                         <tr>
                             {% set i = i + 1 %}
                             <th scope="row">{{ i }}</th>
-                            <td>{{ productCart.product.nom }}</td>
+                            <td>{{ productCart.product.produit.nom }}</td>
                             <td>
                                 {{ productCart.quantity }}
                             </td>
@@ -54,10 +54,10 @@
                         <td></td>
                         <td class="font-weight-bold">Total:</td>
                         <td></td>
-                        <td><span class="font-weight-bold">{{ totalPrice }} €</span></td>
+                        <td><span class="font-weight-bold ">{{ totalPrice }} €</span></td>
                         <td>
-                            <a type="button" class="bg-warning p-2 m-2 w-100" href="{{ path('deleteAllCart') }}">Vider le panier</a>
-                            <a type="button" class="bg-success p-2 m-2 w-100" href="{{ path('validateCart') }}">
+                            <a type="button" class="btn bg-dark p-2 m-2 w-100 d-block m-1 text-white" href="{{ path('deleteAllCart') }}">Vider le panier</a>
+                            <a type="button" class="btn bg-success p-2 m-2 w-100" href="{{ path('validateCart') }}">
                                 <i class="fa fa-money"></i> Payer</a>
                         </td>
                     </tr>

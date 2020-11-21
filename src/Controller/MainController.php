@@ -2,13 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\BonLivraison;
+use App\Entity\Commande;
 use App\Entity\TypeProduit;
+use App\Form\BonLivraisonType;
+use App\Form\PayementType;
 use App\Form\SearchType;
+use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\ProduitStoreRepository;
 use App\Repository\TypeProduitRepository;
 use App\Repository\UserRepository;
 use App\Services\Panier\PanierService;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
@@ -23,10 +29,12 @@ class MainController extends AbstractController
     private $typeProduits;
     private $typeProduitRepository;
     private $produitStoreRepository;
+    private $manager;
+    private $commandeRepository;
 
-    public function __construct(ProduitRepository $produitRepository,
+    public function __construct(ObjectManager $manager, ProduitRepository $produitRepository,
                                 UserRepository $userRepository, TypeProduitRepository $typeProduitRepository,
-                                ProduitStoreRepository $produitStoreRepository)
+                                ProduitStoreRepository $produitStoreRepository, CommandeRepository $commandeRepository)
     {
         $this->produitRepository = $produitRepository;
         $this->userRepository = $userRepository;
@@ -36,6 +44,8 @@ class MainController extends AbstractController
             array('libelle' => 'ASC')
         );
         $this->produitStoreRepository = $produitStoreRepository;
+        $this->manager = $manager;
+        $this->commandeRepository = $commandeRepository;
 
     }
 
@@ -204,14 +214,89 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/panier/payer", name="validateCart")
+     * @Route("/panier/bon_de_livraison", name="validateCart")
      */
-    public function validerPanier(PanierService $panierService){
-        //$cart = $panierService->deleteProduct(null, $panierService->DELETECART);
+    public function validerPanier(Request $request, PanierService $panierService){
+        $cart = $panierService->getProduit();
         //TODO redirect to cart page
-        return $this->redirectToRoute('showProductCart');
+        $commande = new Commande();
+
+        $commande->setStatus($commande->ATTENTE);
+        $commande->setClient($this->getUser());
+        $tab = [];
+        foreach ($cart as $produitStoreCart){
+            $tab[] = $produitStoreCart["product"];
+        }
+        $commande->setProduitStoreList($tab);
+        $this->savePersist($commande);
+
+        return $this->redirectToRoute("createBonLivraison", ["commande_id" => $commande->getId()]);
     }
 
+    /**
+     * @Route("/panier/bon_de_livraison/{commande_id}", name="createBonLivraison")
+     */
+    public function createBonLivraison(Request $request, int $commande_id, PanierService $panierService)
+    {
+        $commande = $this->commandeRepository->find($commande_id);
+        $cart = $panierService->getProduit();
+        $bonLivraison = new BonLivraison();
+        $form = $this->createForm(BonLivraisonType::class, $bonLivraison);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $bonLivraison->setCommande($commande);
+            $this->savePersist($bonLivraison);
+            return $this->redirectToRoute("payementProcess",[
+                'commande_id' =>$commande->getId(),
+            ]);
+        }
+        return $this->render("components/commande/bon_livraison.html.twig",[
+                'cart' => $cart,
+                'commande' =>$commande,
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/panier/paiement_commande/{commande_id}", name="payementProcess")
+     */
+    public function paiementCommande(Request $request, int $commande_id, PanierService $panierService)
+    {
+        $commande = $this->commandeRepository->find($commande_id);
+        $cart = $panierService->getProduit();
+        $paiement = [
+            "nom" => null,
+            'numero' => null,
+            'cvc' => null,
+            'expiration' => null];
+        $form = $this->createForm(PayementType::class, $paiement);
+        $form->handleRequest($request);
+        $total = 0;
+        foreach ($cart as $produitStoreCart){
+            $total = $produitStoreCart["total_price"];
+        }
+        if($form->isSubmitted() && $form->isValid()) {
+
+        }
+        return $this->render('components/commande/show.html.twig',[
+            'commande' => $commande,
+            'cart' => $cart,
+            'form' => $form->createView(),
+            'total' => $total
+        ]);
+    }
+
+
+    public function savePersist($entity){
+        $this->manager->persist($entity);
+        $this->manager->flush();
+    }
+
+    public function saveRemove($entity){
+        $this->manager->remove($entity);
+        $this->manager->flush();
+    }
 
 
 

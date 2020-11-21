@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app_name }}{% endblock %}
+{% block body %}
+    <!-- Page Content -->
+    <div class="m-5">
+        <style>
+            .carousel-control-next, .carousel-control-prev{
+                width: auto;
+                top: 20%;
+            }
+        </style>
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <section class="col-sm-10 col-md-8">
+                <h3 class="color-theme">Commande en cours</h3>
+                <div class="">
+                    <p class="color-theme"><strong class="text-dark">Nom :</strong> {{ commande.client.nom }}</p>
+                </div>
+                <hr>
+                <div>
+                    <div class="">
+                        <ul class="text-danger">
+                            <li>{{ form_errors(form) }}</li>
+                        </ul>
+                    </div>
+
+                    {{ form_start(form) }}
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            {{ form_label(form.typeLivraison, 'Mode de livraison') }}
+                            {{ form_widget(form.typeLivraison, {'attr': {
+                                'class':'form-control'}}) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            {{ form_label(form.dateLivraison, 'Date de livraison') }}
+                            {{ form_widget(form.dateLivraison, {'attr': {
+                                'class':'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form_label(form.adresse, 'Adresse') }}
+                            {{ form_widget(form.adresse, {'attr': {
+                                'class':'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            {{ form_label(form.codepostal, 'Code postal') }}
+                            {{ form_widget(form.codepostal, {'attr': {
+                                'class':'form-control'}}) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            {{ form_label(form.ville, 'Ville') }}
+                            {{ form_widget(form.ville, {'attr': {
+                                'class':'form-control'}}) }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn mag-btn mt-30">Continuer</button>
+                    <a href="{{ path('deleteAllCart') }}" class="post-title">
+                        <button type="button" class="btn mag-btn mt-30">Annuler</button>
+                    </a>
+                    {{ form_end(form) }}
+                </div>
+
+            </section>
+            <div class="clearfix visible-sm"></div>
+            <div class="col-md-3">
+                {% if(cart|length) %}
+                    <div class="row">
+                        <table class="table table-hover  text-center">
+                            <h4 class="text-dark">Mon panier</h4>
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col"></th>
+                                <th scope="col">Prix</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- TODO loop on cart to display product's cart -->
+                            {% set i = 0 %}
+                            {% set totalPrice = 0 %}
+                            {% for productCart in cart %}
+                                <tr>
+                                    {% set i = i + 1 %}
+                                    <th scope="row">{{ i }}</th>
+                                    <td>{{ productCart.product.produit.nom }}</td>
+                                    <td>
+                                        {{ productCart.quantity }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('addProductCart', {'store_id': productCart.product.store.id,'product_id': productCart.product.id  }) }}" class="d-block">
+                                            <i class="fa fa-plus text-success"></i>
+                                        </a>
+                                        <a href="{{ path('deleteProductCart', {'product_id': productCart.product.id  }) }}">
+                                            <i class="fa fa-minus text-danger"></i>
+                                        </a>
+                                    </td>
+                                    {% set totalPrice = productCart.total_price + totalPrice %}
+                                    <td class="col-2">{{ productCart.total_price }} €</td>
+                                    <td>
+                                        <a href="{{ path('deleteAllProductCart', {'product_id': productCart.product.id  }) }}" type="submit" class="btn bg-warning">
+                                            <i class="fa fa-trash-o text-light"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th></th>
+                                <td></td>
+                                <td class="font-weight-bold">Total:</td>
+                                <td></td>
+                                <td><span class="font-weight-bold ">{{ totalPrice }} €</span></td>
+                                <td>
+                                    <a type="button" class="btn bg-dark p-2 m-2 w-100 d-block m-1 text-white" href="{{ path('deleteAllCart') }}">Vider le panier</a>
+                                    <a type="button" class="btn bg-success p-2 m-2 w-100" href="{{ path('validateCart') }}">
+                                        <i class="fa fa-money"></i> Payer</a>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
