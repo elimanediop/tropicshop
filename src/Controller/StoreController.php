@@ -119,7 +119,11 @@ class StoreController extends AbstractController
 
         $stock = new Stock();
         $stock->setProduitStore($produitStore);
-
+        $history = $this->historyRepository->findOneBy(["stock" => $stock]);
+        if(!$history){
+            $history = new HistoriqueStock();
+            $history->setStock($stock);
+        }
         $stockForm = $this->createForm(StockType::class, $stock);
 
         $stockForm->handleRequest($request);
@@ -142,6 +146,9 @@ class StoreController extends AbstractController
                 ->setStore($store);
             $this->save($produitStore);
             $this->save($stock);
+            $stockUpdate = new StockUpdate($stock->getQuantity());
+            $history->setDateUpdate($stockUpdate);
+            $this->save($history);
             return $this->redirectToRoute("store_profil");
 
             //$error = "Apparemment vous avez déjà ce produit dans votre store ou le prix saisi est 0.";
@@ -210,6 +217,11 @@ class StoreController extends AbstractController
         if($stockN){
             $stock = $stockN;
         }
+        $history = $this->historyRepository->findOneBy(["stock" => $stock]);
+        if(!$history){
+            $history = new HistoriqueStock();
+            $history->setStock($stock);
+        }
         $stockForm = $this->createForm(StockType::class, $stock);
 
         $stockForm->handleRequest($request);
@@ -227,6 +239,9 @@ class StoreController extends AbstractController
                 $origne = $produitStore->getOrigine();
                 $produitStore->setOrigine($this->origieRepository->findOneBy(["country" => $origne->getCountry()]));
             }
+            $stockUpdate = new StockUpdate($stock->getQuantity());
+            $history->setDateUpdate($stockUpdate);
+            $this->save($history);
             $this->save($stock);
             $this->save($produitStore);
             return $this->redirectToRoute("store_profil_edit_product");

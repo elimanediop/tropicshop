@@ -21,6 +21,33 @@
 
         <!-- ##### Login Area Start ##### -->
 <div class="mag-login-area py-5 h-100">
+    <!--- Style table scrollable -->
+    <style>
+        .table-fixed {
+            width: 100%;
+            background-color: #f3f3f3;
+        }
+        .table-fixed tbody {
+            height: 50em;
+            overflow-y: auto;
+            width: 100%;
+        }
+        .table-fixed thead,
+        .table-fixed tbody,
+        .table-fixed tr,
+        .table-fixed td,
+        .table-fixed th {
+            display: block;
+        }
+        .table-fixed tbody td {
+            float: left;
+        }
+        .table-fixed thead tr th {
+            float: left;
+
+
+        }
+    </style>
 <div class="container h-100">
     <div class="row h-100 justify-content-center">
         <div class="col-12 col-lg-6">
@@ -37,7 +64,7 @@
 
                 <div class="col-lg-12 col-md-9 mb-4">
 
-                    <div class="card h-100">
+                    <div class="card h-25">
                         <!-- <a href="{# {{ path('showProduct', {'id' : product.id}) }} #}"> -->
                             {% set img = '8.jpg' %}
                             {% if product.produit.images|length %}
@@ -80,8 +107,34 @@
                     </div>
             </div>
         </div>
+        </div>
+        {% if(history.dateUpdate|length) %}
+        <div class="col-lg-4">
+            <div>
+                <table class="table table-fixed">
+                    <thead>
+                    <tr>
+                        <th class="col-lg-3">Numéro</th>
+                        <th class="col-lg-6">Date</th>
+                        <th class="col-lg-3">Quantité</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% set i = 0 %}
+                        {% for hdate in history.dateUpdate %}
+                        <tr>
+                            {% set i =i +1 %}
+                            <td class="col-lg-3">{{ i }}</td>
+                            <td class="col-lg-6">{{ hdate.dateUpdate }}</td>
+                            <td class="col-lg-3">{{ hdate.quantityUpdate }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
     </div>
-</div>
 </div>
         <!-- ##### Login Area End ##### -->
 {% endblock %}
