@@ -294,7 +294,13 @@ class StoreController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $produitStore = $this->produitStoreRepository->find($product_id);
 
+
         $stock = $this->stockRepository->findOneBy(["produitStore" => $product_id]);
+        $history = $this->historyRepository->findOneBy(["stock" => $stock]);
+        if($history){
+            $entityManager->remove($history);
+            $entityManager->flush();
+        }
         if($stock){
             $entityManager->remove($stock);
             $entityManager->flush();
