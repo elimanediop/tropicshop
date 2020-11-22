@@ -146,7 +146,7 @@ class StoreController extends AbstractController
                 ->setStore($store);
             $this->save($produitStore);
             $this->save($stock);
-            $stockUpdate = new StockUpdate($stock->getQuantity());
+            $stockUpdate = new StockUpdate($stock->getQuantity()?$stock->getQuantity():0);
             $history->setDateUpdate($stockUpdate);
             $this->save($history);
             return $this->redirectToRoute("store_profil");
