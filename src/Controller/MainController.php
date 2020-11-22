@@ -110,17 +110,32 @@ class MainController extends AbstractController
         }elseif (strlen($location)){
             $storeProducts = $this->produitRepository->findByLocation($lat,$lon);
         }elseif (strlen($term)){
-            $storeProducts = $this->produitRepository->findByTerm($term);
+            $storeProducts = $this->produitStoreRepository->findByNameLike($term);
         }else{
             $this->products = $this->produitRepository->findBy(["isdefault" => true]);
+        }
+        $searchObj = ["nom" => null];
+        $msg = "";
+        $searchForm = $this->createForm(SearchType::class, $searchObj);
+
+        $searchForm->handleRequest($request);
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $searchObj = $searchForm->getData();
+            $resultSearch = $this->produitStoreRepository->findByNameStoreLike($searchObj['nom']);
+            if(count($resultSearch))
+                $storeProducts = $resultSearch;
+            else
+                $msg = "Aucun magasin trouvé avec le nom cherché";
         }
         return $this->render('main/home.html.twig', [
             'products' =>$this->products,
             'storeProducts' => $storeProducts,
             'searchTerm' => $term,
             'location' => $location,
+            'typeproduits' => $this->typeProduits,
             'lon' => $lon,
-            'lat' => $lat
+            'lat' => $lat,
+            'searchForm' => $searchForm->createView()
         ]);
     }
     /**
@@ -277,7 +292,7 @@ class MainController extends AbstractController
             $total = $produitStoreCart["total_price"];
         }
         if($form->isSubmitted() && $form->isValid()) {
-
+            //TODO submit
         }
         return $this->render('components/commande/show.html.twig',[
             'commande' => $commande,

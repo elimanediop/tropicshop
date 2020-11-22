@@ -135,20 +135,20 @@
             {% if(storeProducts is defined) %}
                 {% if (storeProducts|length > 0) %}
                     <div class="row ml-15">
-                        <div class="section-heading mt-4">
-                            <div class="col-md-12">
-                                <h1 class="h1">Choisir mon magasin de course</h1>
-                                <div class="col-md-8">
+                        <div class="section-heading mt-4 col-lg-12">
+                            <div class="">
+                                <h3 class="">Choisir mon magasin de course</h3>
+                                <div class="">
                                     <div class="w-100 p-1">
                                         {% if msg is defined and msg|length %}
                                             <p class="text-light"><i class="fa fa-info-circle "></i> {{ msg }}</p>
                                         {% endif %}
                                     </div>
                                     {{ form_start(searchForm) }}
-                                    <div class="form-group">
+                                    <div class="form-group col-lg-6">
 
                                         {{ form_widget(searchForm.nom, {'attr': {
-                                            'placeholder':'Saisissez le nom d\'un magasin',
+                                            'placeholder':'Saisir le nom d\'un magasin',
                                             'class':'form-control'}}) }}
                                     </div>
                                     <button type="submit" class="btn mt-30" id="">Rechercher</button>
@@ -156,29 +156,32 @@
                                 </div>
                             </div>
                         </div>
-                    {% for storeProduct in storeProducts %}
-                        <div class="col-lg-4 col-md-6 mb-4">
+                        <hr/>
+                    </div>
+                    <div class="row ml-15">
+                        {% for storeProduct in storeProducts %}
+                            <div class="col-lg-4 col-md-6 mb-4">
 
-                            <div class="card h-100">
-                                <a href="{{ path('showProduct', { 'product_id': storeProduct.id}) }}">
-                                    {% set img = 'product-icon-security-cloud.png' %}
-                                    {% if storeProduct.images is defined %}
-                                        {% set img = storeProduct.images.0 %}
-                                    {% endif %}
-                                    <img class="card-img-top" src="{{ asset('img/'~img) }}" alt="">
-                                </a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="{{ path('showProduct', {'product_id': storeProduct.id}) }}">
-                                            {{ storeProduct.store.nommagasin }}
-                                        </a>
-                                    </h4>
-                                    <h6  class="color-theme">{{ storeProduct.store.adresse }}</h6>
-                                    <p class="card-text">{{ storeProduct.store.codepostal }} {{ storeProduct.store.ville }}</p>
+                                <div class="card h-100">
+                                    <a href="{{ path('showProduct', { 'product_id': storeProduct.id}) }}">
+                                        {% set img = 'product-icon-security-cloud.png' %}
+                                        {% if storeProduct.images is defined %}
+                                            {% set img = storeProduct.images.0 %}
+                                        {% endif %}
+                                        <img class="card-img-top" src="{{ asset('img/'~img) }}" alt="">
+                                    </a>
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            <a href="{{ path('showProduct', {'product_id': storeProduct.id}) }}">
+                                                {{ storeProduct.store.nommagasin }}
+                                            </a>
+                                        </h4>
+                                        <h6  class="color-theme">{{ storeProduct.store.adresse }}</h6>
+                                        <p class="card-text">{{ storeProduct.store.codepostal }} {{ storeProduct.store.ville }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
                     </div>
                 {% elseif (not products|length)%}
                     <div class="row">
