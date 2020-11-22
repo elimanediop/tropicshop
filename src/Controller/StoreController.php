@@ -15,7 +15,7 @@ use App\Repository\OrigineRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\ProduitStoreRepository;
 use App\Repository\StockRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +34,7 @@ class StoreController extends AbstractController
     private $stockRepository;
     private $historyRepository;
 
-    public function __construct(ObjectManager $manager, ProduitStoreRepository $produitStoreRepository,
+    public function __construct(EntityManagerInterface $manager, ProduitStoreRepository $produitStoreRepository,
                                 ProduitRepository $produitRepository, OrigineRepository $origineRepository,
                                 StockRepository $stockRepository, HistoriqueStockRepository $historyRepository)
     {

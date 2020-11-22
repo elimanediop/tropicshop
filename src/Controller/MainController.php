@@ -14,10 +14,9 @@ use App\Repository\ProduitStoreRepository;
 use App\Repository\TypeProduitRepository;
 use App\Repository\UserRepository;
 use App\Services\Panier\PanierService;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
@@ -32,7 +31,7 @@ class MainController extends AbstractController
     private $manager;
     private $commandeRepository;
 
-    public function __construct(ObjectManager $manager, ProduitRepository $produitRepository,
+    public function __construct(EntityManagerInterface $manager, ProduitRepository $produitRepository,
                                 UserRepository $userRepository, TypeProduitRepository $typeProduitRepository,
                                 ProduitStoreRepository $produitStoreRepository, CommandeRepository $commandeRepository)
     {

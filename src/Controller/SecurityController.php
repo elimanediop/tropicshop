@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Form\RegistrationType;
@@ -27,9 +26,10 @@ class SecurityController extends AbstractController
      * SecurityController constructor.
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @param \Swift_Mailer $mailer
-     * @param ObjectManager $manager
+     * @param EntityManagerInterface $manager
      */
-    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder,  \Swift_Mailer $mailer, ObjectManager $manager)
+    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder,
+                                \Swift_Mailer $mailer, EntityManagerInterface $manager)
     {
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->manager = $manager;
