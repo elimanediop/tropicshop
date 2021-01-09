@@ -8,36 +8,121 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class Shippr
 {
-    private $keyAPI;
-    public function __construct(ContainerBagInterface $params)
+    private const KEYAPI_PROD = "9cb61c81534909b3e4c5d7651af7e3c011f72d15ca6bed35d016aa6a7224003029146aa86e92ac36b140b82a823dd032";
+    private const URLAPI_PROD = "https://api.shippr.io/v1";
+    public const CREATED = "CREATED";
+    public const ASSIGNED = "ASSIGNED";
+    public const UPCOMING = "UPCOMING";
+    public const PICKED_UP = "PICKED_UP";
+    public const DELIVERED = "DELIVERED";
+    public const CANCELED = "CANCELED";
+    public function __construct()
     {
-        $this->params = $params;
-        $this->keyAPI = $this->params->get("shippr_api_key");
+        //ContainerBagInterface $params
+        //$this->params = $params;
+        //$this->keyAPI = $this->params->get("shippr_api_key");
 
     }
 
     public function getHealth(){
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, 'https://api.demo.shippr.dev/v1/health/token');
+        curl_setopt($ch, CURLOPT_URL, $this::URLAPI_PROD.'/health/token');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
         curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
 
         $headers = array();
-        $headers[] = 'Authority: api.demo.shippr.dev';
-        $headers[] = 'Pragma: no-cache';
-        $headers[] = 'Cache-Control: no-cache';
-        $headers[] = 'Upgrade-Insecure-Requests: 1';
-        $headers[] = 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36';
-        $headers[] = 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9';
-        $headers[] = 'Sec-Fetch-Site: none';
-        $headers[] = 'Sec-Fetch-Mode: navigate';
-        $headers[] = "Authorization: Bearer ".$this->keyAPI;
-        $headers[] = 'Sec-Fetch-User: ?1';
-        $headers[] = 'Sec-Fetch-Dest: document';
-        $headers[] = 'Accept-Language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7';
+        $headers[] = "Authorization: Bearer ".$this::KEYAPI_PROD;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        return $result;
+    }
+
+    public function getDeliveries(int $page=1, string $status){
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $this::URLAPI_PROD.'/deliveries');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "page=$page&status=$status");
+
+
+        curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+
+        $headers = array();
+        $headers[] = "Authorization: Bearer ".$this::KEYAPI_PROD;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        return $result;
+    }
+
+    public function createDelivery($time_window_start, $time_window_end,
+                                   $desired_pickup_time, $has_retrun)
+    {
+        $data_params = '{
+  "time_window_start": "2019-08-24T14:15:22Z",
+  "time_window_end": "2019-08-24T14:15:22Z",
+  "desired_pickup_time": "2018-07-18T04:20:00.000+02:00",
+  "pickup_location": {
+    "first_name": "Anduin",
+    "last_name": "Wrynn",
+    "company": "Kenobi, Skywalker and Solo food products",
+    "phone": "0499422942",
+    "address": "Abbey Road 1, Saint-Gilles, Belgium",
+    "comment": "The princess is in another castle",
+    "email": "recipient@example.com"
+  },
+  "destinations": [
+    {
+      "location": {
+        "first_name": "Anduin",
+        "last_name": "Wrynn",
+        "company": "Kenobi, Skywalker and Solo food products",
+        "phone": "0499422942",
+        "address": "Abbey Road 1, Saint-Gilles, Belgium",
+        "comment": "The princess is in another castle",
+        "email": "recipient@example.com"
+      },
+      "package_type": "SMALL",
+      "reference_number": "string",
+      "time_window_start": "2019-08-24T14:15:22Z",
+      "time_window_end": "2019-08-24T14:15:22Z"
+    }
+  ],
+  "has_return": true
+}';
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $this::URLAPI_PROD.'/deliveries');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS,
+            "time_window_start=$time_window_start".
+            "&time_window_end=$time_window_end".
+            "&desired_pickup_time=$desired_pickup_time".
+            "&pickup_location={}".
+            "&destinations=[]".
+            "&has_return=$has_retrun"
+        );
+
+
+        curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+
+        $headers = array();
+        $headers[] = "Authorization: Bearer ".$this::KEYAPI_PROD;
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
