@@ -236,6 +236,8 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
         $firewalls = $config['firewalls'];
         $providerIds = $this->createUserProviders($config, $container);
 
+        $container->setParameter('security.firewalls', array_keys($firewalls));
+
         // make the ContextListener aware of the configured user providers
         $contextListenerDefinition = $container->getDefinition('security.context_listener');
         $arguments = $contextListenerDefinition->getArguments();
@@ -269,7 +271,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
 
             $configId = 'security.firewall.map.config.'.$name;
 
-            list($matcher, $listeners, $exceptionListener, $logoutListener) = $this->createFirewall($container, $name, $firewall, $authenticationProviders, $providerIds, $configId);
+            [$matcher, $listeners, $exceptionListener, $logoutListener] = $this->createFirewall($container, $name, $firewall, $authenticationProviders, $providerIds, $configId);
 
             $contextId = 'security.firewall.map.context.'.$name;
             $isLazy = !$firewall['stateless'] && (!empty($firewall['anonymous']['lazy']) || $firewall['lazy']);
@@ -348,8 +350,6 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
         // Register Firewall-specific event dispatcher
         $firewallEventDispatcherId = 'security.event_dispatcher.'.$id;
         $container->register($firewallEventDispatcherId, EventDispatcher::class);
-        $container->setDefinition($firewallEventDispatcherId.'.event_bubbling_listener', new ChildDefinition('security.event_dispatcher.event_bubbling_listener'))
-            ->addTag('kernel.event_subscriber', ['dispatcher' => $firewallEventDispatcherId]);
 
         // Register listeners
         $listeners = [];
@@ -449,7 +449,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
 
         // Authentication listeners
         $firewallAuthenticationProviders = [];
-        list($authListeners, $defaultEntryPoint) = $this->createAuthenticationListeners($container, $id, $firewall, $firewallAuthenticationProviders, $defaultProvider, $providerIds, $configuredEntryPoint, $contextListenerId);
+        [$authListeners, $defaultEntryPoint] = $this->createAuthenticationListeners($container, $id, $firewall, $firewallAuthenticationProviders, $defaultProvider, $providerIds, $configuredEntryPoint, $contextListenerId);
 
         if (!$this->authenticatorManagerEnabled) {
             $authenticationProviders = array_merge($authenticationProviders, $firewallAuthenticationProviders);
@@ -477,6 +477,12 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
                 ->setDefinition('security.firewall.authenticator.'.$id, new ChildDefinition('security.firewall.authenticator'))
                 ->replaceArgument(0, new Reference($managerId))
             ;
+
+            // user checker listener
+            $container
+                ->setDefinition('security.listener.user_checker.'.$id, new ChildDefinition('security.listener.user_checker'))
+                ->replaceArgument(0, new Reference('security.user_checker.'.$id))
+                ->addTag('kernel.event_subscriber', ['dispatcher' => $firewallEventDispatcherId]);
 
             $listeners[] = new Reference('security.firewall.authenticator.'.$id);
         }
@@ -561,7 +567,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
                             $entryPoints[$key] = $entryPoint;
                         }
                     } else {
-                        list($provider, $listenerId, $defaultEntryPoint) = $factory->create($container, $id, $firewall[$key], $userProvider, $defaultEntryPoint);
+                        [$provider, $listenerId, $defaultEntryPoint] = $factory->create($container, $id, $firewall[$key], $userProvider, $defaultEntryPoint);
 
                         $listeners[] = new Reference($listenerId);
                         $authenticationProviders[] = $provider;
@@ -582,7 +588,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
             }
         }
 
-        if (false === $hasListeners) {
+        if (false === $hasListeners && !$this->authenticatorManagerEnabled) {
             throw new InvalidConfigurationException(sprintf('No authentication listener registered for firewall "%s".', $id));
         }
 
@@ -674,7 +680,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
         // bcrypt encoder
         if ('bcrypt' === $config['algorithm']) {
             $config['algorithm'] = 'native';
-            $config['native_algorithm'] = PASSWORD_BCRYPT;
+            $config['native_algorithm'] = \PASSWORD_BCRYPT;
 
             return $this->createEncoder($config);
         }
@@ -685,7 +691,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
                 $config['algorithm'] = 'sodium';
             } elseif (\defined('PASSWORD_ARGON2I')) {
                 $config['algorithm'] = 'native';
-                $config['native_algorithm'] = PASSWORD_ARGON2I;
+                $config['native_algorithm'] = \PASSWORD_ARGON2I;
             } else {
                 throw new InvalidConfigurationException(sprintf('Algorithm "argon2i" is not available. Either use "%s" or upgrade to PHP 7.2+ instead.', \defined('SODIUM_CRYPTO_PWHASH_ALG_ARGON2ID13') ? 'argon2id", "auto' : 'auto'));
             }
@@ -698,7 +704,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
                 $config['algorithm'] = 'sodium';
             } elseif (\defined('PASSWORD_ARGON2ID')) {
                 $config['algorithm'] = 'native';
-                $config['native_algorithm'] = PASSWORD_ARGON2ID;
+                $config['native_algorithm'] = \PASSWORD_ARGON2ID;
             } else {
                 throw new InvalidConfigurationException(sprintf('Algorithm "argon2id" is not available. Either use "%s", upgrade to PHP 7.3+ or use libsodium 1.0.15+ instead.', \defined('PASSWORD_ARGON2I') || $hasSodium ? 'argon2i", "auto' : 'auto'));
             }
@@ -922,7 +928,7 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
         $cidrParts = explode('/', $cidr);
 
         if (1 === \count($cidrParts)) {
-            return false !== filter_var($cidrParts[0], FILTER_VALIDATE_IP);
+            return false !== filter_var($cidrParts[0], \FILTER_VALIDATE_IP);
         }
 
         $ip = $cidrParts[0];
@@ -932,11 +938,11 @@ class SecurityExtension extends Extension implements PrependExtensionInterface
             return false;
         }
 
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+        if (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
             return $netmask <= 32;
         }
 
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+        if (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
             return $netmask <= 128;
         }
 

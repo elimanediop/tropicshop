@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     images_product_directory: '%kernel.project_dir%/public/img'
+    shippr_api_key: "ff6f91f11d9ee5417036a207fc7568d0725b2935c3153a2b8eead904d0ddc5704010a132e0c5f9800ee97e1bc74d4a8b"
 
 services:
     # default configuration for services in *this* file
