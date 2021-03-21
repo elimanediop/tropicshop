@@ -56,12 +56,14 @@ class LoadProductCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $current_dir = __DIR__;
-        $file_path = $current_dir."/../../Data/product/fiche_produit_template .csv";
+        $file_path = $current_dir."/../../Data/fiche_produit_template - Feuille 1.csv";
         $csv_data = $this->utils->getCSVContent($file_path);
         $i = 0;
+        $save = true;
         foreach ($csv_data as $data){
-            $this->addProduct($data);
-            $i++;
+            $save = $this->addProduct($data);
+            if($save)
+              $i++;
         }
 
         //$csvname = $input->getArgument('csvname');
@@ -78,7 +80,7 @@ class LoadProductCommand extends Command
          * @var Produit[] $produits
          */
         $produits = $this->produitRepository->findByNameLike($data["nom_produit"]);
-        if(count($produits) == 0){
+        if($data["num_image"] && $data["nom_produit"] && $data["description"] && $data["origine"]){
             $produit->setImages($data["num_image"].'.jpg')
                 ->setNom($data["nom_produit"])
                 ->setDescription($data["description"])
@@ -89,8 +91,10 @@ class LoadProductCommand extends Command
             ;
             $this->manager->persist($produit);
             $this->manager->flush();
+            return true;
         }else{
-            var_dump($data["nom_produit"]);
+            var_dump($data["num_image"]);
         }
+        return false;
     }
 }
