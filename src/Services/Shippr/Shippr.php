@@ -16,6 +16,9 @@ class Shippr
     public const PICKED_UP = "PICKED_UP";
     public const DELIVERED = "DELIVERED";
     public const CANCELED = "CANCELED";
+    public const SMALL_PACKAGE = "SMALL";
+    public const MEDIUM_PACKAGE = "MEDIUM";
+    public const LARGE_PACKAGE = "LARGE";
     public function __construct()
     {
         //ContainerBagInterface $params
@@ -39,7 +42,7 @@ class Shippr
 
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
+            return 'Error:' . curl_error($ch);
         }
         curl_close($ch);
         return $result;
@@ -62,14 +65,15 @@ class Shippr
 
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
+            return 'Error:' . curl_error($ch);
         }
         curl_close($ch);
         return $result;
     }
 
     public function createDelivery($time_window_start, $time_window_end,
-                                   $desired_pickup_time, $has_retrun)
+                                   $desired_pickup_time, $has_retrun,
+                                   $location_pickup, $location_destination, $descript_package)
     {
         //'{"time_window_start": "2021-01-24T14:15:22Z","time_window_end": "2021-01-24T14:15:22Z","desired_pickup_time": "2021-01-18T04:20:00.000+02:00","pickup_location": {"first_name": "Anduin","last_name": "Wrynn","company": "Kenobi, Skywalker and Solo food products","phone": "0499422942","address": "Abbey Road 1, Saint-Gilles, Belgium","comment": "The princess is in another castle","email": "recipient@example.com"},"destinations": [{"location": {"first_name": "Anduin","last_name": "Wrynn","company": "Kenobi, Skywalker and Solo food products","phone": "0499422942","address": "Abbey Road 1, Saint-Gilles, Belgium","comment": "The princess is in another castle","email": "recipient@example.com"},"package_type": "SMALL","reference_number": "string","time_window_start": "2019-08-24T14:15:22Z","time_window_end": "2019-08-24T14:15:22Z"}],"has_return": true}';
         $data_params = '{
@@ -121,12 +125,70 @@ class Shippr
 
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
+            return 'Error:' . curl_error($ch);
         }
         curl_close($ch);
         return $result;
     }
 
+    public function updateDelivery($uuid, $time_window_start, $time_window_end,
+                                   $desired_pickup_time, $has_retrun,
+                                   $location_pickup, $location_destination, $descript_package)
+    {
+        $data_params = '{
+            "time_window_start": "2021-01-24T14:15:22Z",
+            "time_window_end": "2021-01-24T14:15:22Z",
+            "desired_pickup_time": "2021-01-18T04:20:00.000+02:00",
+            "pickup_location": {
+            "first_name": "Anduin",
+            "last_name": "Wrynn",
+            "company": "Kenobi, Skywalker and Solo food products",
+            "phone": "0499422942",
+            "address": "Abbey Road 1, Saint-Gilles, Belgium",
+            "comment": "The princess is in another castle",
+            "email": "recipient@example.com"
+            },
+            "destinations": [
+            {
+              "location": {
+                "first_name": "Anduin",
+                "last_name": "Wrynn",
+                "company": "Kenobi, Skywalker and Solo food products",
+                "phone": "0499422942",
+                "address": "Abbey Road 1, Saint-Gilles, Belgium",
+                "comment": "The princess is in another castle",
+                "email": "recipient@example.com"
+              },
+              "package_type": "SMALL",
+              "reference_number": "string",
+              "time_window_start": "2019-08-24T14:15:22Z",
+              "time_window_end": "2019-08-24T14:15:22Z"
+            }
+            ],
+            "has_return": true
+        }';
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $this::URLAPI_PROD.'/deliveries');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_params);
+
+
+        curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+
+        $headers = array();
+        $headers[] = "Authorization: Bearer ".$this::KEYAPI_PROD;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            return 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        return $result;
+    }
     public function getDelivery(string $uuid)
     {
         $ch = curl_init();
