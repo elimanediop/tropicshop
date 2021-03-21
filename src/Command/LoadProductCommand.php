@@ -8,7 +8,7 @@ use App\Repository\OrigineRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\TypeProduitRepository;
 use App\Repository\UserRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +31,7 @@ class LoadProductCommand extends Command
      * LoadProductCommand constructor.
      * @param $utils
      */
-    public function __construct(ObjectManager $manager, UserRepository $userRepository, Utils $utils, ProduitRepository $produitRepository, OrigineRepository $origineRepository, TypeProduitRepository $typeProduitRepository)
+    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository, Utils $utils, ProduitRepository $produitRepository, OrigineRepository $origineRepository, TypeProduitRepository $typeProduitRepository)
     {
         $this->utils = $utils;
         $this->produitRepository = $produitRepository;
@@ -78,7 +78,7 @@ class LoadProductCommand extends Command
          * @var Produit[] $produits
          */
         $produits = $this->produitRepository->findByNameLike($data["nom_produit"]);
-        //if(count($produits) == 0){
+        if(count($produits) == 0){
             $produit->setImages($data["num_image"].'.jpg')
                 ->setNom($data["nom_produit"])
                 ->setDescription($data["description"])
@@ -89,8 +89,8 @@ class LoadProductCommand extends Command
             ;
             $this->manager->persist($produit);
             $this->manager->flush();
-        //}else{
+        }else{
             var_dump($data["nom_produit"]);
-        //}
+        }
     }
 }

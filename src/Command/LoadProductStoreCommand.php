@@ -9,7 +9,7 @@ use App\Repository\ProduitRepository;
 use App\Repository\ProduitStoreRepository;
 use App\Repository\TypeProduitRepository;
 use App\Repository\UserRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ class   LoadProductStoreCommand extends Command
 {
     protected static $defaultName = 'load:product-store';
     private Utils $utils;
-    private ObjectManager $manager;
+    private EntityManagerInterface $manager;
     private ProduitRepository $produitRepository;
     private ProduitStoreRepository $produitStoreRepository;
     private OrigineRepository $origineRepository;
@@ -40,7 +40,7 @@ class   LoadProductStoreCommand extends Command
      * @param TypeProduitRepository $typeProduitRepository
      * @param UserRepository $userRepository
      */
-    public function __construct(Utils $utils, ObjectManager $manager, ProduitRepository $produitRepository, ProduitStoreRepository $produitStoreRepository, OrigineRepository $origineRepository, TypeProduitRepository $typeProduitRepository, UserRepository $userRepository)
+    public function __construct(Utils $utils, EntityManagerInterface $manager, ProduitRepository $produitRepository, ProduitStoreRepository $produitStoreRepository, OrigineRepository $origineRepository, TypeProduitRepository $typeProduitRepository, UserRepository $userRepository)
     {
         $this->utils = $utils;
         $this->manager = $manager;
